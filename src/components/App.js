@@ -1,12 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react'
-import {
-	BrowserRouter as Router,
-	Switch,
-	Redirect,
-	Route
-} from 'react-router-dom'
+import React, { useContext, useEffect } from 'react'
+import { Router, Redirect, Route } from 'react-router-dom'
 import 'firebase/firestore'
 import { FirebaseContext } from '../utils/firebase'
+import history from '../logic/history'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
@@ -46,49 +42,56 @@ export default function App() {
 		<>
 			<ThemeProvider theme={muiTheme}>
 				<CssBaseline />
-				<Paper>
-					<Grid
-						container
-						direction='row'
-						alignItems='center'
-						justify='space-evenly'
-					>
-						<Grid item>
-							<img
-								width='150vw'
-								height='150vh'
-								alt='CubingUSA'
-								src={
-									process.env.PUBLIC_URL +
-									'/cubingusa_logo.png'
-								}
-							/>
+				<Router history={history}>
+					<Paper>
+						<Grid
+							container
+							direction='row'
+							alignItems='center'
+							justify='space-evenly'
+							style={{ cursor: 'pointer' }}
+							onClick={() => history.push('/')}
+						>
+							<Grid item>
+								<img
+									width='150vw'
+									height='150vh'
+									alt='CubingUSA'
+									src={
+										process.env.PUBLIC_URL +
+										'/cubingusa_logo.png'
+									}
+								/>
+							</Grid>
+							<Grid item>
+								<Typography
+									style={{ cursor: 'pointer' }}
+									align='center'
+									variant='h2'
+								>
+									Cubing at Home 2020!
+								</Typography>
+								<Typography
+									align='center'
+									gutterBottom
+									variant='h6'
+								>
+									Online Cubing Competitions for Quarantiners
+								</Typography>
+							</Grid>
+							<Grid item>
+								<img
+									width='150vw'
+									height='150vh'
+									alt='Cubicle'
+									src={
+										process.env.PUBLIC_URL +
+										'/cubicle_logo.png'
+									}
+								/>
+							</Grid>
 						</Grid>
-						<Grid item>
-							<Typography align='center' variant='h2'>
-								Cubing At Home 2020!
-							</Typography>
-							<Typography
-								align='center'
-								gutterBottom
-								variant='h6'
-							>
-								An Online Cubing Competition for Quarantiners
-							</Typography>
-						</Grid>
-						<Grid item>
-							<img
-								width='150vw'
-								height='150vh'
-								alt='Cubicle'
-								src={
-									process.env.PUBLIC_URL + '/cubicle_logo.png'
-								}
-							/>
-						</Grid>
-					</Grid>
-				</Paper>
-				<Router>
+					</Paper>
 					<Route exact path='/' component={Home} />
 					<Route
 						exact

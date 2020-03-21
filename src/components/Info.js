@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-export default function Info() {
+export default function Info({ history }) {
 	const classes = useStyles()
 	return (
 		<>
@@ -27,8 +27,7 @@ export default function Info() {
 					<Grid item>
 						<Button
 							onClick={() =>
-								(window.location.href =
-									'/cubing-at-home-I/register')
+								history.push('/cubing-at-home-I/register')
 							}
 							variant='contained'
 							color='primary'

@@ -40,7 +40,6 @@ export default function Home({ history }) {
 			getMe().then(user => setUser(user.me))
 		}
 	}, [])
-	console.log(user)
 	return (
 		<>
 			{isSignedIn() && user === null ? (

@@ -165,7 +165,7 @@ export default function Register({ history }) {
 											color='primary'
 										/>
 									}
-									label='By Signing Up, I agree to submit my times as they occur along with any penalties. I understand that any form of cheating can result in disqualification for any further Cubing At Home Competitions. I also understand that in order to claim a podium prize, I am required to submit a full uncut video of the entire round.'
+									label='By signing up, I agree to submit my times as they occur along with any penalties. I understand that any form of cheating can result in disqualification for any further Cubing at Home competitions. I also understand that in order to claim a podium prize, I am required to submit a full uncut video of the entire round.'
 								/>
 							</Grid>
 							<Grid item>

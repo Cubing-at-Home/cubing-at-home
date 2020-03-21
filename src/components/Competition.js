@@ -70,7 +70,7 @@ export default function Competition({ history }) {
 				</Tabs>
 			</AppBar>
 			<TabPanel value={value} index={0}>
-				<Info />
+				<Info history={history} />
 			</TabPanel>
 			<TabPanel value={value} index={1}>
 				<Schedule />

@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function CompetitorList({ onClick, competitors }) {
-	console.log(competitors)
 	const classes = useStyles()
 	const [query, setQuery] = useState('')
 	const [queryCompetitors, setQueryCompetitors] = useState(competitors)
