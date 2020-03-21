@@ -33,7 +33,7 @@ export default function Info() {
 							variant='contained'
 							color='primary'
 						>
-							Register
+							Manage Your Registration
 						</Button>
 					</Grid>
 					<Typography variant='caption' color='error'>

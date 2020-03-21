@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-export default function SimpleTabs() {
+export default function Competition({ history }) {
 	const classes = useStyles()
 	const [value, setValue] = React.useState(0)
 
@@ -67,7 +67,6 @@ export default function SimpleTabs() {
 					<Tab label='Information' {...a11yProps(0)} />
 					<Tab label='Schedule' {...a11yProps(1)} />
 					<Tab label='Competitors' {...a11yProps(2)} />
-					<Tab label='Register' {...a11yProps(2)} />
 				</Tabs>
 			</AppBar>
 			<TabPanel value={value} index={0}>
@@ -77,7 +76,7 @@ export default function SimpleTabs() {
 				<Schedule />
 			</TabPanel>
 			<TabPanel value={value} index={2}>
-				<Competitors />
+				<Competitors history={history} />
 			</TabPanel>
 		</div>
 	)

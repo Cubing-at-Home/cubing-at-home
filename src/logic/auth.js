@@ -77,8 +77,10 @@ const oauthRedirectUri = () => {
 }
 
 export const signOut = () => {
-	localStorage.removeItem(localStorageKey('accessToken'))
-	window.location.href = '/'
+	return new Promise((resolve, reject) => {
+		localStorage.removeItem(localStorageKey('accessToken'))
+		resolve()
+	})
 }
 
 export const isSignedIn = () => !!wcaAccessToken()

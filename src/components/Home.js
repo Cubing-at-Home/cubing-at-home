@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-export default function Home() {
+export default function Home({ history }) {
 	const classes = useStyles()
 	const [user, setUser] = React.useState(null)
 	React.useEffect(() => {
@@ -56,7 +56,14 @@ export default function Home() {
 				>
 					<Grid item className={classes.grid}>
 						{isSignedIn() ? (
-							<Button variant='contained' onClick={signOut}>
+							<Button
+								variant='contained'
+								onClick={() => {
+									signOut().then(
+										() => (window.location.href = '/')
+									)
+								}}
+							>
 								{user.name}, Logout
 							</Button>
 						) : (
@@ -103,6 +110,11 @@ export default function Home() {
 												variant='contained'
 												color='primary'
 												startIcon={<InfoIcon />}
+												onClick={() => {
+													history.push(
+														'/cubing-at-home-I'
+													)
+												}}
 											>
 												Info
 											</Button>
@@ -111,6 +123,11 @@ export default function Home() {
 												color='primary'
 												startIcon={<AddCircleIcon />}
 												disabled={!isSignedIn()}
+												onClick={() =>
+													history.push(
+														'/cubing-at-home-I/register'
+													)
+												}
 											>
 												Register
 											</Button>
