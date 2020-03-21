@@ -1,37 +1,6 @@
 import { WCA_ORIGIN } from './wca-env'
 import { wcaAccessToken } from './auth'
 import { pick } from './tools'
-import moment from 'moment'
-
-export const getWcifPublic = competitionId =>
-	wcaApiFetch(`/competitions/${competitionId}/wcif/public`)
-
-export const getWcif = competitionId =>
-	wcaApiFetch(`/competitions/${competitionId}/wcif`)
-
-export const getMyUpcomingComps = userId => {
-	return wcaApiFetch(`/users/${userId}?upcoming_competitions=true`)
-}
-
-export const getAllCompsToday = pageNum => {
-	let today = moment()
-	const params = new URLSearchParams({
-		start: today.toISOString(),
-		end: today.add(7, 'days').toISOString(),
-		page: pageNum,
-		sort: 'start_date'
-	})
-	return wcaApiFetch(`/competitions?${params.toString()}`)
-}
-
-export const getMyManagableComps = () => {
-	const today = moment().startOf('day')
-	const params = new URLSearchParams({
-		managed_by_me: true,
-		start: today.toISOString()
-	})
-	return wcaApiFetch(`/competitions?${params.toString()}`)
-}
 
 export const getMe = () => wcaApiFetch(`/me`)
 
