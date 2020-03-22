@@ -151,6 +151,17 @@ export default function Info({ history }) {
 							TBD!
 						</Typography>
 					</Grid>
+					<Grid item>
+						<Typography align='center' variant='h4'>
+							<a
+								target='_blank'
+								rel='noopener noreferrer'
+								href='mailto:sgrover@worldcubassociation.org,cnielson@worldcubeassociation.org,bsampson@worldcubassociation.org'
+							>
+								Contact Us
+							</a>
+						</Typography>
+					</Grid>
 				</Grid>
 			</Paper>
 		</>

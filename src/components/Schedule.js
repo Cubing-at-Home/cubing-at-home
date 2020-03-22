@@ -68,10 +68,15 @@ export default function SimpleTable() {
 
 	return (
 		<>
-			<Grid container>
+			<Grid
+				container
+				alignItems='center'
+				alignContent='center'
+				justify='center'
+			>
 				<Grid item>
-					<InfoIcon />
 					<Typography align='center' variant='h6' color='error'>
+						<InfoIcon />
 						Please note that times are in EDT
 					</Typography>
 				</Grid>

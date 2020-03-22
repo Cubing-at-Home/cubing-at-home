@@ -92,17 +92,24 @@ export default function App() {
 							</Grid>
 						</Grid>
 					</Paper>
-					<Route exact path='/' component={Home} />
-					<Route
-						exact
-						path='/cubing-at-home-I'
-						component={Competition}
-					/>
 					<Route
 						exact
 						path='/cubing-at-home-I/register'
 						component={Register}
 					/>
+					<Route
+						exact
+						path='/cubing-at-home-I'
+						component={Competition}
+					/>
+					<Route exact path='/scrambles'>
+						<Redirect to='/cubing-at-home-I/' />
+					</Route>
+					<Route exact path='/results'>
+						<Redirect to='/cubing-at-home-I/' />
+					</Route>
+					<Route exact path='/' component={Home} />
+					<Redirect to='/' />
 				</Router>
 			</ThemeProvider>
 		</>

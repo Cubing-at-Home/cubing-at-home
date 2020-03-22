@@ -67,7 +67,7 @@ export default function Competition({ history }) {
 					<Tab label='Information' {...a11yProps(0)} />
 					<Tab label='Schedule' {...a11yProps(1)} />
 					<Tab label='Competitors' {...a11yProps(2)} />
-					<Tab label='Disocrd' {...a11yProps(3)} />
+					<Tab label='Discord' {...a11yProps(3)} />
 				</Tabs>
 			</AppBar>
 			<TabPanel value={value} index={0}>
