@@ -1,5 +1,5 @@
 const firebaseConfig = {
-	apiKey: 'AIzaSyC-6Hzsw6f0bCur_RuvMv_WMTgq_CaDlwE',
+	apiKey: process.env.FIREBASE_API,
 	authDomain: 'cubing-at-home.firebaseapp.com',
 	databaseURL: 'https://cubing-at-home.firebaseio.com',
 	projectId: 'cubing-at-home',
