@@ -67,6 +67,7 @@ export default function Competition({ history }) {
 					<Tab label='Information' {...a11yProps(0)} />
 					<Tab label='Schedule' {...a11yProps(1)} />
 					<Tab label='Competitors' {...a11yProps(2)} />
+					<Tab label='Disocrd' {...a11yProps(3)} />
 				</Tabs>
 			</AppBar>
 			<TabPanel value={value} index={0}>
@@ -77,6 +78,16 @@ export default function Competition({ history }) {
 			</TabPanel>
 			<TabPanel value={value} index={2}>
 				<Competitors history={history} />
+			</TabPanel>
+			<TabPanel value={value} index={3}>
+				<iframe
+					title='discord'
+					src='https://discordapp.com/widget?id=690084292323311720&theme=dark'
+					width='1000vw'
+					height='500vh'
+					allowtransparency='true'
+					frameborder='0'
+				></iframe>
 			</TabPanel>
 		</div>
 	)

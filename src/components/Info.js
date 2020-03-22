@@ -62,9 +62,86 @@ export default function Info({ history }) {
 						<Typography align='center' variant='h4'>
 							Rules
 						</Typography>
-						<Typography align='center' variant='h6'>
-							Need to write this out
-						</Typography>
+						<p>
+							<strong>Competition Instructions</strong>
+						</p>
+						<ul>
+							<li>
+								Open the live stream on{' '}
+								<u>twitch.tv/cubingusa</u> and the{' '}
+								<a href='https://discord.gg/vzrURA'>
+									<u>Discord Channel</u>
+								</a>{' '}
+								to follow along as the competition progresses
+							</li>
+						</ul>
+						<li>
+							Once a round opens, the scrambles will be available
+							at <u>live.cubingUSA.org/scrambles</u>
+						</li>
+						<ul>
+							<li>
+								Scramble your cube using the provided scramble
+								sequence
+							</li>
+						</ul>
+						<li>
+							Complete each of your solves and enter the times and
+							any penalties
+						</li>
+						<ul>
+							<li>
+								You can time your solves with a stackmat timer
+								or with another timer, such as{' '}
+								<u>cstimer.net</u>
+							</li>
+						</ul>
+						<li>
+							Enter your time in the format ss.cc (as in 12.34) if
+							it is less than a minute and m:ss.cc (as in 2:34.56)
+							if it is over a minute
+						</li>
+						<li>
+							Rounds will run for 20-30 minutes depending on the
+							event
+						</li>
+						<li>
+							Don’t discuss the scrambles in chat until the round
+							is over
+						</li>
+						<ul>
+							<li>
+								After everyone is done, we will post the results
+								at <u>live.cubingUSA.org/results</u>
+							</li>
+						</ul>
+
+						<p>
+							<strong>Requirements to Podium</strong>
+						</p>
+						<ul>
+							<li>
+								If you want to be eligible for a podium in any
+								event, you must have video of the entire round,
+								which includes
+							</li>
+						</ul>
+						<ul>
+							<li>Opening the document with the scrambles</li>
+						</ul>
+						<li>All of your solves</li>
+						<li>Submitting your times</li>
+						<li>
+							This must be in one unbroken video for the entire
+							round
+						</li>
+						<ul>
+							<li>
+								We will contact anyone who podiums to get this
+								video for verification purposes
+							</li>
+						</ul>
+						<p></p>
 					</Grid>
 					<Grid item>
 						<Typography align='center' variant='h4'>

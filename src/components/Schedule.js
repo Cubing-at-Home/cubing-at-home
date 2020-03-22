@@ -9,6 +9,8 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import CubingIcon from './CubingIcon'
 import Typography from '@material-ui/core/Typography'
+import InfoIcon from '@material-ui/icons/Info'
+import Grid from '@material-ui/core/Grid'
 
 const activityKey = {
 	'222': '2x2',
@@ -65,33 +67,56 @@ export default function SimpleTable() {
 	const classes = useStyles()
 
 	return (
-		<TableContainer component={Paper}>
-			<Table className={classes.table} aria-label='simple table'>
-				<TableHead>
-					<TableRow>
-						<TableCell size='small' align='left'></TableCell>
-						<TableCell align='left'>Event</TableCell>
-						<TableCell align='right'>Time</TableCell>
-						<TableCell align='right'>Qualification</TableCell>
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{rows.map(row => (
-						<TableRow key={row.name}>
-							<TableCell colSpan={1} size='small' align='left'>
-								<CubingIcon event={row.id} />
-							</TableCell>
-							<TableCell align='left'>
-								<Typography variant='h6'>{row.name}</Typography>
-							</TableCell>
-							<TableCell align='right'>{row.start}</TableCell>
-							<TableCell align='right'>
-								{row.qualification}
-							</TableCell>
-						</TableRow>
-					))}
-				</TableBody>
-			</Table>
-		</TableContainer>
+		<>
+			<Grid container>
+				<Grid item>
+					<InfoIcon />
+					<Typography align='center' variant='h6' color='error'>
+						Please note that times are in EDT
+					</Typography>
+				</Grid>
+				<TableContainer component={Paper}>
+					<Table className={classes.table} aria-label='simple table'>
+						<TableHead>
+							<TableRow>
+								<TableCell
+									size='small'
+									align='left'
+								></TableCell>
+								<TableCell align='left'>Event</TableCell>
+								<TableCell align='right'>Time</TableCell>
+								<TableCell align='right'>
+									Qualification
+								</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{rows.map(row => (
+								<TableRow key={row.name}>
+									<TableCell
+										colSpan={1}
+										size='small'
+										align='left'
+									>
+										<CubingIcon event={row.id} />
+									</TableCell>
+									<TableCell align='left'>
+										<Typography variant='h6'>
+											{row.name}
+										</Typography>
+									</TableCell>
+									<TableCell align='right'>
+										{row.start}
+									</TableCell>
+									<TableCell align='right'>
+										{row.qualification}
+									</TableCell>
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>
+				</TableContainer>
+			</Grid>
+		</>
 	)
 }

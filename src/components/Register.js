@@ -39,7 +39,7 @@ export default function Register({ history }) {
 		}
 		user &&
 			firestore
-				.collection('test-competition')
+				.collection('cah03282019')
 				.doc(user.id.toString())
 				.get()
 				.then(doc => doc.exists && setRegistered(true))
@@ -69,7 +69,7 @@ export default function Register({ history }) {
 		const firestore = firebase.firestore()
 		bool
 			? firestore
-					.collection('test-competition')
+					.collection('cah03282019')
 					.doc(user.id.toString())
 					.set(data)
 					.then(() => {
@@ -77,7 +77,7 @@ export default function Register({ history }) {
 					})
 					.catch(err => setError(err))
 			: firestore
-					.collection('test-competition')
+					.collection('cah03282019')
 					.doc(user.id.toString())
 					.delete()
 					.then(() => {

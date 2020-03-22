@@ -13,7 +13,7 @@ export default function Competitors({ history }) {
 			const markers = []
 			await firebase
 				.firestore()
-				.collection('test-competition')
+				.collection('cah03282019')
 				.get()
 				.then(querySnapshot => {
 					querySnapshot.docs.forEach(doc => {
