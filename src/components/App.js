@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react'
-import { Router, Redirect, Route } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { Router, Redirect, Route, Switch } from 'react-router-dom'
 import 'firebase/firestore'
 import { FirebaseContext } from '../utils/firebase'
 import history from '../logic/history'
@@ -92,24 +92,26 @@ export default function App() {
 							</Grid>
 						</Grid>
 					</Paper>
-					<Route
-						exact
-						path='/cubing-at-home-I/register'
-						component={Register}
-					/>
-					<Route
-						exact
-						path='/cubing-at-home-I'
-						component={Competition}
-					/>
-					<Route exact path='/scrambles'>
-						<Redirect to='/cubing-at-home-I/' />
-					</Route>
-					<Route exact path='/results'>
-						<Redirect to='/cubing-at-home-I/' />
-					</Route>
-					<Route exact path='/' component={Home} />
-					<Redirect to='/' />
+					<Switch>
+						<Route
+							exact
+							path='/cubing-at-home-I/register'
+							component={Register}
+						/>
+						<Route
+							exact
+							path='/cubing-at-home-I'
+							component={Competition}
+						/>
+						<Route exact path='/scrambles'>
+							<Redirect to='/cubing-at-home-I/' />
+						</Route>
+						<Route exact path='/results'>
+							<Redirect to='/cubing-at-home-I/' />
+						</Route>
+						<Route exact path='/' component={Home} />
+						<Redirect to='/' />
+					</Switch>
 				</Router>
 			</ThemeProvider>
 		</>

@@ -6,7 +6,9 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
-import { Button } from '@material-ui/core'
+import { Button, LinearProgress } from '@material-ui/core'
+import { FirebaseContext } from '../utils/firebase'
+
 import Info from './Info'
 import Schedule from './Schedule'
 import Competitors from './Competitors'
@@ -49,6 +51,29 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Competition({ history }) {
+	const [competitors, setCompetitors] = React.useState(null)
+	const [loading, setLoading] = React.useState(true)
+	const firebase = React.useContext(FirebaseContext)
+	React.useEffect(() => {
+		async function getMarkers() {
+			const markers = []
+			await firebase
+				.firestore()
+				.collection('cah03282019')
+				.get()
+				.then(querySnapshot => {
+					querySnapshot.docs.forEach(doc => {
+						markers.push(doc.data())
+					})
+				})
+			return markers
+		}
+		setLoading(true)
+		getMarkers().then(competitiors => {
+			setCompetitors(competitiors)
+			setLoading(false)
+		})
+	}, [firebase])
 	const classes = useStyles()
 	const [value, setValue] = React.useState(0)
 
@@ -58,37 +83,46 @@ export default function Competition({ history }) {
 
 	return (
 		<div className={classes.root}>
-			<AppBar color='inherit' position='static'>
-				<Tabs
-					value={value}
-					onChange={handleChange}
-					aria-label='simple tabs example'
-				>
-					<Tab label='Information' {...a11yProps(0)} />
-					<Tab label='Schedule' {...a11yProps(1)} />
-					<Tab label='Competitors' {...a11yProps(2)} />
-					<Tab label='Discord' {...a11yProps(3)} />
-				</Tabs>
-			</AppBar>
-			<TabPanel value={value} index={0}>
-				<Info history={history} />
-			</TabPanel>
-			<TabPanel value={value} index={1}>
-				<Schedule />
-			</TabPanel>
-			<TabPanel value={value} index={2}>
-				<Competitors history={history} />
-			</TabPanel>
-			<TabPanel value={value} index={3}>
-				<iframe
-					title='discord'
-					src='https://discordapp.com/widget?id=690084292323311720&theme=dark'
-					width='1000vw'
-					height='500vh'
-					allowtransparency='true'
-					frameborder='0'
-				></iframe>
-			</TabPanel>
+			{!competitors || loading ? (
+				<LinearProgress />
+			) : (
+				<>
+					<AppBar color='inherit' position='static'>
+						<Tabs
+							value={value}
+							onChange={handleChange}
+							aria-label='simple tabs example'
+						>
+							<Tab label='Information' {...a11yProps(0)} />
+							<Tab label='Schedule' {...a11yProps(1)} />
+							<Tab label='Competitors' {...a11yProps(2)} />
+							<Tab label='Discord' {...a11yProps(3)} />
+						</Tabs>
+					</AppBar>
+					<TabPanel value={value} index={0}>
+						<Info history={history} />
+					</TabPanel>
+					<TabPanel value={value} index={1}>
+						<Schedule />
+					</TabPanel>
+					<TabPanel value={value} index={2}>
+						<Competitors
+							history={history}
+							competitors={competitors}
+						/>
+					</TabPanel>
+					<TabPanel value={value} index={3}>
+						<iframe
+							title='discord'
+							src='https://discordapp.com/widget?id=690084292323311720&theme=dark'
+							width='1000vw'
+							height='500vh'
+							allowtransparency='true'
+							frameborder='0'
+						></iframe>
+					</TabPanel>
+				</>
+			)}
 		</div>
 	)
 }

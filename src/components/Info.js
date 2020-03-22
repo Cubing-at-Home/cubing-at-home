@@ -5,6 +5,7 @@ import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import Grid from '@material-ui/core/Grid'
 import EventList from './EventList'
+import Link from '@material-ui/core/Link'
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -68,16 +69,22 @@ export default function Info({ history }) {
 						<ul>
 							<li>
 								Open the live stream on{' '}
-								<u>twitch.tv/cubingusa</u> and the{' '}
-								<a href='https://discord.gg/vzrURA'>
-									<u>Discord Channel</u>
-								</a>{' '}
-								to follow along as the competition progresses
+								<Link href='https://twitch.tv/cubingusa'>
+									<u>twitch.tv/cubingusa</u>
+								</Link>{' '}
+								and the
+								<Link href='https://discord.gg/vzrURA'>
+									<u>Discord Channel </u>
+								</Link>
+								{` to follow along as the competition progresses`}
 							</li>
 						</ul>
 						<li>
-							Once a round opens, the scrambles will be available
-							at <u>live.cubingUSA.org/scrambles</u>
+							{`Once a round opens, the scrambles will be available
+							at `}
+							<Link href='/scrambles'>
+								<u>cubingathome.com/scrambles</u>
+							</Link>
 						</li>
 						<ul>
 							<li>
@@ -95,6 +102,17 @@ export default function Info({ history }) {
 								or with another timer, such as{' '}
 								<u>cstimer.net</u>
 							</li>
+							<li>
+								<b>
+									{`Please note: You still need to adhere to WCA
+									Inspection. `}
+								</b>
+								You can use a tool like{' '}
+								<Link href='https://cubing.net/inspection'>
+									cubing.net/inspection
+								</Link>{' '}
+								or other similar tools.
+							</li>
 						</ul>
 						<li>
 							Enter your time in the format ss.cc (as in 12.34) if
@@ -109,12 +127,13 @@ export default function Info({ history }) {
 							Don’t discuss the scrambles in chat until the round
 							is over
 						</li>
-						<ul>
-							<li>
-								After everyone is done, we will post the results
-								at <u>live.cubingUSA.org/results</u>
-							</li>
-						</ul>
+						<li>
+							After everyone is done, we will post the results at{' '}
+							<Link href='/results'>
+								{' '}
+								<u>cubingathome.com/results</u>
+							</Link>
+						</li>
 
 						<p>
 							<strong>Requirements to Podium</strong>
@@ -125,22 +144,22 @@ export default function Info({ history }) {
 								event, you must have video of the entire round,
 								which includes
 							</li>
-						</ul>
-						<ul>
-							<li>Opening the document with the scrambles</li>
-						</ul>
-						<li>All of your solves</li>
-						<li>Submitting your times</li>
-						<li>
-							This must be in one unbroken video for the entire
-							round
-						</li>
-						<ul>
+							<ul>
+								<li>Opening the document with the scrambles</li>
+								<li>All of your solves</li>
+								<li>Submitting your times</li>
+							</ul>
+
+							<li>
+								This must be in one unbroken video for the
+								entire round
+							</li>
 							<li>
 								We will contact anyone who podiums to get this
 								video for verification purposes
 							</li>
 						</ul>
+
 						<p></p>
 					</Grid>
 					<Grid item>
@@ -153,13 +172,13 @@ export default function Info({ history }) {
 					</Grid>
 					<Grid item>
 						<Typography align='center' variant='h4'>
-							<a
+							<Link
 								target='_blank'
 								rel='noopener noreferrer'
 								href='mailto:sgrover@worldcubassociation.org,cnielson@worldcubeassociation.org,bsampson@worldcubassociation.org'
 							>
 								Contact Us
-							</a>
+							</Link>
 						</Typography>
 					</Grid>
 				</Grid>

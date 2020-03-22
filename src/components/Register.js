@@ -12,6 +12,7 @@ import { getMe } from '../logic/wca-api'
 import { TextField } from '@material-ui/core'
 import { WCA_ORIGIN } from '../logic/wca-env'
 import Checkbox from '@material-ui/core/Checkbox'
+import Link from '@material-ui/core/Link'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Button from '@material-ui/core/Button'
 import { FirebaseContext } from '../utils/firebase'
@@ -128,9 +129,9 @@ export default function Register({ history }) {
 								<p>
 									{`You can change this information in your WCA
 									Account `}
-									<a href={`${WCA_ORIGIN}/profile/edit`}>
+									<Link href={`${WCA_ORIGIN}/profile/edit`}>
 										here
-									</a>
+									</Link>
 								</p>
 							}
 						/>

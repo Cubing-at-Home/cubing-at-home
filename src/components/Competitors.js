@@ -1,45 +1,50 @@
 import React from 'react'
-import { FirebaseContext } from '../utils/firebase'
 import CompetitorList from './CompetitorList'
-import { WCA_ORIGIN } from '../logic/wca-env'
-import { LinearProgress } from '@material-ui/core'
+import { LinearProgress, Typography } from '@material-ui/core'
+import Link from '@material-ui/core/Link'
 
-export default function Competitors({ history }) {
-	const [competitors, setCompetitors] = React.useState(null)
-	const [loading, setLoading] = React.useState(true)
-	const firebase = React.useContext(FirebaseContext)
+export default function Competitors({ history, competitors }) {
+	const [wcaIds, setWcaIds] = React.useState(
+		'https://jonatanklosko.github.io/rankings/#/rankings/show?name=Cubing+at+Home+I+Psych+Sheet&wcaids='
+	)
 	React.useEffect(() => {
-		async function getMarkers() {
-			const markers = []
-			await firebase
-				.firestore()
-				.collection('cah03282019')
-				.get()
-				.then(querySnapshot => {
-					querySnapshot.docs.forEach(doc => {
-						markers.push(doc.data())
-					})
-				})
-			return markers
+		let ids = ''
+		if (competitors !== null) {
+			for (const competitor of competitors) {
+				if (competitor.wcaId) {
+					ids += competitor.wcaId + ','
+				}
+			}
+			setWcaIds(wcaIds + ids)
 		}
-		setLoading(true)
-		getMarkers().then(competitiors => {
-			setCompetitors(competitiors)
-			setLoading(false)
-		})
-	}, [firebase])
+	}, [competitors])
 	const open = url => {
 		window.open(url, '_blank')
 	}
 	return (
 		<>
-			{!competitors || loading ? (
+			{!competitors ? (
 				<LinearProgress />
 			) : (
-				<CompetitorList
-					competitors={competitors}
-					onClick={(e, competitor) => open(competitor.url)}
-				/>
+				<>
+					<Typography
+						variant='h4'
+						align='center'
+						style={{ marginBottom: '1vw' }}
+					>
+						<Link
+							target='_blank'
+							rel='noopener noreferrer'
+							href={wcaIds}
+						>
+							Psych Sheet
+						</Link>
+					</Typography>
+					<CompetitorList
+						competitors={competitors}
+						onClick={(e, competitor) => open(competitor.url)}
+					/>
+				</>
 			)}
 		</>
 	)

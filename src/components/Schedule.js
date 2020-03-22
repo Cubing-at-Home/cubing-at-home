@@ -45,14 +45,14 @@ function createData(id, name, start, qualification) {
 
 const rows = [
 	createData('', 'Welcome', '11:30 AM', ''),
-	createData('555', '5x5 Round 1', '11:40 AM', ''),
-	createData('sq1', 'Square 1 Round 1', '12:10 PM', ''),
+	createData('555', '5x5 Combined Final', '11:40 AM', ''),
+	createData('sq1', 'Square 1 Combined Final ', '12:10 PM', ''),
 	createData('444', '4x4 Round 1', '12:30 PM', ''),
-	createData('skewb', 'Skewb Round 1', '1:00 PM', ''),
+	createData('skewb', 'Skewb Combined Finals', '1:00 PM', ''),
 	createData('333', '3x3 Round 1', '1:20 PM', ''),
 	createData('pyram', 'Pyraminx Round 1', '1:40 PM', ''),
 	createData('222', '2x2 Round 1', '2:00 PM', ''),
-	createData('333bf', '3x3 Blindfolded Round 1', '2:20 PM', ''),
+	createData('333bf', '3x3 Blindfolded Combined Finals', '2:20 PM', ''),
 	createData('333oh', '3x3 One Handed Round 1', '2:40 PM', ''),
 	createData('333', '3x3 Round 2', '3:00 PM', 'Top 50%'),
 	createData('444', '4x4 Finals', '3:20 PM', 'Top 8'),

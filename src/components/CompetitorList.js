@@ -6,6 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import ListSubheader from '@material-ui/core/ListSubheader'
 import Avatar from '@material-ui/core/Avatar'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -42,7 +43,12 @@ export default function CompetitorList({ onClick, competitors }) {
 	}
 	return (
 		<Paper className={classes.paper}>
-			<List className={classes.list}>
+			<List
+				className={classes.list}
+				subheader={
+					<ListSubheader>{`${competitors.length} Competitors`}</ListSubheader>
+				}
+			>
 				<ListItem className={classes.list}>
 					<TextField
 						value={query}
