@@ -6,7 +6,7 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
-import { Button, LinearProgress } from '@material-ui/core'
+import { LinearProgress } from '@material-ui/core'
 import { FirebaseContext } from '../utils/firebase'
 
 import Info from './Info'
@@ -56,21 +56,25 @@ export default function Competition({ history }) {
 	const firebase = React.useContext(FirebaseContext)
 	React.useEffect(() => {
 		async function getMarkers() {
-			const markers = []
+			let markers = []
 			await firebase
 				.firestore()
-				.collection('cah03282019')
+				.collection('CubingAtHomeI')
+				.doc('Competitors')
 				.get()
 				.then(querySnapshot => {
-					querySnapshot.docs.forEach(doc => {
-						markers.push(doc.data())
-					})
+					markers = querySnapshot.data().competitors
 				})
 			return markers
 		}
 		setLoading(true)
-		getMarkers().then(competitiors => {
-			setCompetitors(competitiors)
+		getMarkers().then(competitors => {
+			setCompetitors(competitors)
+			// firebase
+			// 	.firestore()
+			// 	.collection('CubingAtHomeI')
+			// 	.doc('Competitors')
+			// 	.set({ competitors: competitors })
 			setLoading(false)
 		})
 	}, [firebase])

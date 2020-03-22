@@ -40,10 +40,20 @@ export default function Register({ history }) {
 		}
 		user &&
 			firestore
-				.collection('cah03282019')
-				.doc(user.id.toString())
+				.collection('CubingAtHomeI')
+				.doc('Competitors')
 				.get()
-				.then(doc => doc.exists && setRegistered(true))
+				.then(doc => {
+					if (
+						doc
+							.data()
+							.competitors.filter(
+								competitor => competitor.id === user.id
+							).length > 0
+					) {
+						setRegistered(true)
+					}
+				})
 	}, [user, firebase, loading])
 	const handleChange = event => {
 		setChecked(event.target.checked)
@@ -70,17 +80,25 @@ export default function Register({ history }) {
 		const firestore = firebase.firestore()
 		bool
 			? firestore
-					.collection('cah03282019')
-					.doc(user.id.toString())
-					.set(data)
+					.collection('CubingAtHomeI')
+					.doc('Competitors')
+					.update({
+						competitors: firebase.firestore.FieldValue.arrayUnion(
+							data
+						)
+					})
 					.then(() => {
 						setLoading(false)
 					})
 					.catch(err => setError(err))
 			: firestore
-					.collection('cah03282019')
-					.doc(user.id.toString())
-					.delete()
+					.collection('CubingAtHomeI')
+					.doc('Competitors')
+					.update({
+						competitors: firebase.firestore.FieldValue.arrayRemove(
+							data
+						)
+					})
 					.then(() => {
 						setLoading(false)
 						setRegistered(false)
@@ -126,13 +144,13 @@ export default function Register({ history }) {
 							value={user.email}
 							disabled
 							helperText={
-								<p>
+								<>
 									{`You can change this information in your WCA
 									Account `}
 									<Link href={`${WCA_ORIGIN}/profile/edit`}>
 										here
 									</Link>
-								</p>
+								</>
 							}
 						/>
 					</Grid>
