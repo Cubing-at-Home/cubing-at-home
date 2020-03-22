@@ -64,7 +64,7 @@ export const signIn = () => {
 		client_id: WCA_OAUTH_CLIENT_ID,
 		response_type: 'token',
 		redirect_uri: oauthRedirectUri(),
-		scope: 'public manage_competitions dob email'
+		scope: 'public email'
 	})
 	window.location = `${WCA_ORIGIN}/oauth/authorize?${params.toString()}`
 }
