@@ -38,6 +38,25 @@ const theme = {
 export default function App() {
 	const firebase = useContext(FirebaseContext)
 	const muiTheme = createMuiTheme(theme)
+	async function getPsychUrl() {
+		let url =
+			'https://jonatanklosko.github.io/rankings/#/rankings/show?name=Cubing+at+Home+I+Psych+Sheet&wcaids='
+		await firebase
+			.firestore()
+			.collection('CubingAtHomeI')
+			.doc('Competitors')
+			.get()
+			.then(doc => {
+				let competitors = doc.data().competitors
+				console.log(competitors)
+				for (const competitor of competitors) {
+					if (competitor.wcaId !== null) {
+						url += `${competitor.wcaId},`
+					}
+				}
+			})
+		return url
+	}
 	return (
 		<>
 			<ThemeProvider theme={muiTheme}>
@@ -110,6 +129,15 @@ export default function App() {
 							<Redirect to='/cubing-at-home-I/' />
 						</Route>
 						<Route exact path='/' component={Home} />
+						<Route
+							exact
+							path='/psych'
+							render={() => {
+								getPsychUrl().then(
+									url => (window.location.href = url)
+								)
+							}}
+						/>
 						<Redirect to='/' />
 					</Switch>
 				</Router>
