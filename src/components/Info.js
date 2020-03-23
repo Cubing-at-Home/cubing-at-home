@@ -136,7 +136,9 @@ export default function Info({ history }) {
 						</li>
 
 						<p>
-							<strong>Requirements to Podium</strong>
+							<strong>
+								Requirements to Podium or Make Finals
+							</strong>
 						</p>
 						<ul>
 							<li>

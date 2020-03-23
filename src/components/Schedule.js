@@ -75,6 +75,11 @@ export default function SimpleTable() {
 				justify='center'
 			>
 				<Grid item>
+					<Typography align='center' variant='h4'>
+						March 28th, 2020
+					</Typography>
+				</Grid>
+				<Grid item>
 					<Typography align='center' variant='h6' color='error'>
 						<InfoIcon />
 						Please note that times are in EDT
