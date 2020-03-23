@@ -8,10 +8,13 @@ import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import { LinearProgress } from '@material-ui/core'
 import { FirebaseContext } from '../utils/firebase'
-
+import Faq from 'react-faq-component'
 import Info from './Info'
 import Schedule from './Schedule'
 import Competitors from './Competitors'
+import { faq } from '../logic/consts'
+import blue from '@material-ui/core/colors/blue'
+import blueGrey from '@material-ui/core/colors/blueGrey'
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props
@@ -101,6 +104,7 @@ export default function Competition({ history }) {
 							<Tab label='Schedule' {...a11yProps(1)} />
 							<Tab label='Competitors' {...a11yProps(2)} />
 							<Tab label='Discord' {...a11yProps(3)} />
+							<Tab label='FAQ' {...a11yProps(3)} />
 						</Tabs>
 					</AppBar>
 					<TabPanel value={value} index={0}>
@@ -124,6 +128,16 @@ export default function Competition({ history }) {
 							allowtransparency='true'
 							frameborder='0'
 						></iframe>
+					</TabPanel>
+					<TabPanel value={value} index={4}>
+						<Faq
+							data={faq}
+							styles={{
+								titleTextColor: blue[500],
+								rowTitleColor: blue[500],
+								rowTextColor: blueGrey[500]
+							}}
+						/>
 					</TabPanel>
 				</>
 			)}

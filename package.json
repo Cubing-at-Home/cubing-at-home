@@ -12,6 +12,7 @@
 		"history": "^4.10.1",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
+		"react-faq-component": "^1.0.4",
 		"react-router-dom": "^5.1.2",
 		"react-scripts": "3.4.0",
 		"react-twitch-embed-video": "^2.0.2"
