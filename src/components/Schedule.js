@@ -73,6 +73,7 @@ export default function SimpleTable() {
 				alignItems='center'
 				alignContent='center'
 				justify='center'
+				direction='column'
 			>
 				<Grid item>
 					<Typography align='center' variant='h4'>
