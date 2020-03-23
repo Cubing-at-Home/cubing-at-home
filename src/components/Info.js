@@ -73,7 +73,7 @@ export default function Info({ history }) {
 									<u>twitch.tv/cubingusa</u>
 								</Link>{' '}
 								and the
-								<Link href='https://discord.gg/vzrURA'>
+								<Link href='https://discord.gg/5JwymJu'>
 									<u>Discord Channel </u>
 								</Link>
 								{` to follow along as the competition progresses`}
