@@ -175,7 +175,7 @@ export default function Info({ history }) {
 							<Link
 								target='_blank'
 								rel='noopener noreferrer'
-								href='mailto:sgrover@worldcubassociation.org,cnielson@worldcubeassociation.org,bsampson@worldcubassociation.org'
+								href='mailto:sgrover@worldcubeassociation.org,cnielson@worldcubeassociation.org,bsampson@worldcubeassociation.org'
 							>
 								Contact Us
 							</Link>
