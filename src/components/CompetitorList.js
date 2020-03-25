@@ -21,10 +21,15 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-export default function CompetitorList({ onClick, competitors }) {
+export default function CompetitorList({ onClick, competitors, page, total }) {
 	const classes = useStyles()
 	const [query, setQuery] = useState('')
-	const [queryCompetitors, setQueryCompetitors] = useState(competitors)
+	const [queryCompetitors, setQueryCompetitors] = useState(
+		competitors.slice(100 * (page - 1), page * 100)
+	)
+	React.useEffect(() => {
+		setQueryCompetitors(competitors.slice(100 * (page - 1), 100 * page))
+	}, [page, competitors])
 	const handleSearchChange = event => {
 		const query = event.target.value
 		setQuery(query)
@@ -46,10 +51,10 @@ export default function CompetitorList({ onClick, competitors }) {
 			<List
 				className={classes.list}
 				subheader={
-					<ListSubheader>{`${competitors.length} Competitors`}</ListSubheader>
+					<ListSubheader>{`${total} Competitors`}</ListSubheader>
 				}
 			>
-				<ListItem className={classes.list}>
+				{/* <ListItem className={classes.list}>
 					<TextField
 						value={query}
 						onChange={handleSearchChange}
@@ -57,7 +62,7 @@ export default function CompetitorList({ onClick, competitors }) {
 						label='Search'
 						id='outlined-basic'
 					></TextField>
-				</ListItem>
+				</ListItem> */}
 				{queryCompetitors.map(competitor => (
 					<ListItem
 						button
