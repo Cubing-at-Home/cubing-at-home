@@ -4,7 +4,7 @@ import { LinearProgress, Typography } from '@material-ui/core'
 import Link from '@material-ui/core/Link'
 import Paginator from './Paginator'
 
-export default function Competitors({ history, competitors }) {
+export default function Competitors({ history, competitors, registered }) {
 	const [wcaIds, setWcaIds] = React.useState(
 		'https://jonatanklosko.github.io/rankings/#/rankings/show?name=Cubing+at+Home+I+Psych+Sheet&wcaids='
 	)
@@ -52,6 +52,7 @@ export default function Competitors({ history, competitors }) {
 					/>
 					<CompetitorList
 						competitors={competitors}
+						registered={registered}
 						total={competitors.length}
 						page={page}
 						onClick={(e, competitor) => open(competitor.url)}

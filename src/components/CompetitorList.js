@@ -22,7 +22,13 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-export default function CompetitorList({ onClick, competitors, page, total }) {
+export default function CompetitorList({
+	onClick,
+	competitors,
+	page,
+	total,
+	registered
+}) {
 	const classes = useStyles()
 	const [query, setQuery] = useState('')
 	const [queryCompetitors, setQueryCompetitors] = useState(
@@ -72,7 +78,8 @@ export default function CompetitorList({ onClick, competitors, page, total }) {
 						style={{
 							textAlign: 'center',
 							backgroundColor:
-								competitors[0].id === competitor.id
+								competitors[0].id === competitor.id &&
+								registered
 									? blue[200]
 									: ''
 						}}

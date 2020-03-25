@@ -70,6 +70,7 @@ const tabs = {
 export default function Competition({ history, match }) {
 	const [competitors, setCompetitors] = React.useState(null)
 	const [loading, setLoading] = React.useState(true)
+	const [registered, setRegistered] = React.useState(false)
 	const firebase = React.useContext(FirebaseContext)
 	React.useEffect(() => {
 		async function getMarkers() {
@@ -91,12 +92,15 @@ export default function Competition({ history, match }) {
 					const me = competitors.find(
 						competitor => competitor.id === user.me.id
 					)
-					setCompetitors([
-						me,
-						...competitors.filter(
-							competitor => competitor.id !== me.id
-						)
-					])
+					if (me) {
+						setCompetitors([
+							me,
+							...competitors.filter(
+								competitor => competitor.id !== me.id
+							)
+						])
+						setRegistered(true)
+					}
 				})
 			} else {
 				setCompetitors(competitors)
@@ -146,6 +150,7 @@ export default function Competition({ history, match }) {
 						<Competitors
 							history={history}
 							competitors={competitors}
+							registered={registered}
 						/>
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={3}>
