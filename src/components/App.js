@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { Router, Redirect, Route, Switch } from 'react-router-dom'
-import 'firebase/firestore'
 import { FirebaseContext } from '../utils/firebase'
 import history from '../logic/history'
 import Typography from '@material-ui/core/Typography'
@@ -13,6 +12,7 @@ import Paper from '@material-ui/core/Paper'
 import Home from './Home'
 import Competition from './Competition'
 import Register from './Register'
+import Admin from './Admin'
 
 // typography
 const typography = {
@@ -119,11 +119,14 @@ export default function App() {
 						/>
 						<Route
 							exact
-							path='/cubing-at-home-I'
+							path='/cubing-at-home-I/:tab?'
 							component={Competition}
 						/>
 						<Route exact path='/scrambles'>
-							<Redirect to='/cubing-at-home-I/' />
+							<Redirect to='/cubing-at-home-I/scrambles/' />
+						</Route>
+						<Route exact path='/results'>
+							<Redirect to='/cubing-at-home/results' />
 						</Route>
 						<Route exact path='/results'>
 							<Redirect to='/cubing-at-home-I/' />
@@ -138,6 +141,7 @@ export default function App() {
 								)
 							}}
 						/>
+						<Route exact path='/admin' component={Admin} />
 						<Redirect to='/' />
 					</Switch>
 				</Router>

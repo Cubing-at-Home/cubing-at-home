@@ -1,5 +1,6 @@
 import { WCA_ORIGIN, WCA_OAUTH_CLIENT_ID } from './wca-env'
 import history from './history'
+import { admins } from './consts'
 
 /* Use separate set of keys for each OAuth client (e.g. for WCA production and staging). */
 const localStorageKey = key => `WCA-Real-Time.${WCA_OAUTH_CLIENT_ID}.${key}`
@@ -84,3 +85,7 @@ export const signOut = () => {
 }
 
 export const isSignedIn = () => !!wcaAccessToken()
+
+export const isAdmin = user => {
+	return admins.includes(user.wca_id)
+}

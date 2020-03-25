@@ -15,6 +15,8 @@ import Competitors from './Competitors'
 import { faq } from '../logic/consts'
 import blue from '@material-ui/core/colors/blue'
 import blueGrey from '@material-ui/core/colors/blueGrey'
+import Scrambles from './Scrambles'
+import Results from './Results'
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props
@@ -53,7 +55,17 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-export default function Competition({ history }) {
+const tabs = {
+	information: 0,
+	schedule: 1,
+	competitors: 2,
+	scrambles: 3,
+	results: 4,
+	faq: 5,
+	discord: 6
+}
+
+export default function Competition({ history, match }) {
 	const [competitors, setCompetitors] = React.useState(null)
 	const [loading, setLoading] = React.useState(true)
 	const firebase = React.useContext(FirebaseContext)
@@ -73,19 +85,27 @@ export default function Competition({ history }) {
 		setLoading(true)
 		getMarkers().then(competitors => {
 			setCompetitors(competitors)
-			// firebase
-			// 	.firestore()
-			// 	.collection('CubingAtHomeI')
-			// 	.doc('Competitors')
-			// 	.set({ competitors: competitors })
+			// let featured = []
+			// featuredCompetitors.map(competitor => {
+			// 	let info = competitors.find(c => c.wcaId === competitor.wcaId)
+			// 	featured.push({
+			// 		name: info.name,
+			// 		wcaId: info.wcaId,
+			// 		avatar: info.avatar
+			// 	})
+			// })
 			setLoading(false)
 		})
 	}, [firebase])
 	const classes = useStyles()
-	const [value, setValue] = React.useState(0)
+
+	const [value, setValue] = React.useState(match.params.tab || 'information')
 
 	const handleChange = (event, newValue) => {
-		setValue(newValue)
+		history.push(
+			`/cubing-at-home-I/${event.target.innerText.toLowerCase()}`
+		)
+		setValue(event.target.innerText.toLowerCase())
 	}
 
 	return (
@@ -96,40 +116,38 @@ export default function Competition({ history }) {
 				<>
 					<AppBar color='inherit' position='static'>
 						<Tabs
-							value={value}
+							value={tabs[value]}
 							onChange={handleChange}
 							aria-label='simple tabs example'
 						>
 							<Tab label='Information' {...a11yProps(0)} />
 							<Tab label='Schedule' {...a11yProps(1)} />
 							<Tab label='Competitors' {...a11yProps(2)} />
-							<Tab label='Discord' {...a11yProps(3)} />
-							<Tab label='FAQ' {...a11yProps(3)} />
+							<Tab label='Scrambles' {...a11yProps(3)} />
+							<Tab label='Results' {...a11yProps(4)} />
+							<Tab label='FAQ' {...a11yProps(5)} />
+							<Tab label='Discord' {...a11yProps(6)} />
 						</Tabs>
 					</AppBar>
-					<TabPanel value={value} index={0}>
+					<TabPanel value={tabs[value]} index={0}>
 						<Info history={history} />
 					</TabPanel>
-					<TabPanel value={value} index={1}>
+					<TabPanel value={tabs[value]} index={1}>
 						<Schedule />
 					</TabPanel>
-					<TabPanel value={value} index={2}>
+					<TabPanel value={tabs[value]} index={2}>
 						<Competitors
 							history={history}
 							competitors={competitors}
 						/>
 					</TabPanel>
-					<TabPanel value={value} index={3}>
-						<iframe
-							title='discord'
-							src='https://discordapp.com/widget?id=690084292323311720&theme=dark'
-							width='1000vw'
-							height='500vh'
-							allowtransparency='true'
-							frameborder='0'
-						></iframe>
+					<TabPanel value={tabs[value]} index={3}>
+						<Scrambles />
 					</TabPanel>
-					<TabPanel value={value} index={4}>
+					<TabPanel value={tabs[value]} index={4}>
+						<Results />
+					</TabPanel>
+					<TabPanel value={tabs[value]} index={5}>
 						<Faq
 							data={faq}
 							styles={{
@@ -138,6 +156,16 @@ export default function Competition({ history }) {
 								rowTextColor: blueGrey[500]
 							}}
 						/>
+					</TabPanel>
+					<TabPanel value={tabs[value]} index={6}>
+						<iframe
+							title='discord'
+							src='https://discordapp.com/widget?id=690084292323311720&theme=dark'
+							width='1000vw'
+							height='500vh'
+							allowtransparency='true'
+							frameborder='0'
+						></iframe>
 					</TabPanel>
 				</>
 			)}
