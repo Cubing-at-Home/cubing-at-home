@@ -9,6 +9,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import Avatar from '@material-ui/core/Avatar'
 import { makeStyles } from '@material-ui/core/styles'
+import blue from '@material-ui/core/colors/blue'
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -68,7 +69,13 @@ export default function CompetitorList({ onClick, competitors, page, total }) {
 						button
 						onClick={e => onClick(e, competitor)}
 						key={competitor.id}
-						style={{ textAlign: 'center' }}
+						style={{
+							textAlign: 'center',
+							backgroundColor:
+								competitors[0].id === competitor.id
+									? blue[200]
+									: ''
+						}}
 					>
 						<ListItemAvatar>
 							<Avatar

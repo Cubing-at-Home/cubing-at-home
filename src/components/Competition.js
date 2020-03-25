@@ -17,6 +17,8 @@ import blue from '@material-ui/core/colors/blue'
 import blueGrey from '@material-ui/core/colors/blueGrey'
 import Scrambles from './Scrambles'
 import Results from './Results'
+import { isSignedIn } from '../logic/auth'
+import { getMe } from '../logic/wca-api'
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props
@@ -84,16 +86,21 @@ export default function Competition({ history, match }) {
 		}
 		setLoading(true)
 		getMarkers().then(competitors => {
-			setCompetitors(competitors)
-			// let featured = []
-			// featuredCompetitors.map(competitor => {
-			// 	let info = competitors.find(c => c.wcaId === competitor.wcaId)
-			// 	featured.push({
-			// 		name: info.name,
-			// 		wcaId: info.wcaId,
-			// 		avatar: info.avatar
-			// 	})
-			// })
+			if (isSignedIn()) {
+				getMe().then(user => {
+					const me = competitors.find(
+						competitor => competitor.id === user.me.id
+					)
+					setCompetitors([
+						me,
+						...competitors.filter(
+							competitor => competitor.id !== me.id
+						)
+					])
+				})
+			} else {
+				setCompetitors(competitors)
+			}
 			setLoading(false)
 		})
 	}, [firebase])

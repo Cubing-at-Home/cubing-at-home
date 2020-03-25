@@ -57,7 +57,7 @@ export const rounds = [
 	},
 	{
 		id: '333oh',
-		name: '3x3 One Handed Round 1',
+		name: '3x3 One Handed Finals',
 		start: '2:40 PM',
 		qualification: ''
 	},
