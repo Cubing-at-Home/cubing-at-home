@@ -184,7 +184,33 @@ export default function Register({ history }) {
 											color='primary'
 										/>
 									}
-									label='By signing up, I agree to submit my times as they occur along with any penalties. I understand that any form of cheating can result in disqualification for any further Cubing at Home competitions. I also understand that in order to claim a podium prize, I am required to submit a full uncut video of the entire round.'
+									label={
+										<ul>
+											<li>
+												By signing up, I agree to submit
+												my times as they occur along
+												with any penalties. I understand
+												that any form of cheating can
+												result in disqualification for
+												any further Cubing at Home
+												competitions.
+											</li>
+											<li>
+												I also understand that in order
+												to claim a podium prize, I am
+												required to submit a full uncut
+												video of the entire round.
+											</li>
+											<li>
+												I allow CubingUSA and/or The
+												Cubicle to edit and repost any
+												videos I submit and content I
+												particiapte in for this event
+												without any additional
+												compensation
+											</li>
+										</ul>
+									}
 								/>
 							</Grid>
 							<Grid item>

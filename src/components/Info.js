@@ -165,23 +165,28 @@ export default function Info({ history }) {
 						<p></p>
 					</Grid>
 					<Grid item>
-						<Typography align='center' variant='h4'>
-							Prizes (Sponsored by TheCubicle.com)
-						</Typography>
-						<Typography align='center' variant='h6'>
-							TBD!
-						</Typography>
-					</Grid>
-					<Grid item>
-						<Typography align='center' variant='h4'>
-							<Link
-								target='_blank'
-								rel='noopener noreferrer'
-								href='mailto:sgrover@worldcubeassociation.org,cnielson@worldcubeassociation.org,bsampson@worldcubeassociation.org'
+						<Paper style={{ width: '80vw' }}>
+							<Typography
+								stlye={{ margin: '2vw' }}
+								align='center'
+								variant='body1'
 							>
-								Contact Us
-							</Link>
-						</Typography>
+								<b>Note: </b> By signing up, you allow CubingUSA
+								and/or The Cubicle to edit and repost any videos
+								you submit and content you particiapte in for
+								this event without any additional compensation
+							</Typography>
+							<Typography align='center' variant='h6'>
+								<Link
+									color='primary'
+									target='_blank'
+									rel='noopener noreferrer'
+									href='mailto:sgrover@worldcubeassociation.org,cnielson@worldcubeassociation.org,bsampson@worldcubeassociation.org'
+								>
+									Contact Us
+								</Link>
+							</Typography>
+						</Paper>
 					</Grid>
 				</Grid>
 			</Paper>

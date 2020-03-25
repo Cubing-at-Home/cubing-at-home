@@ -274,6 +274,18 @@ export const faq = {
 	rows: [
 		{
 			title:
+				'Is this competition official? Will the results be on my WCA Account?',
+			content:
+				'Cubing At Home is not an official WCA Competition. All results are unofficial and are not tracked or recognized by the WCA'
+		},
+		{
+			title:
+				'Can I listen to music? Do I have to follow X WCA Regulation?',
+			content:
+				'We recommend that you follow WCA Regulations as close as possible. This means that you may not listen to music while solving.'
+		},
+		{
+			title:
 				'Am I registered for everything? Do I need to register for a specific event?',
 			content:
 				' You are registered for all events, if you plan on not competing in an event then just dont enter results for it'
@@ -281,7 +293,7 @@ export const faq = {
 		{
 			title: 'Do I need to film all my solves?',
 			content:
-				"You only need to film to claim a prize for podiuming! If you don't think you will podium then there is no need to film"
+				"You only need to film to claim a prize for podiuming or making it into Finals (Top 8)! If you don't think you will podium or make finals then there is no need to film"
 		},
 		{
 			title:
@@ -290,10 +302,11 @@ export const faq = {
 				' We recommend using a stackmat to time solves but you can feel free to use any website or app to keep track of time. To keep track of inspection you can use built in app or timer features on your timer or alternatively you can go to https://cubing.net/inspection/'
 		},
 		{
-			title: 'Will these times be counted officially?',
+			title: "Can I still compete if I don't know how to scramble?",
 			content:
-				'Your times will not be counted officially, this competition is unofficial.'
+				"We require competitors to know how to scramble events they compete in. If you do not know how to scramble an event, please make sure to learn it. <a href='https://www.youtube.com/watch?v=QZ3jOJ6VKdw'>Here </a> is a good resource for learning notation and scrambling for most events."
 		},
+
 		{
 			title: 'Where will I submit my times?',
 			content:
@@ -301,7 +314,8 @@ export const faq = {
 		},
 		{
 			title: 'Where do I submit videos if I podium?',
-			content: 'We will reach out to you to get videos'
+			content:
+				"We will reach out to you to get videos. Please make sure to be active on the <a href='/cubing-at-home-I/discord'>discord </a>"
 		}
 	]
 }

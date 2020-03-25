@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
+import Link from '@material-ui/core/Link'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
@@ -100,6 +101,8 @@ export default function Competition({ history, match }) {
 							)
 						])
 						setRegistered(true)
+					} else {
+						setCompetitors(competitors)
 					}
 				})
 			} else {
@@ -127,6 +130,8 @@ export default function Competition({ history, match }) {
 				<>
 					<AppBar color='inherit' position='static'>
 						<Tabs
+							scrollButtons='on'
+							variant='scrollable'
 							value={tabs[value]}
 							onChange={handleChange}
 							aria-label='simple tabs example'
@@ -160,14 +165,29 @@ export default function Competition({ history, match }) {
 						<Results />
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={5}>
-						<Faq
-							data={faq}
-							styles={{
-								titleTextColor: blue[500],
-								rowTitleColor: blue[500],
-								rowTextColor: blueGrey[500]
-							}}
-						/>
+						<div>
+							<Faq
+								data={faq}
+								styles={{
+									titleTextColor: blue[500],
+									rowTitleColor: blue[500],
+									rowTextColor: blueGrey[500]
+								}}
+							/>
+							<Typography
+								color='primary'
+								align='center'
+								variant='h6'
+							>
+								<Link
+									target='_blank'
+									rel='noopener noreferrer'
+									href='mailto:sgrover@worldcubeassociation.org,cnielson@worldcubeassociation.org,bsampson@worldcubeassociation.org'
+								>
+									Contact Us
+								</Link>
+							</Typography>
+						</div>
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={6}>
 						<iframe
