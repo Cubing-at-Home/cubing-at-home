@@ -94,37 +94,52 @@ export default function Register({ history }) {
 			url: user.url
 		}
 		const firestore = firebase.firestore()
-		bool
-			? firestore
-					.collection('CubingAtHomeI')
-					.doc('Competitors2')
-					.set({
-						competitors: firebase.firestore.FieldValue.arrayUnion(
-							data
-						)
-					})
-					.then(() => {
-						setLoading(false)
-						setRegistered(true)
-					})
-					.catch(err => {
-						console.log(err)
-					})
-			: firestore
-					.collection('CubingAtHomeI')
-					.doc('Competitors2')
-					.update({
-						competitors: firebase.firestore.FieldValue.arrayRemove(
-							data
-						)
-					})
-					.then(() => {
-						setLoading(false)
-						setRegistered(false)
-					})
-					.catch(err => {
-						console.log(err)
-					})
+		if (bool) {
+			firestore
+				.collection('CubingAtHomeI')
+				.doc('Competitors2')
+				.update({
+					competitors: firebase.firestore.FieldValue.arrayUnion(data)
+				})
+				.then(() => {
+					setLoading(false)
+					setRegistered(true)
+				})
+				.catch(err => {
+					console.log(err)
+				})
+		} else {
+			let doc = ''
+			firestore
+				.collection('CubingAtHomeI')
+				.doc('Competitors')
+				.get(doc => {
+					const competitors = doc.data().competitors
+					const me = competitors.filter(
+						competitor => competitor.id === user.id
+					)
+					if (me) {
+						doc = 'Competitors'
+					} else {
+						doc = 'Competitors2'
+					}
+					firestore
+						.collection('CubingAtHomeI')
+						.doc('Competitors2')
+						.update({
+							competitors: firebase.firestore.FieldValue.arrayRemove(
+								data
+							)
+						})
+						.then(() => {
+							setLoading(false)
+							setRegistered(false)
+						})
+						.catch(err => {
+							console.log(err)
+						})
+				})
+		}
 	}
 
 	return (

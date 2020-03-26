@@ -83,6 +83,14 @@ export default function Competition({ history, match }) {
 				.get()
 				.then(querySnapshot => {
 					markers = querySnapshot.data().competitors
+					firebase
+						.firestore()
+						.collection('CubingAtHomeI')
+						.doc('Competitors2')
+						.get()
+						.then(querySnapshot => {
+							markers.push(querySnapshot.data().competitors)
+						})
 				})
 			return markers
 		}
