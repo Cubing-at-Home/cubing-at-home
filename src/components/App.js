@@ -126,10 +126,7 @@ export default function App() {
 							<Redirect to='/cubing-at-home-I/scrambles/' />
 						</Route>
 						<Route exact path='/results'>
-							<Redirect to='/cubing-at-home/results' />
-						</Route>
-						<Route exact path='/results'>
-							<Redirect to='/cubing-at-home-I/' />
+							<Redirect to='/cubing-at-home-I/results' />
 						</Route>
 						<Route exact path='/' component={Home} />
 						<Route

@@ -181,7 +181,7 @@ export default function Info({ history }) {
 									color='primary'
 									target='_blank'
 									rel='noopener noreferrer'
-									href='mailto:sgrover@worldcubeassociation.org,cnielson@worldcubeassociation.org,bsampson@worldcubeassociation.org'
+									href='mailto:sgrover@worldcubeassociation.org,cnielson@worldcubeassociation.org,bsampson@worldcubeassociation.org,sbaird@worldcubeassociation.org'
 								>
 									Contact Us
 								</Link>
