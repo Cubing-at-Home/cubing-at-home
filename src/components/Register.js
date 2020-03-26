@@ -109,23 +109,24 @@ export default function Register({ history }) {
 					console.log(err)
 				})
 		} else {
-			let doc = ''
+			let document = ''
 			firestore
 				.collection('CubingAtHomeI')
 				.doc('Competitors')
-				.get(doc => {
+				.get()
+				.then(doc => {
 					const competitors = doc.data().competitors
 					const me = competitors.filter(
 						competitor => competitor.id === user.id
 					)
 					if (me) {
-						doc = 'Competitors'
+						document = 'Competitors'
 					} else {
-						doc = 'Competitors2'
+						document = 'Competitors2'
 					}
 					firestore
 						.collection('CubingAtHomeI')
-						.doc('Competitors2')
+						.doc(document)
 						.update({
 							competitors: firebase.firestore.FieldValue.arrayRemove(
 								data

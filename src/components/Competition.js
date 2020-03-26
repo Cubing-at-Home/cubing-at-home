@@ -74,49 +74,46 @@ export default function Competition({ history, match }) {
 	const [registered, setRegistered] = React.useState(false)
 	const firebase = React.useContext(FirebaseContext)
 	React.useEffect(() => {
-		async function getMarkers() {
+		async function getMarkers(doc) {
 			let markers = []
 			await firebase
 				.firestore()
 				.collection('CubingAtHomeI')
-				.doc('Competitors')
+				.doc(doc)
 				.get()
 				.then(querySnapshot => {
 					markers = querySnapshot.data().competitors
-					firebase
-						.firestore()
-						.collection('CubingAtHomeI')
-						.doc('Competitors2')
-						.get()
-						.then(querySnapshot => {
-							markers.push(querySnapshot.data().competitors)
-						})
 				})
 			return markers
 		}
 		setLoading(true)
-		getMarkers().then(competitors => {
-			if (isSignedIn()) {
-				getMe().then(user => {
-					const me = competitors.find(
-						competitor => competitor.id === user.me.id
-					)
-					if (me) {
-						setCompetitors([
-							me,
-							...competitors.filter(
-								competitor => competitor.id !== me.id
-							)
-						])
-						setRegistered(true)
-					} else {
-						setCompetitors(competitors)
-					}
-				})
-			} else {
-				setCompetitors(competitors)
-			}
-			setLoading(false)
+		getMarkers('Competitors').then(competitors => {
+			let allCompetitors = competitors
+			getMarkers('Competitors2').then(competitors2 => {
+				allCompetitors = [...allCompetitors, ...competitors2]
+				console.log(allCompetitors)
+				if (isSignedIn()) {
+					getMe().then(user => {
+						const me = allCompetitors.find(
+							competitor => competitor.id === user.me.id
+						)
+						if (me) {
+							setCompetitors([
+								me,
+								...allCompetitors.filter(
+									competitor => competitor.id !== me.id
+								)
+							])
+							setRegistered(true)
+						} else {
+							setCompetitors(allCompetitors)
+						}
+					})
+				} else {
+					setCompetitors(competitors)
+				}
+				setLoading(false)
+			})
 		})
 	}, [firebase])
 	const classes = useStyles()
