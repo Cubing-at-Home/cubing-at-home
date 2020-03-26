@@ -23,9 +23,6 @@ export default function Competitors({ history, competitors, registered }) {
 		window.open(url, '_blank')
 	}
 	const [page, setPage] = React.useState(1)
-	React.useEffect(() => {
-		console.log(page)
-	}, [page])
 	return (
 		<>
 			{!competitors ? (
