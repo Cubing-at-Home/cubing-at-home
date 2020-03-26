@@ -48,7 +48,6 @@ export default function App() {
 			.get()
 			.then(doc => {
 				let competitors = doc.data().competitors
-				console.log(competitors)
 				for (const competitor of competitors) {
 					if (competitor.wcaId !== null) {
 						url += `${competitor.wcaId},`

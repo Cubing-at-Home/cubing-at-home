@@ -41,7 +41,7 @@ export default function Register({ history }) {
 		user &&
 			firestore
 				.collection('CubingAtHomeI')
-				.doc('Competitors')
+				.doc('Competitors2')
 				.get()
 				.then(doc => {
 					if (
@@ -52,6 +52,23 @@ export default function Register({ history }) {
 							).length > 0
 					) {
 						setRegistered(true)
+					} else {
+						firestore
+							.collection('CubingAtHomeI')
+							.doc('Competitors')
+							.get()
+							.then(doc => {
+								if (
+									doc
+										.data()
+										.competitors.filter(
+											competitor =>
+												competitor.id === user.id
+										).length > 0
+								) {
+									setRegistered(true)
+								}
+							})
 					}
 				})
 	}, [user, firebase, loading])
@@ -68,7 +85,6 @@ export default function Register({ history }) {
 	const classes = useStyles()
 
 	const handleSubmit = bool => {
-		setLoading(true)
 		const data = {
 			name: user.name,
 			avatar: user.avatar.url,
@@ -81,19 +97,22 @@ export default function Register({ history }) {
 		bool
 			? firestore
 					.collection('CubingAtHomeI')
-					.doc('Competitors')
-					.update({
+					.doc('Competitors2')
+					.set({
 						competitors: firebase.firestore.FieldValue.arrayUnion(
 							data
 						)
 					})
 					.then(() => {
 						setLoading(false)
+						setRegistered(true)
 					})
-					.catch(err => setError(err))
+					.catch(err => {
+						console.log(err)
+					})
 			: firestore
 					.collection('CubingAtHomeI')
-					.doc('Competitors')
+					.doc('Competitors2')
 					.update({
 						competitors: firebase.firestore.FieldValue.arrayRemove(
 							data
@@ -103,7 +122,9 @@ export default function Register({ history }) {
 						setLoading(false)
 						setRegistered(false)
 					})
-					.catch(err => setError(err))
+					.catch(err => {
+						console.log(err)
+					})
 	}
 
 	return (
