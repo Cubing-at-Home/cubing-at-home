@@ -37,7 +37,7 @@ export default function Info({ history }) {
 						</Button>
 					</Grid>
 					<Typography variant='caption' color='error'>
-						Registration Closes on Friday, March 26th, 12 am ET
+						Registration Closes on Friday, March 27th, 12 am ET
 					</Typography>
 					<Grid item>
 						<Typography align='center' variant='h4'>
