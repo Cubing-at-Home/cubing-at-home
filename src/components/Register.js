@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 export default function Register({ history }) {
 	const [user, setUser] = React.useState(null)
 	const [checked, setChecked] = React.useState(false)
-	const [loading, setLoading] = React.useState(false)
+	const [loading, setLoading] = React.useState(true)
 	const [error, setError] = React.useState(null)
 	const [registered, setRegistered] = React.useState(false)
 	const firebase = React.useContext(FirebaseContext)
@@ -51,7 +51,8 @@ export default function Register({ history }) {
 								competitor => competitor.id === user.id
 							).length > 0
 					) {
-						setRegistered(true)
+						setRegistered(false)
+						setLoading(false)
 					} else {
 						firestore
 							.collection('CubingAtHomeI')
@@ -68,6 +69,7 @@ export default function Register({ history }) {
 								) {
 									setRegistered(true)
 								}
+								setLoading(false)
 							})
 					}
 				})
@@ -133,8 +135,8 @@ export default function Register({ history }) {
 							)
 						})
 						.then(() => {
-							setLoading(false)
 							setRegistered(false)
+							setLoading(false)
 						})
 						.catch(err => {
 							console.log(err)
@@ -161,7 +163,7 @@ export default function Register({ history }) {
 					spacing={1}
 					direction='column'
 				>
-					<Grid item>
+					{/* <Grid item>
 						<Typography variant='h6'>
 							Cubing At Home Registration
 						</Typography>
@@ -190,7 +192,7 @@ export default function Register({ history }) {
 								</>
 							}
 						/>
-					</Grid>
+					</Grid> */}
 					{registered ? (
 						<>
 							<Grid item>
@@ -212,6 +214,16 @@ export default function Register({ history }) {
 					) : (
 						<>
 							<Grid item>
+								<Typography align='center' variant='h4'>
+									Registration is closed. Follow{' '}
+									<Link href='https://instagram.com/cubingusa'>
+										CubingUSA
+									</Link>{' '}
+									for notifications about upcoming Cubing At
+									Home Competitions!
+								</Typography>
+							</Grid>
+							{/* <Grid item>
 								<FormControlLabel
 									style={{ maxWidth: '50vw' }}
 									control={
@@ -260,6 +272,7 @@ export default function Register({ history }) {
 									Register
 								</Button>
 							</Grid>
+						</Link> */}
 						</>
 					)}
 				</Grid>

@@ -119,7 +119,7 @@ export default function Home({ history }) {
 												variant='contained'
 												color='primary'
 												startIcon={<AddCircleIcon />}
-												disabled={!isSignedIn()}
+												disabled={true}
 												onClick={() =>
 													history.push(
 														'/cubing-at-home-I/register'

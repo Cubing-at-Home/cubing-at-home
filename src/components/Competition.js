@@ -109,7 +109,7 @@ export default function Competition({ history, match }) {
 						}
 					})
 				} else {
-					setCompetitors(competitors)
+					setCompetitors(allCompetitors)
 				}
 				setLoading(false)
 			})
