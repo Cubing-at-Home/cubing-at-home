@@ -38,13 +38,12 @@ const theme = {
 export default function App() {
 	const firebase = useContext(FirebaseContext)
 	const muiTheme = createMuiTheme(theme)
-	async function getPsychUrl() {
-		let url =
-			'https://jonatanklosko.github.io/rankings/#/rankings/show?name=Cubing+at+Home+I+Psych+Sheet&wcaids='
+	async function getPsychUrl(document) {
+		let url = ''
 		await firebase
 			.firestore()
 			.collection('CubingAtHomeI')
-			.doc('Competitors')
+			.doc(document)
 			.get()
 			.then(doc => {
 				let competitors = doc.data().competitors
@@ -132,8 +131,11 @@ export default function App() {
 							exact
 							path='/psych'
 							render={() => {
-								getPsychUrl().then(
-									url => (window.location.href = url)
+								getPsychUrl('Competitors').then(
+									getPsychUrl('Competitors2').then(
+										url =>
+											(window.location.href = `https://jonatanklosko.github.io/rankings/#/rankings/show?name=Cubing+at+Home+I+Psych+Sheet&wcaids=${url}`)
+									)
 								)
 							}}
 						/>
