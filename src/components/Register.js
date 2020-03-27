@@ -119,7 +119,7 @@ export default function Register({ history }) {
 					const me = competitors.filter(
 						competitor => competitor.id === user.id
 					)
-					if (me) {
+					if (me.length > 1) {
 						document = 'Competitors'
 					} else {
 						document = 'Competitors2'
@@ -199,7 +199,7 @@ export default function Register({ history }) {
 									competition
 								</Typography>
 							</Grid>
-							<Grid item>
+							{/* <Grid item>
 								<Button
 									onClick={() => handleSubmit(false)}
 									variant='contained'
@@ -207,7 +207,7 @@ export default function Register({ history }) {
 								>
 									Cancel Registration
 								</Button>
-							</Grid>
+							</Grid> */}
 						</>
 					) : (
 						<>
