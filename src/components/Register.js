@@ -51,7 +51,7 @@ export default function Register({ history }) {
 								competitor => competitor.id === user.id
 							).length > 0
 					) {
-						setRegistered(false)
+						setRegistered(true)
 						setLoading(false)
 					} else {
 						firestore
