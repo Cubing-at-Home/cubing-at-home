@@ -42,11 +42,11 @@ export default function Scrambles() {
 		<>
 			{form === null || competitor === null ? (
 				<LinearProgress />
-			) : // ) : form === false ? (
-			// 	<Typography variant='h4' align='center'>
-			// 		Scrambles will be available when the competition begins
-			// 	</Typography>
-			competitor === false ? (
+			) : form === false ? (
+				<Typography variant='h4' align='center'>
+					Scrambles will be available when the competition begins
+				</Typography>
+			) : competitor === false ? (
 				<Typography variant='h4' align='center'>
 					You are not signed up for this competition or eligible for
 					this round
