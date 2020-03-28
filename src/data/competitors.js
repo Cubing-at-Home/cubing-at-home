@@ -2,6 +2,14 @@ export const competitors = [
 	{
 		avatar:
 			'https://www.worldcubeassociation.org/assets/missing_avatar_thumb-f0ea801c804765a22892b57636af829edbef25260a65d90aaffbd7873bde74fc.png',
+		email: 'null@null.com',
+		id: 19799,
+		name: 'Ricardo Ivan Philippsen',
+		url: 'https://www.worldcubeassociation.org/persons/2014PHIL06"',
+		wcaId: '2014PHIL06'
+	},
+	{
+		avatar:'https://www.worldcubeassociation.org/uploads/user/avatar/2014PHIL06/1500226908.jpg',
 		email: 'quinn.doak@gmail.com',
 		id: 100802,
 		name: 'Quinn Doak',
