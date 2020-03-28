@@ -163,12 +163,13 @@ export default function Register({ history }) {
 					spacing={1}
 					direction='column'
 				>
+					{/*
 					<Grid item>
 						<Typography variant='h6'>
 							Cubing At Home Registration
 						</Typography>
 					</Grid>
-					<Grid item>
+					 <Grid item>
 						<Avatar
 							alt={user.name}
 							src={user.avatar.url}
@@ -192,7 +193,7 @@ export default function Register({ history }) {
 								</>
 							}
 						/>
-					</Grid>
+					</Grid> */}
 					{registered ? (
 						<>
 							<Grid item>
@@ -213,17 +214,17 @@ export default function Register({ history }) {
 						</>
 					) : (
 						<>
-							{/* <Grid item>
+							<Grid item>
 								<Typography align='center' variant='h4'>
 									Registration is closed. Follow{' '}
 									<Link href='https://instagram.com/cubingusa'>
 										CubingUSA
-									</Link>{' '}
+									</Link>
 									for notifications about upcoming Cubing At
 									Home Competitions!
 								</Typography>
-							</Grid> */}
-							<Grid item>
+							</Grid>
+							{/* <Grid item>
 								<FormControlLabel
 									style={{ maxWidth: '50vw' }}
 									control={
@@ -271,7 +272,7 @@ export default function Register({ history }) {
 								>
 									Register
 								</Button>
-							</Grid>
+							</Grid> */}
 						</>
 					)}
 				</Grid>

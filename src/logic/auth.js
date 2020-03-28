@@ -67,11 +67,13 @@ export const signIn = () => {
 		redirect_uri: oauthRedirectUri(),
 		scope: 'public email'
 	})
+	localStorage.setItem(localStorageKey('redirectPath'), window.location)
 	window.location = `${WCA_ORIGIN}/oauth/authorize?${params.toString()}`
 }
 
 const oauthRedirectUri = () => {
 	const appUri = window.location.origin
+	console.log(window.location.pathname)
 	const searchParams = new URLSearchParams(window.location.search)
 	const stagingParam = searchParams.has('staging')
 	return stagingParam ? `${appUri}?staging=true` : appUri

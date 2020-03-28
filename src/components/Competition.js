@@ -91,6 +91,7 @@ export default function Competition({ history, match }) {
 			let allCompetitors = competitors
 			getMarkers('Competitors2').then(competitors2 => {
 				allCompetitors = [...allCompetitors, ...competitors2]
+				console.log(allCompetitors)
 				if (isSignedIn()) {
 					getMe().then(user => {
 						const me = allCompetitors.find(
