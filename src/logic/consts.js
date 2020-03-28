@@ -104,6 +104,204 @@ export const rounds = [
 		qualification: ''
 	}
 ]
+export const featured = [
+	{
+		name: 'Aryan Kejriwal',
+		link: 'aryan',
+		social: 'https://www.youtube.com/user/hellgate25000'
+	},
+	{
+		name: 'Ciaran Beahan',
+		link: 'ciaran',
+		social: 'https://www.instagram.com/ciaranbeahan/'
+	},
+	{
+		name: 'Kevin Hays',
+		link: 'kevin',
+		social: 'https://www.youtube.com/user/26HTK'
+	},
+	{
+		name: 'Eva Kato',
+		link: 'eva',
+		social: 'https://www.youtube.com/user/hashtagcuber'
+	},
+	{
+		name: 'Jackey Zheng',
+		link: 'jackey',
+		social: 'https://www.youtube.com/channel/UC2zE-tGm5U7bmQXaugVGWog'
+	},
+	{
+		name: 'Vicenzo Guerino Cecchini',
+		link: 'vicenzo',
+		social: 'https://www.youtube.com/channel/UCsieuxZ2725USEhS3SYQ4iw'
+	},
+	{
+		name: 'Bill Wang',
+		link: 'bill',
+		social: 'https://www.youtube.com/channel/UCXf7m_EH_SKNBeNUvaHOZ8A'
+	},
+	{
+		name: 'Mats Valk',
+		link: 'mats',
+		social: 'https://www.youtube.com/channel/UCk_nBvBjw0DuEtrT8Sxv5vA'
+	},
+	{
+		name: 'Max Siauw',
+		link: 'max',
+		social: 'https://www.youtube.com/channel/UCHV1K9ffQlMKhL1rB7P05Bg'
+	},
+	{
+		name: 'Daniel Vaedele Egdal',
+		link: 'daniel',
+		social: 'https://www.youtube.com/channel/UCca3XNEUF4D8Nb25qzbpDnA'
+	},
+	{
+		name: 'Leo Min-Bedford',
+		link: 'leobedford',
+		social: 'https://www.youtube.com/channel/UCYdWOLTdAUgTPUiqStZvInw'
+	},
+	{
+		name: 'Michal Rzewuski',
+		link: 'michal',
+		social: 'https://www.youtube.com/channel/UCDiJu7Iar9zOJaFf5UM8hSA'
+	},
+	{
+		name: 'Carter Kucala',
+		link: 'carter',
+		social: 'https://www.youtube.com/channel/UCKY9uCII2wIfPmLidA_KXMA'
+	},
+	{
+		name: 'Dana Yi',
+		link: 'dana',
+		social: 'https://www.youtube.com/user/rubiksgh3'
+	},
+	{
+		name: 'Leo Borromeo',
+		link: 'leoborromeo',
+		social: 'https://www.youtube.com/channel/UCNWIPO9oJgPtIUCPgmSDW1Q'
+	},
+	{
+		name: 'Lucas Etter',
+		link: 'lucas',
+		social: 'https://www.youtube.com/user/thelucascube'
+	},
+	{
+		name: 'Patrick Ponce',
+		link: 'patrick',
+		social: 'https://www.youtube.com/channel/UCOP0TH7EBZAJ-hHN20ppWzg'
+	},
+	{
+		name: 'Daniel Goodman',
+		link: 'dg',
+		social: 'https://www.youtube.com/user/DGCubes'
+	},
+	{
+		name: 'John Gaynor',
+		link: 'john',
+		social: 'https://www.youtube.com/channel/UCNgbMuDVb1ExHIik16eBcVQ'
+	},
+	{
+		name: 'Tymon Kolasinski',
+		link: 'tymon',
+		social: 'https://www.youtube.com/channel/UCD9ij3KHjCq2iukw6Ure_vA'
+	},
+	{
+		name: 'Antonie Paterakis',
+		link: 'antonie',
+		social: 'https://www.youtube.com/channel/UCPuxMhgorvRxuedLdWyACEA'
+	},
+	{
+		name: 'Rami Sbahi',
+		link: 'rami',
+		social: 'https://www.youtube.com/INSANEcuber'
+	},
+	{
+		name: 'Will Callan',
+		link: 'will',
+		social: 'https://www.youtube.com/channel/UCnZ34Cy4BQ0Em1cp973wwhQ'
+	},
+	{
+		name: 'Zayn Khanani',
+		link: 'zayn',
+		social:
+			'https://www.youtube.com/channel/UChpF2f94mwjyZspiga4rn1A/featured'
+	},
+	{
+		name: 'Gianfranco Huanqui',
+		link: 'gianfranco',
+		social: 'https://www.youtube.com/user/GHROCKON'
+	},
+	{
+		name: 'Graham Siggins',
+		link: 'graham',
+		social: 'https://www.twitch.tv/sigalig'
+	},
+	{
+		name: 'Jake Klassen',
+		link: 'jake',
+		social: 'https://www.youtube.com/channel/UCRzHwy7LoZO6PgT9k5iw_eQ'
+	},
+	{
+		name: 'Stanley Chapel',
+		link: 'stanely',
+		social: 'https://www.twitch.tv/scalpel001'
+	},
+	{
+		name: 'Iuri Grangeiro Carvalho',
+		link: 'luri',
+		social: 'https://www.youtube.com/channel/UCB4PfZFJJyA9jCa1p0u-_lg'
+	},
+	{
+		name: 'Juliette Sebastien',
+		link: 'juliette',
+		social: 'https://www.youtube.com/channel/UCZmmWcLtr9FqQDsPWkwqiJg'
+	},
+	{
+		name: 'Justin Mallari',
+		link: 'justin',
+		social: 'https://www.youtube.com/user/JBoogie300'
+	},
+	{
+		name: 'Keaton Ellis',
+		link: 'keaton',
+		social: 'https://www.youtube.com/user/crazyninja300'
+	},
+	{
+		name: 'Matty Hiroto Inaba',
+		link: 'matty',
+		social: 'https://www.youtube.com/channel/UCSLPZhxwfLJWEHxw361ODgA'
+	},
+	{
+		name: 'Celine Tran',
+		link: 'celine',
+		social: '/'
+	},
+	{
+		name: 'Luke Van Laningham',
+		link: 'luke',
+		social: 'https://www.youtube.com/channel/UCTIyHdYeybbknS1NOOLJ_hg'
+	},
+	{
+		name: 'Phillip Lewicki',
+		link: 'phillip',
+		social: 'https://www.youtube.com/user/LaZer0MonKey'
+	},
+	{
+		name: 'Aiden Bartlett',
+		link: 'aiden',
+		social: 'https://www.youtube.com/channel/UCTKK9RXaE1Edsp5eCgt-OSQ'
+	},
+	{
+		name: 'Manuel Gutman',
+		link: 'manuel',
+		social: 'https://www.youtube.com/channel/UC54CclsMRzDEgUkQwI5xW2w'
+	},
+	{
+		name: 'Christopher Chi',
+		link: 'christopher',
+		social: 'https://www.youtube.com/user/ChrisCuber123'
+	}
+]
 export const featuredCompetitors = [
 	{
 		name: 'Kevin Hays',
