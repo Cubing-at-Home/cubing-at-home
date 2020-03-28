@@ -9,7 +9,7 @@ import InfoIcon from '@material-ui/icons/Info'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import Button from '@material-ui/core/Button'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
-// import ReactTwitchEmbedVideo from 'react-twitch-embed-video'
+import ReactTwitchEmbedVideo from 'react-twitch-embed-video'
 import { signIn, isSignedIn, signOut } from '../logic/auth'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import Paper from '@material-ui/core/Paper'
@@ -73,10 +73,10 @@ export default function Home({ history }) {
 							</Button>
 						)}
 					</Grid>
-					{/* 
+
 					<Grid item className={classes.grid}>
 						<ReactTwitchEmbedVideo channel='cubingusa' />
-					</Grid> */}
+					</Grid>
 					<Grid item className={classes.grid}>
 						<Paper className={classes.paper}>
 							<List
