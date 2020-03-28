@@ -36,25 +36,26 @@ export default function Admin({ history }) {
 	React.useEffect(() => {
 		if (!isSignedIn()) {
 			history.push('/')
-		}
-		getMe().then(user =>
-			isAdmin(user.me) ? setUser(user.me) : history.push('/')
-		)
-		const forms = []
-		for (const round of rounds) {
-			forms.push({
-				name: round.name,
-				id: round.id,
-				form: '',
-				current: false
+		} else {
+			getMe().then(user => {
+				isAdmin(user.me) ? setUser(user.me) : history.push('/')
+				const forms = []
+				for (const round of rounds) {
+					forms.push({
+						name: round.name,
+						id: round.id,
+						form: '',
+						current: false
+					})
+				}
+				firebase
+					.firestore()
+					.collection('CubingAtHomeI')
+					.doc('Forms')
+					.get()
+					.then(doc => setForms(doc.data().forms))
 			})
 		}
-		firebase
-			.firestore()
-			.collection('CubingAtHomeI')
-			.doc('Forms')
-			.get()
-			.then(doc => setForms(doc.data().forms))
 	}, [])
 	const handleTextChange = (e, form) => {
 		setForms([

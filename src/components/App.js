@@ -47,7 +47,7 @@ export default function App() {
 			<Route
 				key={link}
 				path={`/${link}`}
-				component={() => (window.location = social)}
+				render={() => window.location.assign(social)}
 			/>
 		))
 		setRoutes(routes)
@@ -158,10 +158,9 @@ export default function App() {
 								}}
 							/>
 							<Route exact path='/admin' component={Admin} />
-
-							<Redirect to='/' />
+							{routes}
+							{/* <Redirect to='/' /> */}
 						</Switch>
-						<Featured />
 					</Router>
 				)}
 			</ThemeProvider>
