@@ -223,8 +223,7 @@ export const featured = [
 	{
 		name: 'Zayn Khanani',
 		link: 'zayn',
-		social:
-			'https://www.youtube.com/channel/UChpF2f94mwjyZspiga4rn1A/featured'
+		social: 'https://www.youtube.com/channel/UC32-4jVFvnMCAQWTyYCD0EA'
 	},
 	{
 		name: 'Gianfranco Huanqui',

@@ -9,7 +9,26 @@ export const competitors = [
 		wcaId: '2014PHIL06'
 	},
 	{
-		avatar:'https://www.worldcubeassociation.org/uploads/user/avatar/2014PHIL06/1500226908.jpg',
+		avatar:
+			'https://www.worldcubeassociation.org/assets/missing_avatar_thumb-f0ea801c804765a22892b57636af829edbef25260a65d90aaffbd7873bde74fc.png',
+		email: 'null@null.com',
+		id: 156238,
+		name: 'Larry St. Pierre',
+		url: 'https://www.worldcubeassociation.org/persons/2014PHIL06"',
+		wcaId: '2019PIER04'
+	},
+	{
+		avatar:
+			'https://www.worldcubeassociation.org/assets/missing_avatar_thumb-f0ea801c804765a22892b57636af829edbef25260a65d90aaffbd7873bde74fc.png',
+		email: 'null@null.com',
+		id: 183104,
+		name: 'Forrest Li',
+		url: 'https://www.worldcubeassociation.org/persons/2014PHIL06"',
+		wcaId: '2020LIFO01'
+	},
+	{
+		avatar:
+			'https://www.worldcubeassociation.org/uploads/user/avatar/2014PHIL06/1500226908.jpg',
 		email: 'quinn.doak@gmail.com',
 		id: 100802,
 		name: 'Quinn Doak',
