@@ -74,9 +74,9 @@ export default function Home({ history }) {
 						)}
 					</Grid>
 
-					<Grid item className={classes.grid}>
+					{/* <Grid item className={classes.grid}>
 						<ReactTwitchEmbedVideo channel='cubingusa' />
-					</Grid>
+					</Grid> */}
 					<Grid item className={classes.grid}>
 						<Paper className={classes.paper}>
 							<List
@@ -85,6 +85,19 @@ export default function Home({ history }) {
 								subheader={
 									<ListSubheader disableSticky={true}>
 										Upcoming Events
+									</ListSubheader>
+								}
+							></List>
+						</Paper>
+					</Grid>
+					<Grid item className={classes.grid}>
+						<Paper className={classes.paper}>
+							<List
+								className={classes.list}
+								style={{ overflow: 'auto' }}
+								subheader={
+									<ListSubheader disableSticky={true}>
+										Past Events
 									</ListSubheader>
 								}
 							>
@@ -98,38 +111,6 @@ export default function Home({ history }) {
 										primary={'Cubing at Home I'}
 										secondary={'March 28th, 2020'}
 									/>
-									<ListItemSecondaryAction>
-										<ButtonGroup
-											size='small'
-											variant='contained'
-										>
-											<Button
-												variant='contained'
-												color='primary'
-												startIcon={<InfoIcon />}
-												onClick={() => {
-													history.push(
-														'/cubing-at-home-I'
-													)
-												}}
-											>
-												Info
-											</Button>
-											<Button
-												variant='contained'
-												color='primary'
-												startIcon={<AddCircleIcon />}
-												disabled={true}
-												onClick={() =>
-													history.push(
-														'/cubing-at-home-I/register'
-													)
-												}
-											>
-												Register
-											</Button>
-										</ButtonGroup>
-									</ListItemSecondaryAction>
 								</ListItem>
 							</List>
 						</Paper>
