@@ -89,5 +89,6 @@ export const signOut = () => {
 export const isSignedIn = () => !!wcaAccessToken()
 
 export const isAdmin = user => {
+	console.log(admins.includes(user.wca_id))
 	return admins.includes(user.wca_id)
 }

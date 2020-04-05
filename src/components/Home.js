@@ -15,7 +15,8 @@ import ListSubheader from '@material-ui/core/ListSubheader'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/styles'
 import { LinearProgress } from '@material-ui/core'
-import { getMe } from '../logic/wca-api'
+import { UserContext } from '../utils/auth'
+import { FirebaseContext } from '../utils/firebase'
 
 const useStyles = makeStyles(theme => ({
 	grid: {
@@ -32,15 +33,25 @@ const useStyles = makeStyles(theme => ({
 
 export default function Home({ history }) {
 	const classes = useStyles()
-	const [user, setUser] = React.useState(null)
+	const user = React.useContext(UserContext)
+	const firebase = React.useContext(FirebaseContext)
+	const [competitions, setCompetiions] = React.useState(null)
 	React.useEffect(() => {
-		if (isSignedIn()) {
-			getMe().then(user => setUser(user.me))
-		}
-	}, [])
+		const db = firebase.firestore()
+		db.collection('Competitions')
+			.where('start', '>=', new Date())
+			.orderBy('start')
+			.limit(5)
+			.get()
+			.then(querySnapshot => {
+				let competitions = []
+				querySnapshot.forEach(doc => competitions.push(doc.data()))
+				setCompetiions(competitions)
+			})
+	}, [firebase])
 	return (
 		<>
-			{isSignedIn() && user === null ? (
+			{(isSignedIn() && user === null) || !competitions ? (
 				<LinearProgress />
 			) : (
 				<Grid
@@ -51,29 +62,6 @@ export default function Home({ history }) {
 					alignItems='center'
 					justify='center'
 				>
-					<Grid item className={classes.grid}>
-						{isSignedIn() ? (
-							<Button
-								variant='contained'
-								onClick={() => {
-									signOut().then(
-										() => (window.location.href = '/')
-									)
-								}}
-							>
-								{user.name}, Logout
-							</Button>
-						) : (
-							<Button
-								onClick={signIn}
-								variant='contained'
-								startIcon={<InfoIcon />}
-							>
-								Sign in With WCA
-							</Button>
-						)}
-					</Grid>
-
 					{/* <Grid item className={classes.grid}>
 						<ReactTwitchEmbedVideo channel='cubingusa' />
 					</Grid> */}
@@ -87,7 +75,24 @@ export default function Home({ history }) {
 										Upcoming Events
 									</ListSubheader>
 								}
-							></List>
+							>
+								{competitions.map(competition => (
+									<ListItem
+										key={competition.id}
+										alignItems='center'
+										button
+										component={Link}
+										to={`/${competition.id}`}
+									>
+										<ListItemText
+											primary={competition.name}
+											secondary={competition.start
+												.toDate()
+												.toDateString()}
+										/>
+									</ListItem>
+								))}
+							</List>
 						</Paper>
 					</Grid>
 					<Grid item className={classes.grid}>

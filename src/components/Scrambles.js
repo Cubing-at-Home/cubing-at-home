@@ -3,7 +3,7 @@ import { FirebaseContext } from '../utils/firebase'
 import { LinearProgress, Typography } from '@material-ui/core'
 import { isSignedIn, signIn } from '../logic/auth'
 import { getMe } from '../logic/wca-api'
-import { competitors } from '../data/competitors'
+import { competitors } from '../database/competitors'
 
 export default function Scrambles() {
 	const firebase = React.useContext(FirebaseContext)
