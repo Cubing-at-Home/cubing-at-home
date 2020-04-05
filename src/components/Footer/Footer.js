@@ -10,29 +10,29 @@ import GitHubIcon from '@material-ui/icons/GitHub'
 import { version } from '../../../package.json'
 import { Tooltip } from '@material-ui/core'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
-		position: 'fixed',
+		position: 'absolute',
 		bottom: 0,
 		width: '100%',
 		overflow: 'hidden',
-		padding: theme.spacing(2)
+		padding: theme.spacing(2),
 	},
 	grow: {
-		flexGrow: 1
+		flexGrow: 1,
 	},
 	link: {
 		verticalAlign: 'middle',
 		fontWeight: 500,
 		'&:hover': {
 			textDecoration: 'none',
-			opacity: 0.7
-		}
+			opacity: 0.7,
+		},
 	},
 	footerPadding: {
 		width: '100%',
-		height: 50
-	}
+		height: '8vh',
+	},
 }))
 
 const Footer = ({ currTheme, onThemeChange }) => {

@@ -120,13 +120,16 @@ export default function CompetitionHome({ history, match }) {
 						/>
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={1}>
-						<Schedule />
+						<Schedule competitionInfo={competitionInfo} />
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={2}>
-						<Competitors history={history} />
+						<Competitors
+							competitionInfo={competitionInfo}
+							history={history}
+						/>
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={3}>
-						<Scrambles />
+						<Scrambles competitionInfo={competitionInfo} />
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={4}>
 						<Results />

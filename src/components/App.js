@@ -6,10 +6,11 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import indigo from '@material-ui/core/colors/indigo'
+import blue from '@material-ui/core/colors/blue'
 import blueGrey from '@material-ui/core/colors/blueGrey'
 import Home from './Home'
 import Competition from './Competition'
-import Register from './Register'
+import Register2 from './Register'
 import NewCompetition from './Admin/NewCompetition'
 import Header from './Header/Header'
 import { featured } from '../logic/consts'
@@ -18,6 +19,7 @@ import { UserContext } from '../utils/auth'
 import { isAdmin } from '../logic/auth'
 import CompetitionHome from './Competition/CompetitionHome'
 import Footer from './Footer/Footer'
+import Register from './Competition/Register'
 
 // typography
 const typography = {
@@ -37,7 +39,7 @@ export default function App() {
 	)
 	const theme = {
 		palette: {
-			primary: indigo,
+			primary: currentTheme === 'dark' ? blue : indigo,
 			secondary: blueGrey,
 			type: localStorage.getItem('cubingathome-theme') || 'light',
 		},
@@ -82,39 +84,11 @@ export default function App() {
 				{!routes || user === null ? (
 					<LinearProgress />
 				) : (
-					<Router history={history}>
-						<Header history={history} />
-						<Switch>
-							<Route
-								exact
-								path='/cubing-at-home-I/register'
-								component={Register}
-							/>
-							<Route
-								exact
-								path='/cubing-at-home-I/:tab?'
-								component={Competition}
-							/>
-							<Route
-								exact
-								path='/:id/:tab?'
-								component={CompetitionHome}
-							/>
-							<Route exact path='/' component={Home} />
-							<Route
-								exact
-								path='/psych'
-								render={() => {
-									getPsychUrl('Competitors').then(
-										getPsychUrl('Competitors2').then(
-											(url) =>
-												(window.location.href = `https://jonatanklosko.github.io/rankings/#/rankings/show?name=Cubing+at+Home+I+Psych+Sheet&wcaids=${url}`)
-										)
-									)
-								}}
-							/>
+					<div style={{ position: 'relative', minHeight: '100vh' }}>
+						<Router history={history}>
+							<Header history={history} />
 							{user && isAdmin(user.wca) && (
-								<>
+								<Switch>
 									<Route
 										exact
 										path='/admin'
@@ -125,30 +99,70 @@ export default function App() {
 										path='/admin/new'
 										component={NewCompetition}
 									/>
-								</>
+								</Switch>
 							)}
-							<Route
-								exact
-								path='/:id'
-								component={CompetitionHome}
-							/>
-							<Route render={() => <Redirect to='/' />} />
-						</Switch>
-
-						<Footer
-							currTheme={currentTheme}
-							onThemeChange={() => {
-								console.log(currentTheme)
-								localStorage.setItem(
-									'cubingathome-theme',
-									currentTheme === 'light' ? 'dark' : 'light'
-								)
-								setCurrentTheme(
-									currentTheme === 'light' ? 'dark' : 'light'
-								)
-							}}
-						/>
-					</Router>
+							<Switch>
+								<Route
+									exact
+									path='/cubing-at-home-I/register'
+									component={Register2}
+								/>
+								<Route
+									exact
+									path='/cubing-at-home-I/:tab?'
+									component={Competition}
+								/>
+								<Route
+									exact
+									path='/:id/register'
+									component={Register}
+								/>
+								<Route
+									exact
+									path='/:id/:tab?'
+									component={CompetitionHome}
+								/>
+								<Route exact path='/' component={Home} />
+								<Route
+									exact
+									path='/psych'
+									render={() => {
+										getPsychUrl('Competitors').then(
+											getPsychUrl('Competitors2').then(
+												(url) =>
+													(window.location.href = `https://jonatanklosko.github.io/rankings/#/rankings/show?name=Cubing+at+Home+I+Psych+Sheet&wcaids=${url}`)
+											)
+										)
+									}}
+								/>
+								<Route
+									exact
+									path='/:id'
+									component={CompetitionHome}
+								/>
+								<Route render={() => <Redirect to='/' />} />
+							</Switch>
+							<footer>
+								<Footer
+									currTheme={currentTheme}
+									onThemeChange={() => {
+										console.log(currentTheme)
+										localStorage.setItem(
+											'cubingathome-theme',
+											currentTheme === 'light'
+												? 'dark'
+												: 'light'
+										)
+										setCurrentTheme(
+											currentTheme === 'light'
+												? 'dark'
+												: 'light'
+										)
+									}}
+								/>
+							</footer>
+						</Router>
+					</div>
 				)}
 			</ThemeProvider>
 		</>

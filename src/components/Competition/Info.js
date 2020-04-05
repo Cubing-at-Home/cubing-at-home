@@ -26,6 +26,15 @@ export default function Info({ history, match, competitionInfo }) {
 					spacing={4}
 				>
 					<Grid item>
+						<Typography variant='h3'>
+							{competitionInfo.name}
+						</Typography>
+						<Typography align='center' variant='h6'>
+							{competitionInfo.start.toDate().toDateString()}
+						</Typography>
+					</Grid>
+
+					<Grid item>
 						<Button
 							onClick={() =>
 								history.push(`/${match.params.id}/register`)

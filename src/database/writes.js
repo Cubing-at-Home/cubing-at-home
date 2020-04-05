@@ -17,18 +17,18 @@ export const createNewUser = async (firebase, user) => {
 				wca_id: user.wca_id ? user.wca_id : null,
 				last_updated: new Date(),
 				personal_records: user_results.personal_records,
-				isDelegate: user_results.delegate_status ? true : false
+				isDelegate: user_results.delegate_status ? true : false,
 			},
 			data: {
 				competitions: [],
-				results: []
-			}
+				results: [],
+			},
 		}
 		db.collection('Users')
 			.doc(user.id.toString())
 			.set(docData)
 			.then(resolve(docData))
-			.catch(err => reject(err))
+			.catch((err) => reject(err))
 	})
 }
 
@@ -40,20 +40,63 @@ export const createNewCompetition = async (firebase, competition) => {
 		.set(competition)
 		.then(() => {
 			let psych = {}
-			competition.events.map(event => (psych = { ...psych, [event]: [] }))
+			competition.events.map(
+				(event) => (psych = { ...psych, [event]: [] })
+			)
 			db.collection(competition.id)
 				.doc('psych')
 				.set(psych)
 				.then(() =>
-					db
-						.collection('Competitions')
-						.doc(competition.id)
-						.set({
-							id: competition.id,
-							name: competition.name,
-							start: competition.start,
-							end: competition.end
-						})
+					db.collection('Competitions').doc(competition.id).set({
+						id: competition.id,
+						name: competition.name,
+						start: competition.start,
+						end: competition.end,
+					})
 				)
 		})
+}
+
+export const registerCompetitor = async (firebase, userId, competitionId) => {
+	const db = firebase.firestore()
+	return db
+		.collection('Users')
+		.doc(userId)
+		.update({
+			'data.competitions': firebase.firestore.FieldValue.arrayUnion(
+				competitionId
+			),
+		})
+		.then(
+			db
+				.collection(competitionId)
+				.doc('info')
+				.update({
+					competitors: firebase.firestore.FieldValue.arrayUnion(
+						userId
+					),
+				})
+		)
+}
+
+export const cancelCompetitor = async (firebase, userId, competitionId) => {
+	const db = firebase.firestore()
+	return db
+		.collection('Users')
+		.doc(userId)
+		.update({
+			'data.competitions': firebase.firestore.FieldValue.arrayRemove(
+				competitionId
+			),
+		})
+		.then(
+			db
+				.collection(competitionId)
+				.doc('info')
+				.update({
+					competitors: firebase.firestore.FieldValue.arrayRemove(
+						userId
+					),
+				})
+		)
 }
