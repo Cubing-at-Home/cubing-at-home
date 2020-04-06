@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-const Footer = ({ currTheme, onThemeChange }) => {
+const Footer = ({ currTheme, onThemeChange, isAuthenticated }) => {
 	const classes = useStyles()
 	return (
 		<>
@@ -45,15 +45,17 @@ const Footer = ({ currTheme, onThemeChange }) => {
 				<Grid item className={classes.grow} />
 				<Grid item>
 					<Grid container spacing={2}>
-						<Grid item>
-							<Link
-								className={classes.link}
-								variant='body2'
-								href='/admin'
-							>
-								Admin
-							</Link>
-						</Grid>
+						{isAuthenticated && (
+							<Grid item>
+								<Link
+									className={classes.link}
+									variant='body2'
+									href='/admin'
+								>
+									Admin
+								</Link>
+							</Grid>
+						)}
 						<Tooltip title={'Contact'}>
 							<Grid item key='Contact'>
 								<Link

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { Router, Redirect, Route, Switch } from 'react-router-dom'
+import AuthenticatedRoute from './AuthenticatedRoute'
 import { FirebaseContext } from '../utils/firebase'
 import history from '../logic/history'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
@@ -20,6 +21,7 @@ import { isAdmin } from '../logic/auth'
 import CompetitionHome from './Competition/CompetitionHome'
 import Footer from './Footer/Footer'
 import Register from './Competition/Register'
+import CompetitionAdmin from './Admin/CompetitionAdmin'
 
 // typography
 const typography = {
@@ -47,6 +49,7 @@ export default function App() {
 	}
 	const firebase = useContext(FirebaseContext)
 	const user = useContext(UserContext)
+	const isAuthenticated = user ? isAdmin(user.wca) : false
 	const muiTheme = createMuiTheme(theme)
 	const [routes, setRoutes] = React.useState(null)
 
@@ -87,21 +90,25 @@ export default function App() {
 					<div style={{ position: 'relative', minHeight: '100vh' }}>
 						<Router history={history}>
 							<Header history={history} />
-							{user && isAdmin(user.wca) && (
-								<Switch>
-									<Route
-										exact
-										path='/admin'
-										component={AdminHome}
-									/>
-									<Route
-										exact
-										path='/admin/new'
-										component={NewCompetition}
-									/>
-								</Switch>
-							)}
 							<Switch>
+								<AuthenticatedRoute
+									exact
+									path='/admin'
+									component={AdminHome}
+									appProps={{ isAuthenticated }}
+								/>
+								<AuthenticatedRoute
+									exact
+									path='/admin/new'
+									component={NewCompetition}
+									appProps={{ isAuthenticated }}
+								/>
+								<AuthenticatedRoute
+									exact
+									path='/admin/:competitionId'
+									component={CompetitionAdmin}
+									appProps={{ isAuthenticated }}
+								/>
 								<Route
 									exact
 									path='/cubing-at-home-I/register'
@@ -159,6 +166,7 @@ export default function App() {
 												: 'light'
 										)
 									}}
+									isAuthenticated={isAuthenticated}
 								/>
 							</footer>
 						</Router>
