@@ -88,7 +88,7 @@ export default function Competitors({ history, competitionInfo, registered }) {
 					/>
 					<Typography>
 						Note: We restrict competitor results to Top 100 in each
-						event. If you wan't to make sure you registered, check
+						event. If you want to make sure you registered, check
 						the{' '}
 						<Link href={`/${competitionInfo.id}/register`}>
 							registration

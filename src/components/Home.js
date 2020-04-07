@@ -15,6 +15,7 @@ import { LinearProgress } from '@material-ui/core'
 import { UserContext } from '../utils/auth'
 import { FirebaseContext } from '../utils/firebase'
 import moment from 'moment-timezone'
+// import { rounds } from '../logic/consts'
 
 const useStyles = makeStyles((theme) => ({
 	grid: {
@@ -46,6 +47,16 @@ export default function Home({ history }) {
 				console.log(competitions[0])
 				setCompetiions(competitions)
 			})
+		// This is to set a schedule for a competition. Still need to add UI for this.
+		// db.collection('cah2practice')
+		// 	.doc('info')
+		// 	.get()
+		// 	.then((doc) => {
+		// 		const data = doc.data()
+		// 		db.collection('cah2practice')
+		// 			.doc('info')
+		// 			.set({ ...data, schedule: rounds })
+		// 	})
 	}, [firebase])
 	return (
 		<>
