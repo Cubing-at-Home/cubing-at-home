@@ -38,7 +38,8 @@ export default function AdminHome({ history }) {
 				query.forEach((q) => competitions.push(q.data()))
 				setManagableCompetitions(competitions)
 			})
-	}, [])
+	}, [firebase])
+	// eslint-disable-next-line no-unused-vars
 	const user = useContext(UserContext)
 	return (
 		<Grid

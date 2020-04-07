@@ -14,11 +14,9 @@ import Info from './Info'
 import Schedule from './Schedule'
 import Competitors from './Competitors'
 import { faq } from '../../logic/consts'
-import blue from '@material-ui/core/colors/blue'
-import blueGrey from '@material-ui/core/colors/blueGrey'
 import Scrambles from './Scrambles'
 import Results from './Results'
-import { UserContext } from '../../utils/auth'
+import { useTheme } from '@material-ui/core/styles'
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props
@@ -68,6 +66,7 @@ const tabs = {
 }
 
 export default function CompetitionHome({ history, match }) {
+	const theme = useTheme()
 	const [competitionInfo, setCompetitionInfo] = React.useState(null)
 	const firebase = React.useContext(FirebaseContext)
 	React.useEffect(() => {
@@ -76,8 +75,12 @@ export default function CompetitionHome({ history, match }) {
 			.collection(match.params.id)
 			.doc('info')
 			.get()
-			.then((resp) => setCompetitionInfo(resp.data()))
-	}, [firebase])
+			.then((resp) =>
+				resp.exists
+					? setCompetitionInfo(resp.data())
+					: history.push('/')
+			)
+	}, [firebase, history, match.params.id])
 	const classes = useStyles()
 
 	const [value, setValue] = React.useState(match.params.tab || 'information')
@@ -139,9 +142,11 @@ export default function CompetitionHome({ history, match }) {
 							<Faq
 								data={faq}
 								styles={{
-									titleTextColor: blue[500],
-									rowTitleColor: blue[500],
-									rowTextColor: blueGrey[500],
+									bgColor: theme.palette.background.paper,
+									titleTextColor: theme.palette.primary.main,
+									rowTextColor: theme.palette.primary.main,
+									rowTitleColor: theme.palette.text.primary,
+									rowContentColor: theme.palette.text.primary,
 								}}
 							/>
 							<Typography

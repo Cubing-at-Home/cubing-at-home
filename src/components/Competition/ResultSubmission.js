@@ -18,6 +18,10 @@ export default function ResultSubmission({ event }) {
 		? 3
 		: 5
 	const [attempts, setAttempts] = React.useState(Array(numAttempts).fill(0))
+	React.useEffect(() => {
+		setAttempts(Array(numAttempts).fill(0))
+	}, [event])
+	console.log(attempts)
 	return (
 		<>
 			<Grid container direction='row' justify='space-around'>
@@ -34,7 +38,7 @@ export default function ResultSubmission({ event }) {
 							<Grid item key={i}>
 								<AttemptField
 									initialValue={attempts[i]}
-									eventId='333'
+									eventId={event}
 									onValue={(newAttempt) => {
 										const newAttempts = attempts.slice()
 										newAttempts[i] = newAttempt

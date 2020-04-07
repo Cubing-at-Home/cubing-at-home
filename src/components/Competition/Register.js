@@ -48,7 +48,7 @@ export default function Register({ history, match }) {
 				setCompetitionInfo(resp.data())
 			})
 			.catch((err) => setError(err))
-	}, [])
+	}, [competitionId, firebase, user])
 	const handleChange = (event) => {
 		setChecked(event.target.checked)
 	}

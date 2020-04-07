@@ -16,7 +16,7 @@ import Competitors from './Competitors'
 import { faq } from '../logic/consts'
 import blue from '@material-ui/core/colors/blue'
 import blueGrey from '@material-ui/core/colors/blueGrey'
-import Scrambles from './Scrambles'
+// import Scrambles from './Scrambles'
 import Results from './Results'
 import { isSignedIn } from '../logic/auth'
 import { getMe } from '../logic/wca-api'
@@ -41,21 +41,21 @@ function TabPanel(props) {
 TabPanel.propTypes = {
 	children: PropTypes.node,
 	index: PropTypes.any.isRequired,
-	value: PropTypes.any.isRequired
+	value: PropTypes.any.isRequired,
 }
 
 function a11yProps(index) {
 	return {
 		id: `simple-tab-${index}`,
-		'aria-controls': `simple-tabpanel-${index}`
+		'aria-controls': `simple-tabpanel-${index}`,
 	}
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
 		flexGrow: 1,
-		backgroundColor: theme.palette.background.paper
-	}
+		backgroundColor: theme.palette.background.paper,
+	},
 }))
 
 const tabs = {
@@ -65,7 +65,7 @@ const tabs = {
 	scrambles: 3,
 	results: 4,
 	faq: 5,
-	discord: 6
+	discord: 6,
 }
 
 export default function Competition({ history, match }) {
@@ -81,27 +81,27 @@ export default function Competition({ history, match }) {
 				.collection('CubingAtHomeI')
 				.doc(doc)
 				.get()
-				.then(querySnapshot => {
+				.then((querySnapshot) => {
 					markers = querySnapshot.data().competitors
 				})
 			return markers
 		}
 		setLoading(true)
-		getMarkers('Competitors').then(competitors => {
+		getMarkers('Competitors').then((competitors) => {
 			let allCompetitors = competitors
-			getMarkers('Competitors2').then(competitors2 => {
+			getMarkers('Competitors2').then((competitors2) => {
 				allCompetitors = [...allCompetitors, ...competitors2]
 				if (isSignedIn()) {
-					getMe().then(user => {
+					getMe().then((user) => {
 						const me = allCompetitors.find(
-							competitor => competitor.id === user.me.id
+							(competitor) => competitor.id === user.me.id
 						)
 						if (me) {
 							setCompetitors([
 								me,
 								...allCompetitors.filter(
-									competitor => competitor.id !== me.id
-								)
+									(competitor) => competitor.id !== me.id
+								),
 							])
 							setRegistered(true)
 						} else {
@@ -143,7 +143,6 @@ export default function Competition({ history, match }) {
 							<Tab label='Information' {...a11yProps(0)} />
 							<Tab label='Schedule' {...a11yProps(1)} />
 							<Tab label='Competitors' {...a11yProps(2)} />
-							<Tab label='Scrambles' {...a11yProps(3)} />
 							<Tab label='Results' {...a11yProps(4)} />
 							<Tab label='FAQ' {...a11yProps(5)} />
 							<Tab label='Discord' {...a11yProps(6)} />
@@ -162,9 +161,6 @@ export default function Competition({ history, match }) {
 							registered={registered}
 						/>
 					</TabPanel>
-					<TabPanel value={tabs[value]} index={3}>
-						<Scrambles />
-					</TabPanel>
 					<TabPanel value={tabs[value]} index={4}>
 						<Results />
 					</TabPanel>
@@ -175,7 +171,7 @@ export default function Competition({ history, match }) {
 								styles={{
 									titleTextColor: blue[500],
 									rowTitleColor: blue[500],
-									rowTextColor: blueGrey[500]
+									rowTextColor: blueGrey[500],
 								}}
 							/>
 							<Typography

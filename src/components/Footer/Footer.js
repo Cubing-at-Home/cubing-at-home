@@ -2,12 +2,9 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link'
 // import Typography from '@material-ui/core/Typography';
-import InfoIcon from '@material-ui/icons/Info'
 import ContactMailIcon from '@material-ui/icons/ContactMail'
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects'
 import { makeStyles } from '@material-ui/core/styles'
-import GitHubIcon from '@material-ui/icons/GitHub'
-import { version } from '../../../package.json'
 import { Tooltip } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({

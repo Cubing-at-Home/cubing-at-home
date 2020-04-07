@@ -32,51 +32,59 @@ export const createNewUser = async (firebase, user) => {
 	})
 }
 
-export const createNewCompetition = async (firebase, competition) => {
+export const createNewCompetition = async (
+	firebase,
+	competition,
+	eventInfo
+) => {
 	const db = firebase.firestore()
 	return db
 		.collection(competition.id)
 		.doc('info')
 		.set(competition)
 		.then(() => {
-			let psych = {}
-			competition.events.map(
-				(event) => (psych = { ...psych, [event]: [] })
-			)
 			db.collection(competition.id)
-				.doc('psych')
-				.set(psych)
-				.then(() =>
+				.doc('events')
+				.set({ eventInfo: eventInfo })
+				.then(() => {
 					db.collection('Competitions').doc(competition.id).set({
 						id: competition.id,
 						name: competition.name,
 						start: competition.start,
 						end: competition.end,
 					})
-				)
+				})
 		})
 }
 
 export const registerCompetitor = async (firebase, userId, competitionId) => {
 	const db = firebase.firestore()
-	return db
-		.collection('Users')
-		.doc(userId)
-		.update({
-			'data.competitions': firebase.firestore.FieldValue.arrayUnion(
-				competitionId
-			),
-		})
-		.then(
-			db
-				.collection(competitionId)
-				.doc('info')
-				.update({
-					competitors: firebase.firestore.FieldValue.arrayUnion(
-						userId
-					),
-				})
-		)
+	return new Promise((resolve, reject) => {
+		db.collection('Users')
+			.doc(userId)
+			.update({
+				'data.competitions': firebase.firestore.FieldValue.arrayUnion(
+					competitionId
+				),
+			})
+			.then(
+				db
+					.collection(competitionId)
+					.doc('info')
+					.update({
+						competitors: firebase.firestore.FieldValue.arrayUnion(
+							userId
+						),
+					})
+					.then(() => {
+						db.collection(competitionId)
+							.doc(userId)
+							.set({})
+							.then(() => resolve())
+							.catch((err) => reject(err))
+					})
+			)
+	})
 }
 
 export const cancelCompetitor = async (firebase, userId, competitionId) => {
@@ -98,5 +106,6 @@ export const cancelCompetitor = async (firebase, userId, competitionId) => {
 						userId
 					),
 				})
+				.then(() => db.collection(competitionId).doc(userId).delete())
 		)
 }

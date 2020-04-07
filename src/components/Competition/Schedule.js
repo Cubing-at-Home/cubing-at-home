@@ -11,48 +11,22 @@ import CubingIcon from '../CubingIcon'
 import Typography from '@material-ui/core/Typography'
 import InfoIcon from '@material-ui/icons/Info'
 import Grid from '@material-ui/core/Grid'
-import { rounds } from '../../logic/consts'
 import jstz from 'jstimezonedetect'
 import { Tooltip } from '@material-ui/core'
 import moment from 'moment-timezone'
 import LinearProgress from '@material-ui/core/LinearProgress'
-
-const activityKey = {
-	'222': '2x2',
-	'333': '3x3',
-	'444': '4x4',
-	'555': '5x5',
-	'666': '6x6',
-	'777': '7x7',
-	pyram: 'Pyraminx',
-	'333oh': '3x3 One Handed',
-	'333bf': '3x3 Blindfolded',
-	'4bld': '4x4 Blindfolded',
-	skewb: 'Skewb',
-	clock: 'Clock',
-	'333ft': '3x3 with Feet',
-	'333mbf': '3x3 Multiple Blindfolded',
-	'333fm': 'Fewest Moves',
-	sq1: 'Square 1',
-	minx: 'Megaminx',
-	Welcome: 'Welcome',
-}
-
 const useStyles = makeStyles({
 	table: {
 		minWidth: 650,
 	},
 })
 
-const rows = rounds
 export default function Schedule({ competitionInfo }) {
 	const [timezone, setTimezone] = useState(null)
+	const rows = competitionInfo.schedule || []
 	const date = competitionInfo.start.toDate().toISOString().split('T')[0]
-	console.log(date)
 	useEffect(() => {
 		setTimezone(jstz.determine().name())
-
-		console.log(timezone)
 	}, [])
 	const classes = useStyles()
 

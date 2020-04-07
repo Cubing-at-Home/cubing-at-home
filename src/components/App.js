@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { Router, Redirect, Route, Switch } from 'react-router-dom'
 import AuthenticatedRoute from './AuthenticatedRoute'
-import { FirebaseContext } from '../utils/firebase'
 import history from '../logic/history'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -14,7 +13,6 @@ import Competition from './Competition'
 import Register2 from './Register'
 import NewCompetition from './Admin/NewCompetition'
 import Header from './Header/Header'
-import { featured } from '../logic/consts'
 import AdminHome from './Admin/AdminHome'
 import { UserContext } from '../utils/auth'
 import { isAdmin } from '../logic/auth'
@@ -47,44 +45,15 @@ export default function App() {
 		},
 		typography: typography,
 	}
-	const firebase = useContext(FirebaseContext)
 	const user = useContext(UserContext)
 	const isAuthenticated = user ? isAdmin(user.wca) : false
 	const muiTheme = createMuiTheme(theme)
-	const [routes, setRoutes] = React.useState(null)
 
-	React.useEffect(() => {
-		const routes = featured.map(({ link, social }) => (
-			<Route
-				key={link}
-				path={`/${link}`}
-				render={() => window.location.assign(social)}
-			/>
-		))
-		setRoutes(routes)
-	}, [])
-	async function getPsychUrl(document) {
-		let url = ''
-		await firebase
-			.firestore()
-			.collection('CubingAtHomeI')
-			.doc(document)
-			.get()
-			.then((doc) => {
-				let competitors = doc.data().competitors
-				for (const competitor of competitors) {
-					if (competitor.wcaId !== null) {
-						url += `${competitor.wcaId},`
-					}
-				}
-			})
-		return url
-	}
 	return (
 		<>
 			<ThemeProvider theme={muiTheme}>
 				<CssBaseline />
-				{!routes || user === null ? (
+				{user === null ? (
 					<LinearProgress />
 				) : (
 					<div style={{ position: 'relative', minHeight: '100vh' }}>
@@ -132,18 +101,6 @@ export default function App() {
 								<Route exact path='/' component={Home} />
 								<Route
 									exact
-									path='/psych'
-									render={() => {
-										getPsychUrl('Competitors').then(
-											getPsychUrl('Competitors2').then(
-												(url) =>
-													(window.location.href = `https://jonatanklosko.github.io/rankings/#/rankings/show?name=Cubing+at+Home+I+Psych+Sheet&wcaids=${url}`)
-											)
-										)
-									}}
-								/>
-								<Route
-									exact
 									path='/:id'
 									component={CompetitionHome}
 								/>
@@ -153,7 +110,6 @@ export default function App() {
 								<Footer
 									currTheme={currentTheme}
 									onThemeChange={() => {
-										console.log(currentTheme)
 										localStorage.setItem(
 											'cubingathome-theme',
 											currentTheme === 'light'

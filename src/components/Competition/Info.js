@@ -84,8 +84,8 @@ export default function Info({ history, match, competitionInfo }) {
 						<li>
 							{`Once a round opens, the scrambles will be available
 							at `}
-							<Link href='/scrambles'>
-								<u>cubingathome.com/scrambles</u>
+							<Link href={`/${competitionInfo.id}/scrambles`}>
+								<u>{`cubingathome.com/${competitionInfo.id}/scrambles`}</u>
 							</Link>
 						</li>
 						<ul>
@@ -131,9 +131,9 @@ export default function Info({ history, match, competitionInfo }) {
 						</li>
 						<li>
 							After everyone is done, we will post the results at{' '}
-							<Link href='/results'>
+							<Link href='https://results.cubingathome.com'>
 								{' '}
-								<u>cubingathome.com/results</u>
+								<u>results.cubingathome.com/</u>
 							</Link>
 						</li>
 

@@ -1,15 +1,13 @@
-import React, { useState } from 'react'
-
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import Paper from '@material-ui/core/Paper'
-import TextField from '@material-ui/core/TextField'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import ListSubheader from '@material-ui/core/ListSubheader'
-import Avatar from '@material-ui/core/Avatar'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import blue from '@material-ui/core/colors/blue'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableContainer from '@material-ui/core/TableContainer'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+import Paper from '@material-ui/core/Paper'
+import { formatAttemptResult } from '../../logic/attempts'
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -25,86 +23,64 @@ const useStyles = makeStyles((theme) => ({
 export default function CompetitorList({
 	onClick,
 	competitors,
+	event,
 	page,
 	total,
 	registered,
 }) {
 	const classes = useStyles()
-	const [query, setQuery] = useState('')
-	const [queryCompetitors, setQueryCompetitors] = useState(
-		competitors.slice(100 * (page - 1), page * 100)
-	)
-	React.useEffect(() => {
-		setQueryCompetitors(competitors.slice(100 * (page - 1), 100 * page))
-	}, [page, competitors])
-	const handleSearchChange = (event) => {
-		const query = event.target.value
-		setQuery(query)
-		query === ''
-			? setQueryCompetitors(competitors)
-			: setQueryCompetitors(
-					competitors.filter(
-						(competitor) =>
-							competitor.name
-								.toLowerCase()
-								.includes(query.toLowerCase()) ||
-							(competitor.wcaId &&
-								competitor.wcaId.includes(query.toUpperCase()))
-					)
-			  )
-	}
 	return (
-		<Paper className={classes.paper}>
-			<List
-				className={classes.list}
-				subheader={
-					<ListSubheader>{`${total} Competitors`}</ListSubheader>
-				}
-			>
-				{/* <ListItem className={classes.list}>
-					<TextField
-						value={query}
-						onChange={handleSearchChange}
-						fullWidth={true}
-						label='Search'
-						id='outlined-basic'
-					></TextField>
-				</ListItem> */}
-				{queryCompetitors.map((competitor) => (
-					<ListItem
-						button
-						onClick={(e) => onClick(e, competitor)}
-						key={competitor.wca.id}
-						style={{
-							textAlign: 'center',
-							backgroundColor:
-								competitors[0].id === competitor.id &&
-								registered
-									? blue[200]
-									: '',
-						}}
-					>
-						<ListItemAvatar>
-							<Avatar
-								style={{
-									width: 60,
-									height: 60,
-								}}
-								alt={competitor.wca.name}
-								src={competitor.wca.avatar.url}
-							/>
-						</ListItemAvatar>
-						<ListItemText
-							primary={competitor.wca.name}
-							secondary={
-								competitor.wca.wca_id
-									? competitor.wca.wca_id
-									: competitor.id
-							}
-						/>
-					</ListItem>
-				))}
-			</List>
-		</Paper>
+		<TableContainer component={Paper}>
+			<Table className={classes.table} aria-label='simple table'>
+				<TableHead>
+					<TableRow>
+						<TableCell align='left'>#</TableCell>
+						<TableCell>Name</TableCell>
+						<TableCell>WCA ID</TableCell>
+						<TableCell align='right'>Average</TableCell>
+						<TableCell align='right'>WR</TableCell>
+						<TableCell align='right'>Single</TableCell>
+						<TableCell align='right'>WR</TableCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					{competitors.map((row, i) => (
+						<TableRow key={row.wca.id}>
+							<TableCell>{i + 1}</TableCell>
+							<TableCell component='th' scope='row'>
+								{row.wca.name}
+							</TableCell>
+							<TableCell align='left'>
+								{row.wca.wca_id || ''}
+							</TableCell>
+							<TableCell align='right'>
+								{formatAttemptResult(
+									row.wca.personal_records[event]?.average
+										?.best || 0,
+									event,
+									true
+								)}
+							</TableCell>
+							<TableCell align='right'>
+								{row.wca.personal_records[event]?.average
+									?.world_rank || ''}
+							</TableCell>
+							<TableCell align='right'>
+								{formatAttemptResult(
+									row.wca.personal_records[event]?.single
+										?.best || '',
+									event,
+									false
+								)}
+							</TableCell>
+							<TableCell align='right'>
+								{row.wca.personal_records[event]?.single
+									?.world_rank || ''}
+							</TableCell>
+						</TableRow>
+					))}
+				</TableBody>
+			</Table>
+		</TableContainer>
 	)
 }

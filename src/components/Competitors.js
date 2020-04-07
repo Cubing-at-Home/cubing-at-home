@@ -18,8 +18,8 @@ export default function Competitors({ history, competitors, registered }) {
 			}
 			setWcaIds(wcaIds + ids)
 		}
-	}, [competitors])
-	const open = url => {
+	}, [competitors, wcaIds])
+	const open = (url) => {
 		window.open(url, '_blank')
 	}
 	const [page, setPage] = React.useState(1)

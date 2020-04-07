@@ -9,11 +9,11 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 const useStyles = makeStyles({
 	root: {
 		flexGrow: 1,
-		textAlign: 'center'
+		textAlign: 'center',
 	},
 	center: {
-		marginBottom: '20px'
-	}
+		marginBottom: '20px',
+	},
 })
 
 export default function Paginator({ page, setPage, total }) {
@@ -48,7 +48,7 @@ export default function Paginator({ page, setPage, total }) {
 					<Button
 						size='small'
 						onClick={handleBack}
-						disabled={page === 1}
+						disabled={page === 0}
 					>
 						<KeyboardArrowLeft />
 						Back
@@ -61,7 +61,7 @@ export default function Paginator({ page, setPage, total }) {
 				variant='body1'
 				color='primary'
 				align='center'
-			>{`Page ${page}/${total}`}</Typography>
+			>{`Page ${page + 1}/${total + 1}`}</Typography>
 		</>
 	)
 }

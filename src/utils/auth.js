@@ -1,5 +1,5 @@
 import React, { createContext } from 'react'
-import { isSignedIn, signOut } from '../logic/auth'
+import { isSignedIn } from '../logic/auth'
 import { getMe } from '../logic/wca-api'
 import { FirebaseContext } from './firebase'
 import { createNewUser } from '../database/writes'
@@ -10,17 +10,17 @@ export default ({ children }) => {
 	const fireabse = React.useContext(FirebaseContext)
 	React.useEffect(() => {
 		if (isSignedIn()) {
-			getMe().then(user => {
+			getMe().then((user) => {
 				fireabse
 					.firestore()
 					.collection('Users')
 					.doc(user.me.id.toString())
 					.get()
-					.then(docSnapshot => {
+					.then((docSnapshot) => {
 						if (docSnapshot.exists) {
 							setUser(docSnapshot.data())
 						} else {
-							createNewUser(fireabse, user.me).then(newUser => {
+							createNewUser(fireabse, user.me).then((newUser) => {
 								setUser(newUser)
 							})
 						}
@@ -29,6 +29,6 @@ export default ({ children }) => {
 		} else {
 			setUser(undefined)
 		}
-	}, [])
+	}, [fireabse])
 	return <UserContext.Provider value={user}>{children}</UserContext.Provider>
 }
