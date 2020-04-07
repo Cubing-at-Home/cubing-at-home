@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/styles'
 import { LinearProgress } from '@material-ui/core'
 import { UserContext } from '../utils/auth'
 import { FirebaseContext } from '../utils/firebase'
+import moment from 'moment-timezone'
 
 const useStyles = makeStyles((theme) => ({
 	grid: {
@@ -36,13 +37,13 @@ export default function Home({ history }) {
 	React.useEffect(() => {
 		const db = firebase.firestore()
 		db.collection('Competitions')
-			.where('start', '>=', new Date())
 			.orderBy('start')
 			.limit(5)
 			.get()
 			.then((querySnapshot) => {
 				let competitions = []
 				querySnapshot.forEach((doc) => competitions.push(doc.data()))
+				console.log(competitions[0])
 				setCompetiions(competitions)
 			})
 	}, [firebase])
@@ -73,33 +74,41 @@ export default function Home({ history }) {
 									</ListSubheader>
 								}
 							>
-								{competitions.map((competition) => (
-									<ListItem
-										key={competition.id}
-										alignItems='center'
-										button
-										component={Link}
-										to={`/${competition.id}`}
-									>
-										<ListItemText
-											primary={competition.name}
-											secondary={competition.start
-												.toDate()
-												.toDateString()}
-										/>
-										<ListItemSecondaryAction>
-											<Button
-												size='small'
-												color='primary'
-												variant='contained'
-												startIcon={<AddCircleIcon />}
-												href={`/${competition.id}/register`}
-											>
-												Register
-											</Button>
-										</ListItemSecondaryAction>
-									</ListItem>
-								))}
+								{competitions
+									.filter((competition) =>
+										moment().isSameOrBefore(
+											competition.end.toDate()
+										)
+									)
+									.map((competition) => (
+										<ListItem
+											key={competition.id}
+											alignItems='center'
+											button
+											component={Link}
+											to={`/${competition.id}`}
+										>
+											<ListItemText
+												primary={competition.name}
+												secondary={competition.start
+													.toDate()
+													.toDateString()}
+											/>
+											<ListItemSecondaryAction>
+												<Button
+													size='small'
+													color='primary'
+													variant='contained'
+													startIcon={
+														<AddCircleIcon />
+													}
+													href={`/${competition.id}/register`}
+												>
+													Register
+												</Button>
+											</ListItemSecondaryAction>
+										</ListItem>
+									))}
 							</List>
 						</Paper>
 					</Grid>
@@ -116,15 +125,37 @@ export default function Home({ history }) {
 							>
 								<ListItem
 									alignItems='center'
-									button
-									component={Link}
-									to={`/cubing-at-home-I`}
+									// button
+									// component={Link}
+									// to={`/cubing-at-home-I`}
 								>
 									<ListItemText
 										primary={'Cubing at Home I'}
 										secondary={'March 28th, 2020'}
 									/>
 								</ListItem>
+								{competitions
+									.filter((competition) =>
+										moment().isAfter(
+											competition.end.toDate()
+										)
+									)
+									.map((competition) => (
+										<ListItem
+											key={competition.id}
+											alignItems='center'
+											button
+											component={Link}
+											to={`/${competition.id}`}
+										>
+											<ListItemText
+												primary={competition.name}
+												secondary={competition.start
+													.toDate()
+													.toDateString()}
+											/>
+										</ListItem>
+									))}
 							</List>
 						</Paper>
 					</Grid>

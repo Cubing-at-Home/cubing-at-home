@@ -78,7 +78,7 @@ export default function App() {
 									component={CompetitionAdmin}
 									appProps={{ isAuthenticated }}
 								/>
-								<Route
+								{/* <Route
 									exact
 									path='/cubing-at-home-I/register'
 									component={Register2}
@@ -87,7 +87,7 @@ export default function App() {
 									exact
 									path='/cubing-at-home-I/:tab?'
 									component={Competition}
-								/>
+								/> */}
 								<Route
 									exact
 									path='/:id/register'
