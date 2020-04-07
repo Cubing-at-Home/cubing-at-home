@@ -1,8 +1,8 @@
 import React from 'react'
-import { isSignedIn, isAdmin } from '../logic/auth'
-import { getMe } from '../logic/wca-api'
-import { rounds } from '../logic/consts'
-import { FirebaseContext } from '../utils/firebase'
+import { isSignedIn, isAdmin } from '../../logic/auth'
+import { getMe } from '../../logic/wca-api'
+import { rounds } from '../../logic/consts'
+import { FirebaseContext } from '../../utils/firebase'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 	}
 })
 
-export default function Admin({ history }) {
+export default function SelectEvent({ history }) {
 	const [user, setUser] = React.useState(null)
 	const [forms, setForms] = React.useState(null)
 	const firebase = React.useContext(FirebaseContext)

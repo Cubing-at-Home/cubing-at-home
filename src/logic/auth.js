@@ -3,7 +3,7 @@ import history from './history'
 import { admins } from './consts'
 
 /* Use separate set of keys for each OAuth client (e.g. for WCA production and staging). */
-const localStorageKey = key => `WCA-Real-Time.${WCA_OAUTH_CLIENT_ID}.${key}`
+const localStorageKey = (key) => `WCA-Real-Time.${WCA_OAUTH_CLIENT_ID}.${key}`
 
 /**
  * Checks the URL hash for presence of OAuth access token
@@ -50,7 +50,6 @@ export const initializeAuth = () => {
 		localStorage.removeItem(localStorageKey('redirectPath'))
 	}
 	/* If non-signed in user tries accessing a competition path, redirect to OAuth sign in straightaway. */
-	const path = window.location.pathname
 	// if (path !== '/' && !isSignedIn()) {
 	// 	localStorage.setItem(localStorageKey('redirectPath'), path)
 	// 	signIn()
@@ -65,7 +64,7 @@ export const signIn = () => {
 		client_id: WCA_OAUTH_CLIENT_ID,
 		response_type: 'token',
 		redirect_uri: oauthRedirectUri(),
-		scope: 'public email'
+		scope: 'public email',
 	})
 	localStorage.setItem(localStorageKey('redirectPath'), window.location)
 	window.location = `${WCA_ORIGIN}/oauth/authorize?${params.toString()}`
@@ -88,6 +87,6 @@ export const signOut = () => {
 
 export const isSignedIn = () => !!wcaAccessToken()
 
-export const isAdmin = user => {
+export const isAdmin = (user) => {
 	return admins.includes(user.wca_id)
 }

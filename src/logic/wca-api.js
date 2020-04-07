@@ -4,6 +4,10 @@ import { pick } from './tools'
 
 export const getMe = () => wcaApiFetch(`/me`)
 
+export function getUserResults(user) {
+	return wcaApiFetch(`/persons/${user.wca_id}`)
+}
+
 const wcaApiFetch = (path, fetchOptions = {}) => {
 	const baseApiUrl = `${WCA_ORIGIN}/api/v0`
 

@@ -1,30 +1,22 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
-import { isSignedIn, signIn } from '../logic/auth'
+import { isSignedIn } from '../logic/auth'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import Avatar from '@material-ui/core/Avatar'
 import LinearProgress from '@material-ui/core/LinearProgress'
-import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/styles'
 import { getMe } from '../logic/wca-api'
-import { TextField } from '@material-ui/core'
-import { WCA_ORIGIN } from '../logic/wca-env'
-import Checkbox from '@material-ui/core/Checkbox'
 import Link from '@material-ui/core/Link'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Button from '@material-ui/core/Button'
 import { FirebaseContext } from '../utils/firebase'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	grid: {
-		marginTop: theme.spacing(2)
+		marginTop: theme.spacing(2),
 	},
 	avatar: {
 		width: theme.spacing(10),
-		height: theme.spacing(10)
-	}
+		height: theme.spacing(10),
+	},
 }))
 
 export default function Register({ history }) {
@@ -43,12 +35,12 @@ export default function Register({ history }) {
 				.collection('CubingAtHomeI')
 				.doc('Competitors2')
 				.get()
-				.then(doc => {
+				.then((doc) => {
 					if (
 						doc
 							.data()
 							.competitors.filter(
-								competitor => competitor.id === user.id
+								(competitor) => competitor.id === user.id
 							).length > 0
 					) {
 						setRegistered(true)
@@ -58,12 +50,12 @@ export default function Register({ history }) {
 							.collection('CubingAtHomeI')
 							.doc('Competitors')
 							.get()
-							.then(doc => {
+							.then((doc) => {
 								if (
 									doc
 										.data()
 										.competitors.filter(
-											competitor =>
+											(competitor) =>
 												competitor.id === user.id
 										).length > 0
 								) {
@@ -74,26 +66,26 @@ export default function Register({ history }) {
 					}
 				})
 	}, [user, firebase, loading])
-	const handleChange = event => {
+	const handleChange = (event) => {
 		setChecked(event.target.checked)
 	}
 	React.useEffect(() => {
 		if (!isSignedIn()) {
 			history.push('/')
 		} else {
-			getMe().then(user => setUser(user.me))
+			getMe().then((user) => setUser(user.me))
 		}
-	}, [])
+	}, [history])
 	const classes = useStyles()
 
-	const handleSubmit = bool => {
+	const handleSubmit = (bool) => {
 		const data = {
 			name: user.name,
 			avatar: user.avatar.url,
 			email: user.email,
 			wcaId: user.wca_id,
 			id: user.id,
-			url: user.url
+			url: user.url,
 		}
 		const firestore = firebase.firestore()
 		if (bool) {
@@ -101,13 +93,13 @@ export default function Register({ history }) {
 				.collection('CubingAtHomeI')
 				.doc('Competitors2')
 				.update({
-					competitors: firebase.firestore.FieldValue.arrayUnion(data)
+					competitors: firebase.firestore.FieldValue.arrayUnion(data),
 				})
 				.then(() => {
 					setLoading(false)
 					setRegistered(true)
 				})
-				.catch(err => {
+				.catch((err) => {
 					console.log(err)
 				})
 		} else {
@@ -116,10 +108,10 @@ export default function Register({ history }) {
 				.collection('CubingAtHomeI')
 				.doc('Competitors')
 				.get()
-				.then(doc => {
+				.then((doc) => {
 					const competitors = doc.data().competitors
 					const me = competitors.filter(
-						competitor => competitor.id === user.id
+						(competitor) => competitor.id === user.id
 					)
 					if (me.length > 1) {
 						document = 'Competitors'
@@ -132,13 +124,13 @@ export default function Register({ history }) {
 						.update({
 							competitors: firebase.firestore.FieldValue.arrayRemove(
 								data
-							)
+							),
 						})
 						.then(() => {
 							setRegistered(false)
 							setLoading(false)
 						})
-						.catch(err => {
+						.catch((err) => {
 							console.log(err)
 						})
 				})

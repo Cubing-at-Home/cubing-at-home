@@ -12,7 +12,8 @@ const activityKey = {
 	pyram: 'Pyraminx',
 	'333oh': '3x3 One Handed',
 	'333bf': '3x3 Blindfolded',
-	'4bld': '4x4 Blindfolded',
+	'444bf': '4x4 Blindfolded',
+	'555bf': '5x5 Blindfolded',
 	skewb: 'Skewb',
 	clock: 'Clock',
 	'333ft': '3x3 with Feet',
@@ -66,7 +67,7 @@ export default function EventList({
 						>
 							<span
 								className={
-									(!selected.includes(event)
+									(selected.includes(event)
 										? classes.iconSelect
 										: classes.icon) +
 									` cubing-icon event-${event}`

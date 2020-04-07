@@ -8,18 +8,15 @@ import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import { LinearProgress } from '@material-ui/core'
-import { FirebaseContext } from '../utils/firebase'
+import { FirebaseContext } from '../../utils/firebase'
 import Faq from 'react-faq-component'
 import Info from './Info'
 import Schedule from './Schedule'
 import Competitors from './Competitors'
-import { faq } from '../logic/consts'
-import blue from '@material-ui/core/colors/blue'
-import blueGrey from '@material-ui/core/colors/blueGrey'
-// import Scrambles from './Scrambles'
+import { faq } from '../../logic/consts'
+import Scrambles from './Scrambles'
 import Results from './Results'
-import { isSignedIn } from '../logic/auth'
-import { getMe } from '../logic/wca-api'
+import { useTheme } from '@material-ui/core/styles'
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props
@@ -68,67 +65,36 @@ const tabs = {
 	discord: 6,
 }
 
-export default function Competition({ history, match }) {
-	const [competitors, setCompetitors] = React.useState(null)
-	const [loading, setLoading] = React.useState(true)
-	const [registered, setRegistered] = React.useState(false)
+export default function CompetitionHome({ history, match }) {
+	const theme = useTheme()
+	const [competitionInfo, setCompetitionInfo] = React.useState(null)
 	const firebase = React.useContext(FirebaseContext)
 	React.useEffect(() => {
-		async function getMarkers(doc) {
-			let markers = []
-			await firebase
-				.firestore()
-				.collection('CubingAtHomeI')
-				.doc(doc)
-				.get()
-				.then((querySnapshot) => {
-					markers = querySnapshot.data().competitors
-				})
-			return markers
-		}
-		setLoading(true)
-		getMarkers('Competitors').then((competitors) => {
-			let allCompetitors = competitors
-			getMarkers('Competitors2').then((competitors2) => {
-				allCompetitors = [...allCompetitors, ...competitors2]
-				if (isSignedIn()) {
-					getMe().then((user) => {
-						const me = allCompetitors.find(
-							(competitor) => competitor.id === user.me.id
-						)
-						if (me) {
-							setCompetitors([
-								me,
-								...allCompetitors.filter(
-									(competitor) => competitor.id !== me.id
-								),
-							])
-							setRegistered(true)
-						} else {
-							setCompetitors(allCompetitors)
-						}
-					})
-				} else {
-					setCompetitors(allCompetitors)
-				}
-				setLoading(false)
-			})
-		})
-	}, [firebase])
+		firebase
+			.firestore()
+			.collection(match.params.id)
+			.doc('info')
+			.get()
+			.then((resp) =>
+				resp.exists
+					? setCompetitionInfo(resp.data())
+					: history.push('/')
+			)
+	}, [firebase, history, match.params.id])
 	const classes = useStyles()
 
 	const [value, setValue] = React.useState(match.params.tab || 'information')
 
 	const handleChange = (event, newValue) => {
 		history.push(
-			`/cubing-at-home-I/${event.target.innerText.toLowerCase()}`
+			`/${match.params.id}/${event.target.innerText.toLowerCase()}`
 		)
 		setValue(event.target.innerText.toLowerCase())
 	}
 
 	return (
 		<div className={classes.root}>
-			{!competitors || loading ? (
+			{!competitionInfo ? (
 				<LinearProgress />
 			) : (
 				<>
@@ -143,23 +109,30 @@ export default function Competition({ history, match }) {
 							<Tab label='Information' {...a11yProps(0)} />
 							<Tab label='Schedule' {...a11yProps(1)} />
 							<Tab label='Competitors' {...a11yProps(2)} />
+							<Tab label='Scrambles' {...a11yProps(3)} />
 							<Tab label='Results' {...a11yProps(4)} />
 							<Tab label='FAQ' {...a11yProps(5)} />
 							<Tab label='Discord' {...a11yProps(6)} />
 						</Tabs>
 					</AppBar>
 					<TabPanel value={tabs[value]} index={0}>
-						<Info history={history} />
+						<Info
+							history={history}
+							match={match}
+							competitionInfo={competitionInfo}
+						/>
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={1}>
-						<Schedule />
+						<Schedule competitionInfo={competitionInfo} />
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={2}>
 						<Competitors
+							competitionInfo={competitionInfo}
 							history={history}
-							competitors={competitors}
-							registered={registered}
 						/>
+					</TabPanel>
+					<TabPanel value={tabs[value]} index={3}>
+						<Scrambles competitionInfo={competitionInfo} />
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={4}>
 						<Results />
@@ -169,9 +142,11 @@ export default function Competition({ history, match }) {
 							<Faq
 								data={faq}
 								styles={{
-									titleTextColor: blue[500],
-									rowTitleColor: blue[500],
-									rowTextColor: blueGrey[500],
+									bgColor: theme.palette.background.paper,
+									titleTextColor: theme.palette.primary.main,
+									rowTextColor: theme.palette.primary.main,
+									rowTitleColor: theme.palette.text.primary,
+									rowContentColor: theme.palette.text.primary,
 								}}
 							/>
 							<Typography
@@ -180,6 +155,7 @@ export default function Competition({ history, match }) {
 								variant='h6'
 							>
 								<Link
+									color='inherit'
 									target='_blank'
 									rel='noopener noreferrer'
 									href='mailto:sgrover@worldcubeassociation.org,cnielson@worldcubeassociation.org,bsampson@worldcubeassociation.org,sbaird@worldcubeassociation.org'
