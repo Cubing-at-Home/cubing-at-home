@@ -8,6 +8,8 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import { formatAttemptResult } from '../../logic/attempts'
+import { Link } from '@material-ui/core'
+import { WCA_ORIGIN } from '../../logic/wca-env'
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -48,7 +50,11 @@ export default function CompetitorList({
 						<TableRow key={row.wca.id}>
 							<TableCell>{i + 1}</TableCell>
 							<TableCell component='th' scope='row'>
-								{row.wca.name}
+								<Link
+									href={`${WCA_ORIGIN}/persons/${row.wca.wca_id}`}
+								>
+									{row.wca.name}
+								</Link>
 							</TableCell>
 							<TableCell align='left'>
 								{row.wca.wca_id || ''}

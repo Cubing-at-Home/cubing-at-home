@@ -75,10 +75,11 @@ export default function Schedule({ competitionInfo }) {
 												</Tooltip>
 											</Grid>
 											<Grid item>
-												<Typography>{`Time`}</Typography>
+												<Typography>{`Start`}</Typography>
 											</Grid>
 										</Grid>
 									</TableCell>
+									<TableCell align='right'>End</TableCell>
 									<TableCell align='right'>
 										Qualification
 									</TableCell>
@@ -103,6 +104,11 @@ export default function Schedule({ competitionInfo }) {
 											{moment(
 												`${date}T${row.start}-04:00`
 											)
+												.tz(timezone)
+												.format('hh:mm a')}
+										</TableCell>
+										<TableCell align='right'>
+											{moment(`${date}T${row.end}-04:00`)
 												.tz(timezone)
 												.format('hh:mm a')}
 										</TableCell>

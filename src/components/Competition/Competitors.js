@@ -3,6 +3,8 @@ import CompetitorList from './CompetitorList'
 import { LinearProgress, Typography } from '@material-ui/core'
 import { WCA_ORIGIN } from '../../logic/wca-env'
 import { FirebaseContext } from '../../utils/firebase'
+import { UserContext } from '../../utils/auth'
+
 import EventList from '../EventList'
 import Link from '@material-ui/core/Link'
 
@@ -11,6 +13,7 @@ export default function Competitors({ history, competitionInfo, registered }) {
 	// in order to avoid 100 reads every time someone switches an event, store the result if it's already been accessed
 	const [preLoadedCompetitors, setPreLoadedCompetiors] = useState({})
 	const [event, setEvent] = useState(competitionInfo.events[0])
+	const user = useContext(UserContext)
 	// eslint-disable-next-line no-unused-vars
 	const [page, setPage] = useState(0)
 	const handleEventChange = (newEvent) => {
@@ -60,6 +63,16 @@ export default function Competitors({ history, competitionInfo, registered }) {
 	}
 	return (
 		<>
+			<Typography
+				align='left'
+				variant='body1'
+			>{`${competitionInfo.competitors.length} Registered Competitors`}</Typography>
+			{user && user.data.competitions.includes(competitionInfo.id) && (
+				<Typography
+					align='left'
+					variant='body1'
+				>{`${user.wca.name}: You are succesfully registered.`}</Typography>
+			)}
 			<EventList
 				selected={[event]}
 				events={competitionInfo.events}
@@ -87,9 +100,8 @@ export default function Competitors({ history, competitionInfo, registered }) {
 						}
 					/>
 					<Typography>
-						Note: We restrict competitor results to Top 100 in each
-						event. If you want to make sure you registered, check
-						the{' '}
+						Note: We restrict Psych Sheet to Top 100 in each event.
+						If you want to make sure you registered, check the{' '}
 						<Link href={`/${competitionInfo.id}/register`}>
 							registration
 						</Link>{' '}
