@@ -1,10 +1,11 @@
 import { getUserResults } from '../logic/wca-api'
 
 export const createNewUser = async (firebase, user) => {
+	let user_results = null
 	if (user.wca_id !== null && user.wca_id !== undefined) {
+		user_results = await getUserResults(user)
 	}
 	const db = firebase.firestore()
-	const user_results = await getUserResults(user)
 	return new Promise((resolve, reject) => {
 		const docData = {
 			wca: {
@@ -16,8 +17,11 @@ export const createNewUser = async (firebase, user) => {
 				name: user.name,
 				wca_id: user.wca_id ? user.wca_id : null,
 				last_updated: new Date(),
-				personal_records: user_results.personal_records,
-				isDelegate: user_results.delegate_status ? true : false,
+				personal_records: user_results
+					? user_results.personal_records
+					: {},
+				isDelegate:
+					user_results && user_results.delegate_status ? true : false,
 			},
 			data: {
 				competitions: [],
