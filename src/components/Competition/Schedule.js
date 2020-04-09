@@ -24,7 +24,9 @@ const useStyles = makeStyles({
 export default function Schedule({ competitionInfo }) {
 	const [timezone, setTimezone] = useState(null)
 	const rows = competitionInfo.schedule || []
-	const date = competitionInfo.start.toDate().toISOString().split('T')[0]
+	const date = moment(
+		competitionInfo.start.toDate().toISOString().split('T')[0]
+	).format('YYYY-MM-DD')
 	useEffect(() => {
 		setTimezone(jstz.determine().name())
 	}, [])
@@ -49,7 +51,7 @@ export default function Schedule({ competitionInfo }) {
 							</Typography>
 						</Tooltip>
 						<Typography align='center' variant='h4'>
-							{competitionInfo.start.toDate().toDateString()}
+							{moment(date).local().format('ll')}
 						</Typography>
 					</Grid>
 					<TableContainer component={Paper}>
@@ -104,12 +106,12 @@ export default function Schedule({ competitionInfo }) {
 											{moment(
 												`${date}T${row.start}-04:00`
 											)
-												.tz(timezone)
-												.format('hh:mm a')}
+												.local()
+												.format('hh:mm A')}
 										</TableCell>
 										<TableCell align='right'>
 											{moment(`${date}T${row.end}-04:00`)
-												.tz(timezone)
+												.local()
 												.format('hh:mm a')}
 										</TableCell>
 										<TableCell align='right'>

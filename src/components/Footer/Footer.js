@@ -59,7 +59,7 @@ const Footer = ({ currTheme, onThemeChange, isAuthenticated }) => {
 									className={classes.link}
 									variant='body2'
 									href={
-										'mailto:sgrover@worldcubeassociation.org,cnielson@worldcubassociation.org,bsampson@worldcubeassociation.org,sbaird@worldcubeassociation.org'
+										'mailto:sgrover@worldcubeassociation.org,cnielson@worldcubeassociation.org,bsampson@worldcubeassociation.org,sbaird@worldcubeassociation.org'
 									}
 								>
 									<ContactMailIcon />
