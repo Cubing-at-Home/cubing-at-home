@@ -44,7 +44,6 @@ export default function Home({ history }) {
 			.then((querySnapshot) => {
 				let competitions = []
 				querySnapshot.forEach((doc) => competitions.push(doc.data()))
-				console.log(competitions[0])
 				setCompetiions(competitions)
 			})
 		// This is to set a schedule for a competition. Still need to add UI for this.

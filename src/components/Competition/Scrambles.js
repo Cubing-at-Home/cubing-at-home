@@ -75,9 +75,9 @@ export default function Scrambles({ competitionInfo }) {
 	}, [user, competitionInfo, firebase])
 	return (
 		<Grid container direction='column' justify='center'>
-			{!eventInfo || !selectedEvent ? (
+			{!eventInfo ? (
 				<LinearProgress />
-			) : eventInfo.length > 0 ? (
+			) : eventInfo.length > 0 && selectedEvent ? (
 				<>
 					<Grid item>
 						<EventList
