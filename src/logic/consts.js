@@ -123,6 +123,7 @@ export const admins = [
 	'2016BAIR01',
 	'2014GROV01',
 	'2012ELLI01',
+	'2016GRIT01'
 ]
 
 export const activityKey = {
