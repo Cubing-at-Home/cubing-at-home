@@ -82,10 +82,9 @@ export default function Info({ history, match, competitionInfo }) {
 							</li>
 						</ul>
 						<li>
-							{`Once a round opens, the scrambles will be available
-							at `}
-							<Link href={`/${competitionInfo.id}/scrambles`}>
-								<u>{`cubingathome.com/${competitionInfo.id}/scrambles`}</u>
+							{`Once a round opens, you will be able to view scrambles and enter times at: `}
+							<Link href={`/${competitionInfo.id}/compete`}>
+								<u>{`cubingathome.com/${competitionInfo.id}/compete`}</u>
 							</Link>
 						</li>
 						<ul>

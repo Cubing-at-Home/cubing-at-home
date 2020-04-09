@@ -59,7 +59,7 @@ const tabs = {
 	information: 0,
 	schedule: 1,
 	competitors: 2,
-	scrambles: 3,
+	compete: 3,
 	results: 4,
 	faq: 5,
 	discord: 6,
@@ -109,7 +109,7 @@ export default function CompetitionHome({ history, match }) {
 							<Tab label='Information' {...a11yProps(0)} />
 							<Tab label='Schedule' {...a11yProps(1)} />
 							<Tab label='Competitors' {...a11yProps(2)} />
-							<Tab label='Scrambles' {...a11yProps(3)} />
+							<Tab label='Compete' {...a11yProps(3)} />
 							<Tab label='Results' {...a11yProps(4)} />
 							<Tab label='FAQ' {...a11yProps(5)} />
 							<Tab label='Discord' {...a11yProps(6)} />

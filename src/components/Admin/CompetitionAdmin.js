@@ -1,5 +1,10 @@
 import React from 'react'
+import SelectEvent from './SelectEvent'
 
-export default function CompetitionAdmin() {
-	return <div>comp admin</div>
+export default function CompetitionAdmin({ match }) {
+	return (
+		<>
+			<SelectEvent competitionId={match.params.competitionId} />
+		</>
+	)
 }
