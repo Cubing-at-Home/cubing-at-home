@@ -83,7 +83,7 @@ export const registerCompetitor = async (firebase, userId, competitionId) => {
 					.then(() => {
 						db.collection(competitionId)
 							.doc(userId)
-							.set({})
+							.set({ id: userId })
 							.then(() => resolve())
 							.catch((err) => reject(err))
 					})
