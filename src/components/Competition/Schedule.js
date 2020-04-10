@@ -26,7 +26,7 @@ export default function Schedule({ competitionInfo }) {
 	const rows = competitionInfo.schedule || []
 	const date = moment(
 		competitionInfo.start.toDate().toISOString().split('T')[0]
-	).format('YYYY-MM-DD')
+	).format()
 	useEffect(() => {
 		setTimezone(jstz.determine().name())
 	}, [])
@@ -45,13 +45,11 @@ export default function Schedule({ competitionInfo }) {
 					direction='column'
 				>
 					<Grid item>
-						<Tooltip title={`Showing times in ${timezone}`}>
-							<Typography align='center' variant='h4'>
-								<InfoIcon />
-							</Typography>
-						</Tooltip>
 						<Typography align='center' variant='h4'>
 							{moment(date).local().format('ll')}
+						</Typography>
+						<Typography align='center' variant='subtitle1'>
+							{`Showing times in ${timezone}`}
 						</Typography>
 					</Grid>
 					<TableContainer component={Paper}>
@@ -112,7 +110,7 @@ export default function Schedule({ competitionInfo }) {
 										<TableCell align='right'>
 											{moment(`${date}T${row.end}-04:00`)
 												.local()
-												.format('hh:mm a')}
+												.format('hh:mm A')}
 										</TableCell>
 										<TableCell align='right'>
 											{row.qualification}
