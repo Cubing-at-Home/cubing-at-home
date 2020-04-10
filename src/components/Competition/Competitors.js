@@ -71,7 +71,7 @@ export default function Competitors({ history, competitionInfo, registered }) {
 				<Typography
 					align='left'
 					variant='body1'
-				>{`${user.wca.name}: You are succesfully registered.`}</Typography>
+				>{`${user.wca.name}: You are successfully registered.`}</Typography>
 			)}
 			<EventList
 				selected={[event]}
