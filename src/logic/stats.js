@@ -76,7 +76,7 @@ export const checkAgainstPersonalBest = (
 ) => {
 	const func = isAverage ? average : best
 	const comparator = isAverage
-		? personalBest.average.best
-		: personalBest.single.best
+		? personalBest.average?.best
+		: personalBest.single?.best
 	return 1.3 * func(attempts, eventId, attempts.length) < comparator
 }

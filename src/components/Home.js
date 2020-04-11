@@ -46,6 +46,17 @@ export default function Home({ history }) {
 				querySnapshot.forEach((doc) => competitions.push(doc.data()))
 				setCompetiions(competitions)
 			})
+		// db.collection('cah2practice')
+		// 	.doc('info')
+		// 	.get()
+		// 	.then((resp) => {
+		// 		const competitors = resp.data().competitors
+		// 		for (const competitor of competitors) {
+		// 			db.collection('cah2practice')
+		// 				.doc(competitor)
+		// 				.update({ id: competitor })
+		// 		}
+		// 	})
 		// This is to set a schedule for a competition. Still need to add UI for this.
 		// db.collection('cah2')
 		// 	.doc('info')
