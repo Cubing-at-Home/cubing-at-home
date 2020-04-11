@@ -123,7 +123,13 @@ export const admins = [
 	'2016BAIR01',
 	'2014GROV01',
 	'2012ELLI01',
-	'2016GRIT01'
+	'2016GRIT01',
+	'2017RICH02',
+	'2014SHIE03',
+	'2017MILL04',
+	'2019KELL11',
+	'2015MCKE02',
+	'2018SAMP01',
 ]
 
 export const activityKey = {
