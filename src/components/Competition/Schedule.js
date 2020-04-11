@@ -46,7 +46,9 @@ export default function Schedule({ competitionInfo }) {
 				>
 					<Grid item>
 						<Typography align='center' variant='h4'>
-							{date.local().format('ll')}
+							{moment(`${date.format('YYYY-MM-DDThh:mm')}-04:00`)
+								.local()
+								.format('ll')}
 						</Typography>
 						<Typography align='center' variant='subtitle1'>
 							{`Showing times in ${timezone}`}
