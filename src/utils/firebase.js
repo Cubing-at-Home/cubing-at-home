@@ -1,5 +1,6 @@
 import React, { createContext } from 'react'
 import app from 'firebase/app'
+import '@firebase/storage'
 import firebaseConfig from './firebaseConfig'
 const FirebaseContext = createContext(null)
 export { FirebaseContext }

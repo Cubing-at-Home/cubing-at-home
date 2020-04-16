@@ -141,7 +141,7 @@ export default function ResultSubmission({
 			>
 				<Grid item xs={4} style={{ display: 'flex' }}>
 					<Grid
-						spacing={1}
+						spacing={3}
 						xs={12}
 						container
 						direction='column'
@@ -225,21 +225,15 @@ export default function ResultSubmission({
 						Result Submission Process
 						<ul>
 							<li>
-								{`Copy and paste the scrambles to `}{' '}
-								<Link
-									target='_blank'
-									rel='norefferer	'
-									href='https://cstimer.net'
-								>
-									cstimer
-								</Link>
+								{`A PDF of the Scrambles is available to download by clicking the button above. Make sure to verify each scramble with the image.`}
 							</li>
 							<li>
 								After you complete each solve, enter in the
 								exact time in the corresponding fields. If you
 								have a penalty, add the penalty and enter the
-								final time. If you got a DNF, type D. For
-								Multiple Blindfolded, the format is: Completed,
+								final time. If you got a DNF, type D. If you
+								would like to enter a DNS, type S. For Multiple
+								Blindfolded, the format is: Completed,
 								Attempted, Time.
 							</li>
 							<li>

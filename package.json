@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"private": true,
 	"dependencies": {
+		"@firebase/storage": "^0.3.31",
 		"@material-ui/core": "^4.9.7",
 		"@material-ui/icons": "^4.9.1",
 		"@material-ui/pickers": "^3.2.10",
@@ -18,7 +19,8 @@
 		"react-faq-component": "^1.0.4",
 		"react-router-dom": "^5.1.2",
 		"react-scripts": "3.4.0",
-		"react-twitch-embed-video": "^2.0.2"
+		"react-twitch-embed-video": "^2.0.2",
+		"uuid": "^7.0.3"
 	},
 	"scripts": {
 		"start": "react-scripts start",

@@ -14,6 +14,7 @@ export default function Scrambles({ competitionInfo }) {
 	const [selectedEvent, setSelectedEvent] = useState()
 	const [eventInfo, setEventInfo] = useState(null)
 	const [status, setStatus] = useState('')
+	const [auth, setAuth] = useState(true)
 	const user = useContext(UserContext)
 	const firebase = useContext(FirebaseContext)
 
@@ -53,31 +54,35 @@ export default function Scrambles({ competitionInfo }) {
 		if (user === undefined) {
 			signIn()
 		}
-		firebase
-			.firestore()
-			.collection(competitionInfo.id)
-			.doc('events')
-			.get()
-			.then((resp) => {
-				const eventInfo = resp.data().eventInfo
-				const openRounds = []
-				// eslint-disable-next-line array-callback-return
-				eventInfo.map((event) => {
-					const round = event.rounds.filter(
-						(round) => round.isOpen === true
-					)
-					round.length > 0 &&
-						openRounds.push({ ...round[0], event: event.id })
+		if (!user.data.competitions.includes(competitionInfo.id)) {
+			setAuth(false)
+		} else {
+			firebase
+				.firestore()
+				.collection(competitionInfo.id)
+				.doc('events')
+				.get()
+				.then((resp) => {
+					const eventInfo = resp.data().eventInfo
+					const openRounds = []
+					// eslint-disable-next-line array-callback-return
+					eventInfo.map((event) => {
+						const round = event.rounds.filter(
+							(round) => round.isOpen === true
+						)
+						round.length > 0 &&
+							openRounds.push({ ...round[0], event: event.id })
+					})
+					setEventInfo(openRounds)
+					setSelectedEvent(openRounds[0])
 				})
-				setEventInfo(openRounds)
-				setSelectedEvent(openRounds[0])
-			})
+		}
 	}, [user, competitionInfo, firebase])
 	return (
 		<Grid container direction='column' justify='center'>
-			{!eventInfo ? (
+			{!eventInfo && auth ? (
 				<LinearProgress />
-			) : eventInfo.length > 0 && selectedEvent ? (
+			) : auth && eventInfo.length > 0 && selectedEvent ? (
 				<>
 					<Grid item>
 						<EventList
@@ -96,7 +101,10 @@ export default function Scrambles({ competitionInfo }) {
 						} Round ${selectedEvent.id.slice(-1)}`}</Typography>
 					</Grid>
 					<Grid item>
-						<ShowScrambles round={selectedEvent} />
+						<ShowScrambles
+							competitionId={competitionInfo.id}
+							round={selectedEvent}
+						/>
 					</Grid>
 					<Grid item>
 						<ResultSubmission
