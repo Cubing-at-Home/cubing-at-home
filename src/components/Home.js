@@ -7,11 +7,11 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import Button from '@material-ui/core/Button'
-// import ReactTwitchEmbedVideo from 'react-twitch-embed-video'
+import ReactTwitchEmbedVideo from 'react-twitch-embed-video'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/styles'
-import { LinearProgress } from '@material-ui/core'
+import { LinearProgress, Typography } from '@material-ui/core'
 import { UserContext } from '../utils/auth'
 import { FirebaseContext } from '../utils/firebase'
 import moment from 'moment-timezone'
@@ -35,16 +35,23 @@ export default function Home({ history }) {
 	const user = React.useContext(UserContext)
 	const firebase = React.useContext(FirebaseContext)
 	const [competitions, setCompetiions] = React.useState(null)
+	const [happeningNow, setHappeningNow] = React.useState(null)
 	React.useEffect(() => {
 		const db = firebase.firestore()
 		db.collection('Competitions')
-			.orderBy('start')
+			.orderBy('start', 'desc')
 			.limit(5)
 			.get()
 			.then((querySnapshot) => {
 				let competitions = []
 				querySnapshot.forEach((doc) => competitions.push(doc.data()))
 				setCompetiions(competitions)
+				if (
+					competitions.length >= 1 &&
+					moment().isSame(competitions[0].start.toDate(), 'day')
+				) {
+					setHappeningNow(competitions[0])
+				}
 			})
 		// db.collection('cah2practice')
 		// 	.doc('info')
@@ -81,9 +88,16 @@ export default function Home({ history }) {
 					alignItems='center'
 					justify='center'
 				>
-					{/* <Grid item className={classes.grid}>
-						<ReactTwitchEmbedVideo channel='cubingusa' />
-					</Grid> */}
+					{' '}
+					{happeningNow !== null && (
+						<Grid item className={classes.grid}>
+							<Typography
+								align='center'
+								variant='h6'
+							>{`Ongoing: ${happeningNow.name}`}</Typography>
+							<ReactTwitchEmbedVideo channel='cubingusa' />
+						</Grid>
+					)}
 					<Grid item className={classes.grid}>
 						<Paper className={classes.paper}>
 							<List
@@ -98,7 +112,8 @@ export default function Home({ history }) {
 								{competitions
 									.filter((competition) =>
 										moment().isSameOrBefore(
-											competition.end.toDate()
+											competition.end.toDate(),
+											'day'
 										)
 									)
 									.map((competition) => (
@@ -125,7 +140,12 @@ export default function Home({ history }) {
 													}
 													href={`/${competition.id}/register`}
 												>
-													Register
+													{user !== undefined &&
+													user.data.competitions.includes(
+														competition.id
+													)
+														? 'Manage Registration'
+														: 'Register'}
 												</Button>
 											</ListItemSecondaryAction>
 										</ListItem>
@@ -158,7 +178,8 @@ export default function Home({ history }) {
 								{competitions
 									.filter((competition) =>
 										moment().isAfter(
-											competition.end.toDate()
+											competition.end.toDate(),
+											'day'
 										)
 									)
 									.map((competition) => (

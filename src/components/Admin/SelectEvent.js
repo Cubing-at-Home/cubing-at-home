@@ -56,12 +56,31 @@ export default function SelectEvent({ competitionId }) {
 		])
 	}
 	const handleSubmit = () => {
+		const storageRef = firebase.storage().ref()
 		firebase
 			.firestore()
 			.collection(competitionId)
 			.doc('events')
 			.set({ eventInfo: eventInfo })
-			.then(() => setConfirm(true))
+			.then(() => {
+				let promsies = []
+				for (const event of eventInfo) {
+					for (const round of event.rounds) {
+						const path = `${competitionId}/${
+							activityKey[
+								round.id.slice(0, round.id.indexOf('-'))
+							]
+						} Round ${round.id.slice(
+							round.id.indexOf('-') + 2
+						)} Scramble Set A.pdf`
+						const promise = storageRef.child(path).updateMetadata({
+							customMetadata: { isOpen: round.isOpen },
+						})
+						promsies.push(promise)
+					}
+				}
+				Promise.all(promsies).then(() => setConfirm(true))
+			})
 			.catch((err) => setError(err))
 	}
 	return (
