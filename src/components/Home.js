@@ -70,7 +70,7 @@ export default function Home({ history }) {
 		// 	.get()
 		// 	.then((doc) => {
 		// 		const data = doc.data()
-		// 		db.collection('cah2')
+		// 		db.collection('cah3')
 		// 			.doc('info')
 		// 			.set({ ...data, schedule: rounds })
 		// 	})
@@ -111,10 +111,7 @@ export default function Home({ history }) {
 							>
 								{competitions
 									.filter((competition) =>
-										moment().isSameOrBefore(
-											competition.end.toDate(),
-											'day'
-										)
+										moment().isSameOrBefore(competition.end.toDate(), 'day')
 									)
 									.map((competition) => (
 										<ListItem
@@ -126,24 +123,18 @@ export default function Home({ history }) {
 										>
 											<ListItemText
 												primary={competition.name}
-												secondary={competition.start
-													.toDate()
-													.toDateString()}
+												secondary={competition.start.toDate().toDateString()}
 											/>
 											<ListItemSecondaryAction>
 												<Button
 													size='small'
 													color='primary'
 													variant='contained'
-													startIcon={
-														<AddCircleIcon />
-													}
+													startIcon={<AddCircleIcon />}
 													href={`/${competition.id}/register`}
 												>
 													{user !== undefined &&
-													user.data.competitions.includes(
-														competition.id
-													)
+													user.data.competitions.includes(competition.id)
 														? 'Manage Registration'
 														: 'Register'}
 												</Button>
@@ -177,10 +168,7 @@ export default function Home({ history }) {
 								</ListItem>
 								{competitions
 									.filter((competition) =>
-										moment().isAfter(
-											competition.end.toDate(),
-											'day'
-										)
+										moment().isAfter(competition.end.toDate(), 'day')
 									)
 									.map((competition) => (
 										<ListItem
@@ -192,9 +180,7 @@ export default function Home({ history }) {
 										>
 											<ListItemText
 												primary={competition.name}
-												secondary={competition.start
-													.toDate()
-													.toDateString()}
+												secondary={competition.start.toDate().toDateString()}
 											/>
 										</ListItem>
 									))}

@@ -2,7 +2,7 @@ export const text = {}
 
 export const rounds = [
 	{
-		id: '',
+		id: 'mystery',
 		name: 'Mystery Event',
 		start: '11:00',
 		end: '12:00',
@@ -23,7 +23,7 @@ export const rounds = [
 		qualification: '',
 	},
 	{
-		id: '4bld',
+		id: '444bf',
 		name: '4x4 Blindfolded Final',
 		start: '10:45',
 		end: '12:50',
@@ -38,7 +38,7 @@ export const rounds = [
 	},
 	{
 		id: '',
-		name: 'Can you fool Stanley Chapel',
+		name: 'Can You fool Stanley Chapel [Trivia]',
 		start: '13:10',
 		end: '13:40',
 		qualification: '',
@@ -97,8 +97,7 @@ export const faq = {
 				'Cubing At Home is not an official WCA Competition. All results are unofficial and are not tracked or recognized by the WCA',
 		},
 		{
-			title:
-				'Can I listen to music? Do I have to follow X WCA Regulation?',
+			title: 'Can I listen to music? Do I have to follow X WCA Regulation?',
 			content:
 				'We recommend that you follow WCA Regulations as close as possible. This means that you may not listen to music while solving.',
 		},
@@ -114,8 +113,7 @@ export const faq = {
 				"You only need to film to claim a prize for podiuming or making it into Finals (Top 8)! If you don't think you will podium or make finals then there is no need to film",
 		},
 		{
-			title:
-				'How am I supposed to time my solves? Keep track of inspection?',
+			title: 'How am I supposed to time my solves? Keep track of inspection?',
 			content:
 				' We recommend using a stackmat to time solves but you can feel free to use any website or app to keep track of time. To keep track of inspection you can use built in app or timer features on your timer or alternatively you can go to https://cubing.net/inspection/',
 		},
