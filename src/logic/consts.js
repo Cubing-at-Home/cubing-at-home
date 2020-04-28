@@ -2,8 +2,8 @@ export const text = {}
 
 export const rounds = [
 	{
-		id: 'mystery',
-		name: 'Mystery Event',
+		id: 'twitch',
+		name: 'Twitch Solves',
 		start: '11:00',
 		end: '12:00',
 		qualification: '',
