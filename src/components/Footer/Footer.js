@@ -68,7 +68,7 @@ const Footer = ({ currTheme, onThemeChange, isAuthenticated }) => {
 							</Grid>
 						)}
 						{socialMedias.map((social) => (
-							<Tooltip title={social.name}>
+							<Tooltip key={social.name} title={social.name}>
 								<Grid item key={social.name}>
 									<Link
 										className={classes.link}

@@ -54,7 +54,13 @@ export default function Register({ history, match }) {
 	}
 	const handleSubmit = (register) => {
 		const exec = register ? registerCompetitor : cancelCompetitor
-		exec(firebase, user.wca.id.toString(), competitionId)
+		exec(
+			firebase,
+			user.wca.id.toString(),
+			user.wca.name,
+			user.wca.wca_id,
+			competitionId
+		)
 			.then(() => window.location.reload())
 			.catch((err) => setError(err))
 	}
@@ -78,9 +84,7 @@ export default function Register({ history, match }) {
 					direction='column'
 				>
 					<Grid item>
-						<Typography variant='h6'>
-							{competitionInfo.name}
-						</Typography>
+						<Typography variant='h6'>{competitionInfo.name}</Typography>
 					</Grid>
 					<Grid item>
 						<Avatar
@@ -90,11 +94,7 @@ export default function Register({ history, match }) {
 						/>
 					</Grid>
 					<Grid item>
-						<TextField
-							label='Name'
-							value={user.wca.name}
-							disabled
-						/>
+						<TextField label='Name' value={user.wca.name} disabled />
 						<TextField
 							fullWidth
 							label='Email'
@@ -104,9 +104,7 @@ export default function Register({ history, match }) {
 								<>
 									{`You can change this information in your WCA
 									Account `}
-									<Link href={`${WCA_ORIGIN}/profile/edit`}>
-										here
-									</Link>
+									<Link href={`${WCA_ORIGIN}/profile/edit`}>here</Link>
 								</>
 							}
 						/>
@@ -115,8 +113,7 @@ export default function Register({ history, match }) {
 						<>
 							<Grid item>
 								<Typography variant='h4'>
-									You have successfully registered for this
-									competition
+									You have successfully registered for this competition
 								</Typography>
 							</Grid>
 							<Grid item>
@@ -129,8 +126,7 @@ export default function Register({ history, match }) {
 								</Button>
 							</Grid>
 						</>
-					) : new Date() >
-					  competitionInfo.registrationEnd.toDate() ? (
+					) : new Date() > competitionInfo.registrationEnd.toDate() ? (
 						<Grid item>
 							<Typography align='center' variant='h4'>
 								{`Registration is closed. Follow `}
@@ -141,8 +137,7 @@ export default function Register({ history, match }) {
 								Competitions!`}
 							</Typography>
 						</Grid>
-					) : new Date() <
-					  competitionInfo.registrationStart.toDate() ? (
+					) : new Date() < competitionInfo.registrationStart.toDate() ? (
 						<Grid item>
 							<Typography align='center' variant='h4'>
 								{`Registration opens on: ${competitionInfo.registrationStart
@@ -165,27 +160,20 @@ export default function Register({ history, match }) {
 									label={
 										<ul>
 											<li>
-												By signing up, I agree to submit
-												my times as they occur along
-												with any penalties. I understand
-												that any form of cheating can
-												result in disqualification for
-												any further Cubing at Home
-												competitions.
+												By signing up, I agree to submit my times as they occur
+												along with any penalties. I understand that any form of
+												cheating can result in disqualification for any further
+												Cubing at Home competitions.
 											</li>
 											<li>
-												I also understand that in order
-												to claim a podium prize, I am
-												required to submit a full uncut
-												video of the entire round.
+												I also understand that in order to claim a podium prize,
+												I am required to submit a full uncut video of the entire
+												round.
 											</li>
 											<li>
-												I allow CubingUSA and/or The
-												Cubicle to edit and repost any
-												videos I submit and content I
-												particiapte in for this event
-												without any additional
-												compensation
+												I allow CubingUSA and/or The Cubicle to edit and repost
+												any videos I submit and content I particiapte in for
+												this event without any additional compensation
 											</li>
 										</ul>
 									}

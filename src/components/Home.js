@@ -65,14 +65,14 @@ export default function Home({ history }) {
 		// 		}
 		// 	})
 		// This is to set a schedule for a competition. Still need to add UI for this.
-		// db.collection('cah2')
+		// db.collection('cah3')
 		// 	.doc('info')
 		// 	.get()
 		// 	.then((doc) => {
 		// 		const data = doc.data()
 		// 		db.collection('cah3')
 		// 			.doc('info')
-		// 			.set({ ...data, schedule: rounds })
+		// 			.set({ ...data, schedule: rounds})
 		// 	})
 	}, [firebase])
 	return (
