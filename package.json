@@ -24,6 +24,9 @@
 		"react-twitch-embed-video": "^2.0.2",
 		"uuid": "^7.0.3"
 	},
+	"resolutions": {
+		"moment": "2.24.0"
+	},
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
