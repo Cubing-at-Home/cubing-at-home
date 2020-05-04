@@ -86,7 +86,7 @@ export default function ResultSubmission({
 		'777',
 	].includes(round.event)
 		? 3
-		: round.event === '333mbf'
+		: round.event === ['333mbf', '2345relay']
 		? 1
 		: 5
 	const [attempts, setAttempts] = React.useState(Array(numAttempts).fill(0))
@@ -111,8 +111,7 @@ export default function ResultSubmission({
 				<DialogTitle>Confirm Submission</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						Your results are over 30% better than your WCA Personal
-						best.
+						Your results are over 30% better than your WCA Personal best.
 					</DialogContentText>
 					<DialogContentText>
 						Are you sure that your times are correct?
@@ -160,16 +159,10 @@ export default function ResultSubmission({
 									}}
 									style={{ width: '30vw' }}
 								/>
-								<Typography variant='subtitle2'>{`Solve ${
-									i + 1
-								}`}</Typography>
+								<Typography variant='subtitle2'>{`Solve ${i + 1}`}</Typography>
 							</Grid>
 						))}
-						<Grid
-							container
-							justify='space-between'
-							alignItems='space-around'
-						>
+						<Grid container justify='space-between' alignItems='space-around'>
 							<Grid item>
 								<Button
 									type='submit'
@@ -204,11 +197,7 @@ export default function ResultSubmission({
 								<Typography align='left'>
 									Average:{' '}
 									{centisecondsToInput(
-										average(
-											attempts,
-											round.event,
-											numAttempts
-										)
+										average(attempts, round.event, numAttempts)
 									)}
 								</Typography>
 							</Grid>
@@ -228,33 +217,29 @@ export default function ResultSubmission({
 								{`A PDF of the Scrambles is available to download by clicking the button above. Make sure to verify each scramble with the image.`}
 							</li>
 							<li>
-								After you complete each solve, enter in the
-								exact time in the corresponding fields. If you
-								have a penalty, add the penalty and enter the
-								final time. If you got a DNF, type D. If you
-								would like to enter a DNS, type S. For Multiple
-								Blindfolded, the format is: Completed,
-								Attempted, Time.
+								After you complete each solve, enter in the exact time in the
+								corresponding fields. If you have a penalty, add the penalty and
+								enter the final time. If you got a DNF, type D. If you would
+								like to enter a DNS, type S. For Multiple Blindfolded, the
+								format is: Completed, Attempted, Time.
 							</li>
 							<li>
-								Once you finish all of your solves, make sure to
-								double check that all the times are correct.
-								Then, you may submit your times. You can submit
-								your times as many times as you want as long as
-								the round remains open. Once the round is
-								closed, your last submission will be used.
+								Once you finish all of your solves, make sure to double check
+								that all the times are correct. Then, you may submit your times.
+								You can submit your times as many times as you want as long as
+								the round remains open. Once the round is closed, your last
+								submission will be used.
 							</li>
 							<li>
 								<Typography color='error'>
-									Please note: If we detect any form of
-									cheating, it will result in disqualification
-									from all future Cubing at Home competitions.{' '}
+									Please note: If we detect any form of cheating, it will result
+									in disqualification from all future Cubing at Home
+									competitions.{' '}
 								</Typography>
 							</li>
 							<li>
 								If you have any issues/questions, check the{' '}
-								<Link href={`/${competitionId}/faq`}>faq</Link>,
-								{' or '}
+								<Link href={`/${competitionId}/faq`}>faq</Link>,{' or '}
 								<Link
 									target='_blank'
 									rel='noreferrer'

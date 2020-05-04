@@ -26,11 +26,11 @@ const activityToIcon = {
 	'234567relay': 'unofficial-234567relay',
 	'2345relay': 'unofficial-2345relay',
 	kilominx: 'unofficial-kilominx',
-	mpyram: 'Master Pyraminx',
-	redi: 'Redi Cube',
-	'666bf': '6x6 Blindfolded',
-	'777bf': '7x7 Blindfolded',
-	miniguild: 'Mini-Guildford Challenge',
+	mpyram: 'unofficial-mpyram',
+	redi: 'unofficial-redi',
+	'666bf': 'unofficial-666bf',
+	'777bf': 'unofficial-777bf',
+	miniguild: 'unofficial-miniguild',
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-const CubingIcon = ({ event, small = false, ...props }) => {
+const CubingIcon = ({ event, small = false, showName, ...props }) => {
 	const classes = useStyles()
 	return (
 		<Grid
@@ -66,11 +66,13 @@ const CubingIcon = ({ event, small = false, ...props }) => {
 					{...props}
 				/>
 			</Grid>
-			<Grid item>
-				<Typography style={{ textTransform: 'none' }}>
-					{activityKey[event]}
-				</Typography>
-			</Grid>
+			{showName && (
+				<Grid item>
+					<Typography style={{ textTransform: 'none' }}>
+						{activityKey[event]}
+					</Typography>
+				</Grid>
+			)}
 		</Grid>
 	)
 }

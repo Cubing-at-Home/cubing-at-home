@@ -26,23 +26,15 @@ export default function Competitors({ history, competitionInfo, registered }) {
 		} else {
 			setCompetitors(null)
 
-			const criteria = [
-				'333bf',
-				'333fm',
-				'444bf',
-				'555bf',
-				'333mbf',
-			].includes(event)
+			const criteria = ['333bf', '333fm', '444bf', '555bf', '333mbf'].includes(
+				event
+			)
 				? 'single'
 				: 'average'
 			firebase
 				.firestore()
 				.collection('Users')
-				.where(
-					'data.competitions',
-					'array-contains',
-					competitionInfo.id
-				)
+				.where('data.competitions', 'array-contains', competitionInfo.id)
 				.orderBy(`wca.personal_records.${event}.${criteria}.world_rank`)
 				.startAfter(page)
 				.limit(100)
@@ -74,6 +66,7 @@ export default function Competitors({ history, competitionInfo, registered }) {
 				>{`${user.wca.name}: You are successfully registered.`}</Typography>
 			)}
 			<EventList
+				showName={true}
 				selected={[event]}
 				events={competitionInfo.events}
 				onClick={handleEventChange}
@@ -94,17 +87,13 @@ export default function Competitors({ history, competitionInfo, registered }) {
 						page={page}
 						event={event}
 						onClick={(e, competitor) =>
-							open(
-								`${WCA_ORIGIN}/persons/${competitor.wca.wca_id}`
-							)
+							open(`${WCA_ORIGIN}/persons/${competitor.wca.wca_id}`)
 						}
 					/>
 					<Typography>
-						Note: We restrict Psych Sheet to Top 100 in each event.
-						If you want to make sure you registered, check the{' '}
-						<Link href={`/${competitionInfo.id}/register`}>
-							registration
-						</Link>{' '}
+						Note: We restrict Psych Sheet to Top 100 in each event. If you want
+						to make sure you registered, check the{' '}
+						<Link href={`/${competitionInfo.id}/register`}>registration</Link>{' '}
 						page
 					</Typography>
 				</>
