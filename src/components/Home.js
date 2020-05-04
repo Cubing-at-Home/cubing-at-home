@@ -15,7 +15,8 @@ import { LinearProgress, Typography } from '@material-ui/core'
 import { UserContext } from '../utils/auth'
 import { FirebaseContext } from '../utils/firebase'
 import moment from 'moment-timezone'
-// import { rounds } from '../logic/consts'
+// eslint-disable-next-line no-unused-vars
+import { rounds } from '../logic/consts'
 
 const useStyles = makeStyles((theme) => ({
 	grid: {
@@ -65,14 +66,14 @@ export default function Home({ history }) {
 		// 		}
 		// 	})
 		// This is to set a schedule for a competition. Still need to add UI for this.
-		// db.collection('cah3')
+		// db.collection('cah4')
 		// 	.doc('info')
 		// 	.get()
 		// 	.then((doc) => {
 		// 		const data = doc.data()
-		// 		db.collection('cah3')
+		// 		db.collection('cah4')
 		// 			.doc('info')
-		// 			.set({ ...data, schedule: rounds})
+		// 			.set({ ...data, schedule: rounds })
 		// 	})
 	}, [firebase])
 	return (
@@ -155,17 +156,6 @@ export default function Home({ history }) {
 									</ListSubheader>
 								}
 							>
-								<ListItem
-									alignItems='center'
-									// button
-									// component={Link}
-									// to={`/cubing-at-home-I`}
-								>
-									<ListItemText
-										primary={'Cubing at Home I'}
-										secondary={'March 28th, 2020'}
-									/>
-								</ListItem>
 								{competitions
 									.filter((competition) =>
 										moment().isAfter(competition.end.toDate(), 'day')
@@ -184,6 +174,17 @@ export default function Home({ history }) {
 											/>
 										</ListItem>
 									))}
+								<ListItem
+									alignItems='center'
+									// button
+									// component={Link}
+									// to={`/cubing-at-home-I`}
+								>
+									<ListItemText
+										primary={'Cubing at Home I'}
+										secondary={'March 28th, 2020'}
+									/>
+								</ListItem>
 							</List>
 						</Paper>
 					</Grid>
