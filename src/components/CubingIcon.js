@@ -16,7 +16,7 @@ const activityToIcon = {
 	'333oh': 'event-333oh',
 	'333bf': 'event-333bf',
 	'444bf': 'event-444bf',
-	'555bf': 'event-5x5bf',
+	'555bf': 'event-555bf',
 	skewb: 'event-skewb',
 	clock: 'event-clock',
 	'333ft': 'event-333ft',
