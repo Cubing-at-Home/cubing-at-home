@@ -169,6 +169,7 @@ export const activityKey = {
 	'333oh': '3x3x3 One-Handed',
 	'333bf': '3x3x3 Blindfolded',
 	'444bf': '4x4x4 Blindfolded',
+	'555bf': '5x5x5 Blindfolded'
 	skewb: 'Skewb',
 	clock: 'Clock',
 	'333ft': '3x3x3 with Feet',
