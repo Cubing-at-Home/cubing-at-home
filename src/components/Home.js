@@ -66,12 +66,12 @@ export default function Home({ history }) {
 		// 		}
 		// 	})
 		// This is to set a schedule for a competition. Still need to add UI for this.
-		// db.collection('cah4')
+		// db.collection('cah5')
 		// 	.doc('info')
 		// 	.get()
 		// 	.then((doc) => {
 		// 		const data = doc.data()
-		// 		db.collection('cah4')
+		// 		db.collection('cah5')
 		// 			.doc('info')
 		// 			.set({ ...data, schedule: rounds })
 		// 	})

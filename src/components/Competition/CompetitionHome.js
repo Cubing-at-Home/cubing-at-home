@@ -76,9 +76,7 @@ export default function CompetitionHome({ history, match }) {
 			.doc('info')
 			.get()
 			.then((resp) =>
-				resp.exists
-					? setCompetitionInfo(resp.data())
-					: history.push('/')
+				resp.exists ? setCompetitionInfo(resp.data()) : history.push('/')
 			)
 	}, [firebase, history, match.params.id])
 	const classes = useStyles()
@@ -86,9 +84,7 @@ export default function CompetitionHome({ history, match }) {
 	const [value, setValue] = React.useState(match.params.tab || 'information')
 
 	const handleChange = (event, newValue) => {
-		history.push(
-			`/${match.params.id}/${event.target.innerText.toLowerCase()}`
-		)
+		history.push(`/${match.params.id}/${event.target.innerText.toLowerCase()}`)
 		setValue(event.target.innerText.toLowerCase())
 	}
 
@@ -126,16 +122,15 @@ export default function CompetitionHome({ history, match }) {
 						<Schedule competitionInfo={competitionInfo} />
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={2}>
-						<Competitors
-							competitionInfo={competitionInfo}
-							history={history}
-						/>
+						<Competitors competitionInfo={competitionInfo} history={history} />
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={3}>
 						<Scrambles competitionInfo={competitionInfo} />
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={4}>
-						<Results />
+						{() =>
+							(window.location = `https://results.cubingathome.com/${match.params.id}`)
+						}
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={5}>
 						<div>
@@ -149,11 +144,7 @@ export default function CompetitionHome({ history, match }) {
 									rowContentColor: theme.palette.text.primary,
 								}}
 							/>
-							<Typography
-								color='primary'
-								align='center'
-								variant='h6'
-							>
+							<Typography color='primary' align='center' variant='h6'>
 								<Link
 									color='inherit'
 									target='_blank'
