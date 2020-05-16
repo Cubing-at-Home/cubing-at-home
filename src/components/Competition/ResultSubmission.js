@@ -86,7 +86,7 @@ export default function ResultSubmission({
 		'777',
 	].includes(round.event)
 		? 3
-		: round.event === ['333mbf', '2345relay']
+		: ['333mbf', '2345relay'].includes(round.event)
 		? 1
 		: 5
 	const [attempts, setAttempts] = React.useState(Array(numAttempts).fill(0))
