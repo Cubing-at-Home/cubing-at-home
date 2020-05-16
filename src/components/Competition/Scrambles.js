@@ -20,11 +20,7 @@ export default function Scrambles({ competitionInfo }) {
 
 	const handleSubmit = (attempts) => {
 		setStatus('submitting')
-		const eventAverage = average(
-			attempts,
-			selectedEvent.event,
-			attempts.length
-		)
+		const eventAverage = average(attempts, selectedEvent.event, attempts.length)
 		const eventBest = best(attempts)
 		firebase
 			.firestore()
@@ -62,17 +58,33 @@ export default function Scrambles({ competitionInfo }) {
 				.collection(competitionInfo.id)
 				.doc('events')
 				.get()
-				.then((resp) => {
+				.then(async (resp) => {
 					const eventInfo = resp.data().eventInfo
 					const openRounds = []
 					// eslint-disable-next-line array-callback-return
-					eventInfo.map((event) => {
-						const round = event.rounds.filter(
-							(round) => round.isOpen === true
-						)
-						round.length > 0 &&
-							openRounds.push({ ...round[0], event: event.id })
-					})
+					for (const event of eventInfo) {
+						for (const roundInfo of event.rounds) {
+							if (roundInfo.isOpen === true) {
+								if (roundInfo.id === '333-r2') {
+									const resp = await firebase
+										.firestore()
+										.collection(competitionInfo.id)
+										.doc(user.wca.id.toString())
+										.get()
+									const userResults = resp.data()
+									if (
+										userResults['333-r1'] &&
+										userResults['333-r1'].average <= roundInfo.cutoffTime
+									) {
+										console.log('hello')
+										openRounds.push({ ...roundInfo, event: event.id })
+									}
+								} else {
+									openRounds.push({ ...roundInfo, event: event.id })
+								}
+							}
+						}
+					}
 					setEventInfo(openRounds)
 					setSelectedEvent(openRounds[0])
 				})
@@ -89,9 +101,7 @@ export default function Scrambles({ competitionInfo }) {
 							selected={[selectedEvent.event]}
 							events={eventInfo.map((round) => round.event)}
 							onClick={(e) =>
-								setSelectedEvent(
-									eventInfo.find((round) => round.event === e)
-								)
+								setSelectedEvent(eventInfo.find((round) => round.event === e))
 							}
 						/>
 					</Grid>
