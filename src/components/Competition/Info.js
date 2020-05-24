@@ -7,7 +7,6 @@ import Grid from '@material-ui/core/Grid'
 import EventList from '../EventList'
 import Link from '@material-ui/core/Link'
 import { UserContext } from '../../utils/auth'
-import { FirebaseContext } from '../../utils/firebase'
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -19,22 +18,6 @@ export default function Info({ history, match, competitionInfo }) {
 	const user = useContext(UserContext)
 	const classes = useStyles()
 	const competitionId = match.params.id
-	const firebase = React.useContext(FirebaseContext)
-	const [competitionInfo, setCompetitionInfo] = useState(null)
-	React.useEffect(() => {
-		if (user === undefined) {
-			signIn()
-		}
-		firebase
-			.firestore()
-			.collection(competitionId)
-			.doc('info')
-			.get()
-			.then((resp) => {
-				setCompetitionInfo(resp.data())
-			})
-			.catch((err) => setError(err))
-	}, [competitionId, firebase, user])
 	const registered = user
 		? user.data.competitions.includes(competitionId)
 		: false
