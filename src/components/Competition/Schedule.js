@@ -58,6 +58,9 @@ export default function Schedule({ competitionInfo }) {
 						<Typography align='center' variant='subtitle1'>
 							{`Please note that 5BLD will open up before the competition officially starts.`}
 						</Typography>
+						<Typography align='center' variant='subtitle1'>
+							{`An email containing more details will be sent out before the competition.`}
+						</Typography>
 					</Grid>
 					<TableContainer component={Paper}>
 						<Table className={classes.table}>
