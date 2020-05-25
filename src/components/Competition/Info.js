@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import { Typography } from '@material-ui/core'
@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/styles'
 import Grid from '@material-ui/core/Grid'
 import EventList from '../EventList'
 import Link from '@material-ui/core/Link'
+import { UserContext } from '../../utils/auth'
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -14,7 +15,12 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Info({ history, match, competitionInfo }) {
+	const user = useContext(UserContext)
 	const classes = useStyles()
+	const competitionId = match.params.id
+	const registered = user
+		? user.data.competitions.includes(competitionId)
+		: false
 	return (
 		<>
 			<Paper className={classes.paper}>
@@ -38,7 +44,7 @@ export default function Info({ history, match, competitionInfo }) {
 							variant='contained'
 							color='primary'
 						>
-							Manage Your Registration
+							{ registered ? `Registered` : `Manage Your Registration` }
 						</Button>
 					</Grid>
 					<Typography variant='caption' color='error'>
