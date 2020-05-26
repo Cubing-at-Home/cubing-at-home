@@ -20,10 +20,10 @@
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
 		"react-faq-component": "^1.0.4",
+		"react-material-ui-carousel": "^1.5.0",
 		"react-router-dom": "^5.1.2",
 		"react-scripts": "3.4.0",
-		"react-twitch-embed-video": "^2.0.2",
-		"uuid": "^7.0.3"
+		"react-twitch-embed-video": "^2.0.2"
 	},
 	"resolutions": {
 		"moment": "2.24.0"

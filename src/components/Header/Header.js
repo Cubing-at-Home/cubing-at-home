@@ -8,16 +8,16 @@ import Grid from '@material-ui/core/Grid'
 import { UserContext } from '../../utils/auth'
 import { signIn, signOut } from '../../logic/auth'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
-		flexGrow: 1
+		flexGrow: 1,
 	},
 	menuButton: {
-		marginRight: theme.spacing(2)
+		marginRight: theme.spacing(2),
 	},
 	title: {
-		flexGrow: 1
-	}
+		flexGrow: 1,
+	},
 }))
 
 export default function Header({ history }) {
@@ -32,11 +32,11 @@ export default function Header({ history }) {
 						container
 						direction='row'
 						alignItems='center'
-						justify='space-evenly'
+						justify='space-between'
 						style={{ cursor: 'pointer' }}
 						onClick={() => history.push('/')}
 					>
-						<Grid item>
+						{/* <Grid item>
 							<img
 								width='100vw'
 								height='100vh'
@@ -46,24 +46,16 @@ export default function Header({ history }) {
 									'/cubingusa_logo.png'
 								}
 							/>
-						</Grid>
+						</Grid> */}
 						<Grid item>
-							<Typography
-								style={{ cursor: 'pointer' }}
-								align='center'
-								variant='h2'
-							>
-								Cubing at Home
-							</Typography>
-							<Typography
-								align='center'
-								gutterBottom
-								variant='h6'
-							>
-								Online Cubing Competitions for Quarantiners
-							</Typography>
+							<img
+								width='100vw'
+								height='100vh'
+								alt='C@H'
+								src={process.env.PUBLIC_URL + '/logo.png'}
+							/>
 						</Grid>
-						<Grid item>
+						{/* <Grid item>
 							<img
 								width='100vw'
 								height='100vh'
@@ -72,19 +64,13 @@ export default function Header({ history }) {
 									process.env.PUBLIC_URL + '/cubicle_logo.png'
 								}
 							/>
-						</Grid>
+						</Grid> */}
 					</Grid>
 					<Button
 						onClick={
-							user
-								? () =>
-										signOut().then(
-											(window.location.href = '/')
-										)
-								: signIn
+							user ? () => signOut().then((window.location.href = '/')) : signIn
 						}
 						variant='text'
-						size='large'
 						color='inherit'
 					>
 						{user ? user.wca.name : `Login with WCA`}

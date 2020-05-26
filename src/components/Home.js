@@ -15,6 +15,7 @@ import { LinearProgress, Typography } from '@material-ui/core'
 import { UserContext } from '../utils/auth'
 import { FirebaseContext } from '../utils/firebase'
 import moment from 'moment-timezone'
+import LandingCarousel from './LandingCarousel'
 // eslint-disable-next-line no-unused-vars
 import { rounds } from '../logic/consts'
 
@@ -90,13 +91,17 @@ export default function Home({ history }) {
 					justify='center'
 				>
 					{' '}
-					{happeningNow !== null && (
+					{happeningNow !== null ? (
 						<Grid item className={classes.grid}>
 							<Typography
 								align='center'
 								variant='h6'
 							>{`Ongoing: ${happeningNow.name}`}</Typography>
 							<ReactTwitchEmbedVideo channel='cubingusa' />
+						</Grid>
+					) : (
+						<Grid item className={classes.grid}>
+							<LandingCarousel />
 						</Grid>
 					)}
 					<Grid item className={classes.grid}>
