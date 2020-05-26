@@ -1,5 +1,4 @@
 import { getUserResults } from '../logic/wca-api'
-
 export const createNewUser = async (firebase, user) => {
 	let user_results = null
 	if (user.wca_id !== null && user.wca_id !== undefined) {
@@ -17,11 +16,8 @@ export const createNewUser = async (firebase, user) => {
 				name: user.name,
 				wca_id: user.wca_id ? user.wca_id : null,
 				last_updated: new Date(),
-				personal_records: user_results
-					? user_results.personal_records
-					: {},
-				isDelegate:
-					user_results && user_results.delegate_status ? true : false,
+				personal_records: user_results ? user_results.personal_records : {},
+				isDelegate: user_results && user_results.delegate_status ? true : false,
 			},
 			data: {
 				competitions: [],
@@ -76,9 +72,7 @@ export const registerCompetitor = async (firebase, userId, competitionId) => {
 					.collection(competitionId)
 					.doc('info')
 					.update({
-						competitors: firebase.firestore.FieldValue.arrayUnion(
-							userId
-						),
+						competitors: firebase.firestore.FieldValue.arrayUnion(userId),
 					})
 					.then(() => {
 						db.collection(competitionId)
@@ -106,9 +100,7 @@ export const cancelCompetitor = async (firebase, userId, competitionId) => {
 				.collection(competitionId)
 				.doc('info')
 				.update({
-					competitors: firebase.firestore.FieldValue.arrayRemove(
-						userId
-					),
+					competitors: firebase.firestore.FieldValue.arrayRemove(userId),
 				})
 				.then(() => db.collection(competitionId).doc(userId).delete())
 		)

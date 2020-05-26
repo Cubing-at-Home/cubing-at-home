@@ -76,8 +76,7 @@ export const faq = {
 				'Cubing At Home is not an official WCA Competition. All results are unofficial and are not tracked or recognized by the WCA',
 		},
 		{
-			title:
-				'Can I listen to music? Do I have to follow X WCA Regulation?',
+			title: 'Can I listen to music? Do I have to follow X WCA Regulation?',
 			content:
 				'We recommend that you follow WCA Regulations as close as possible. This means that you may not listen to music while solving.',
 		},
@@ -93,8 +92,7 @@ export const faq = {
 				"You only need to film to claim a prize for podiuming or making it into Finals (Top 8)! If you don't think you will podium or make finals then there is no need to film",
 		},
 		{
-			title:
-				'How am I supposed to time my solves? Keep track of inspection?',
+			title: 'How am I supposed to time my solves? Keep track of inspection?',
 			content:
 				' We recommend using a stackmat to time solves but you can feel free to use any website or app to keep track of time. To keep track of inspection you can use built in app or timer features on your timer or alternatively you can go to https://cubing.net/inspection/',
 		},
@@ -150,4 +148,56 @@ export const activityKey = {
 	'333fm': 'Fewest Moves',
 	sq1: 'Square 1',
 	minx: 'Megaminx',
+}
+
+export const TIER_KEY = {
+	'222': 2,
+	'333': 1,
+	'444': 2,
+	'555': 2,
+	'666': 3,
+	'777': 3,
+	pyram: 2,
+	'333oh': 2,
+	'333bf': 2,
+	'4bld': 3,
+	skewb: 2,
+	clock: 3,
+	'333ft': 3,
+	'333mbf': 3,
+	'333fm': 3,
+	sq1: 2,
+	minx: 2,
+}
+
+export const LEADERBOARD_POINTS = {
+	PARTICIPATION: 10,
+	RANKING: {
+		1: 70,
+		2: 55,
+		3: 30,
+	},
+	PODIUM: {
+		1: 80,
+		2: 65,
+		3: 40,
+	},
+	WIN: {
+		1: 100,
+		2: 75,
+		3: 50,
+	},
+	WR: {
+		1: 250,
+		2: 200,
+		3: 150,
+	},
+	BEST_EVER: {
+		1: 200,
+	},
+	BEST_COMPETITION: {
+		1: 75,
+		2: 50,
+		3: 25,
+	},
 }

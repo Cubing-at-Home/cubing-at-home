@@ -43,3 +43,15 @@ export const centisecondsToClockFormat = (centiseconds) => {
 		.substr(11, 11)
 		.replace(/^[0:]*(?!\.)/g, '')
 }
+
+export const sortAttempts = (personA, personB, format) => {
+	const resultType = format === 'a' || format === 'm' ? 'average' : 'best'
+	let aResult = personA[resultType]
+	let bResult = personB[resultType]
+	let aSingle = resultType === 'average' ? personA['best'] : 0
+	let bSingle = resultType === 'average' ? personB['best'] : 0
+	if (aResult <= 0 && bResult < 0) return aSingle - bSingle
+	if (aResult <= 0) return 1
+	if (bResult <= 0) return -1
+	return aResult === bResult ? aSingle - bSingle : aResult - bResult
+}
