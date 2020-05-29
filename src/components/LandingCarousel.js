@@ -16,7 +16,7 @@ export default function LandingCarousel() {
 		{
 			title: 'Cubing at Home V',
 			description:
-				'Sign up for the final competition in the Cubing at Home pre-season now! Registration closes on May 28th. Tune in 12 PM ET at twitch.tv/cubingusa to see who gets crowned our season champion!',
+				'Tune in 12 PM ET at twitch.tv/cubingusa this weekend to see who gets crowned our season champion!',
 			image: `${process.env.PUBLIC_URL}/images/CH5.jpg`,
 			buttonText: 'Learn More',
 			href: '/cah5',
@@ -26,6 +26,8 @@ export default function LandingCarousel() {
 			description:
 				"Cubicle is sponsoring a $1000 prize bracket tournament for Cubing at Home V. All competitors will have the chance to predict the bracket for 3x3 Finals - and if anyone gets 5 exactly correct, they will win $1000. We'll be posting the contest form once registration closes",
 			image: `${process.env.PUBLIC_URL}/images/bracket.png`,
+			buttonText: 'Enter Now!',
+			href: 'https://forms.gle/xNHqrD5HTmqxQ2hp6'
 		},
 	]
 	const classes = useStyles()
