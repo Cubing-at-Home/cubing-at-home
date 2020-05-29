@@ -129,7 +129,9 @@ export default function CompetitionHome({ history, match }) {
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={4}>
 						{() =>
-							(window.location = `https://results.cubingathome.com/${match.params.id}`)
+							window.location.replace(
+								`https://results.cubingathome.com/${match.params.id}`
+							)
 						}
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={5}>

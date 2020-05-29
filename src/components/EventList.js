@@ -46,7 +46,7 @@ export default function EventList({
 				justify={justify}
 				alignItems='center'
 			>
-				{events.map((event) => (
+				{events.map((event, index) => (
 					<Grid item key={event}>
 						{button ? (
 							<ButtonBase
@@ -55,7 +55,7 @@ export default function EventList({
 									selected.includes(event) ? classes.iconSelect : classes.icon
 								}
 								variant='inherit'
-								onClick={() => onClick(event)}
+								onClick={() => onClick(event, index)}
 							>
 								<CubingIcon small={small} event={event} showName={showName} />
 							</ButtonBase>

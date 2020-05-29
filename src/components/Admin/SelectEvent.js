@@ -17,6 +17,7 @@ import {
 	TableContainer,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { parseActivityCode } from '../../logic/attempts'
 
 const useStyles = makeStyles({
 	table: {
@@ -34,50 +35,28 @@ export default function SelectEvent({ competitionId }) {
 	React.useEffect(() => {
 		firebase
 			.firestore()
-			.collection(`${competitionId}`)
-			.doc('events')
+			.collection('competitions')
+			.doc(`${competitionId}`)
 			.get()
-			.then((resp) => setEventInfo(resp.data().eventInfo))
+			.then((resp) => setEventInfo(resp.data().rounds))
 	}, [competitionId, firebase])
-	const handleCheckboxChange = (e, roundId, eventId, event) => {
-		setEventInfo([
-			...eventInfo.map((event) =>
-				event.id !== eventId
-					? event
-					: {
-							...event,
-							rounds: event.rounds.map((round) =>
-								round.id !== roundId
-									? round
-									: { ...round, isOpen: !round.isOpen }
-							),
-					  }
-			),
-		])
-	}
 	const handleSubmit = () => {
 		const storageRef = firebase.storage().ref()
 		firebase
 			.firestore()
-			.collection(competitionId)
-			.doc('events')
-			.set({ eventInfo: eventInfo })
+			.collection('competitions')
+			.doc(competitionId)
+			.update({ rounds: eventInfo })
 			.then(() => {
 				let promsies = []
-				for (const event of eventInfo) {
-					for (const round of event.rounds) {
-						const path = `${competitionId}/${
-							activityKey[
-								round.id.slice(0, round.id.indexOf('-'))
-							]
-						} Round ${round.id.slice(
-							round.id.indexOf('-') + 2
-						)} Scramble Set A.pdf`
-						const promise = storageRef.child(path).updateMetadata({
-							customMetadata: { isOpen: round.isOpen },
-						})
-						promsies.push(promise)
-					}
+				for (const round of eventInfo) {
+					const { eventId, roundNumber } = parseActivityCode(round.id)
+					console.log(roundNumber)
+					const path = `${competitionId}/${activityKey[eventId]} Round ${roundNumber} Scramble Set A.pdf`
+					const promise = storageRef.child(path).updateMetadata({
+						customMetadata: { isOpen: round.isOpen },
+					})
+					promsies.push(promise)
 				}
 				Promise.all(promsies).then(() => setConfirm(true))
 			})
@@ -109,28 +88,29 @@ export default function SelectEvent({ competitionId }) {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{eventInfo.map((event) =>
-										event.rounds.map((round, i) => (
+									{eventInfo.map((round) => {
+										const { eventId, roundNumber } = parseActivityCode(round.id)
+										return (
 											<TableRow key={round.id}>
-												<TableCell>
-													{activityKey[event.id]}
-												</TableCell>
-												<TableCell>{i + 1}</TableCell>
+												<TableCell>{activityKey[eventId]}</TableCell>
+												<TableCell>{roundNumber}</TableCell>
 												<TableCell>
 													<Checkbox
 														checked={round.isOpen}
-														onChange={(e) =>
-															handleCheckboxChange(
-																e,
-																round.id,
-																event.id
-															)
-														}
+														onChange={(e) => {
+															setEventInfo([
+																...eventInfo.map((r) =>
+																	r.id === round.id
+																		? { ...r, isOpen: !r.isOpen }
+																		: r
+																),
+															])
+														}}
 													></Checkbox>
 												</TableCell>
 											</TableRow>
-										))
-									)}
+										)
+									})}
 								</TableBody>
 							</Table>
 						</TableContainer>
@@ -138,9 +118,7 @@ export default function SelectEvent({ competitionId }) {
 
 					{confirm && (
 						<Grid item>
-							<Typography variant='subtitle1'>
-								Updated Successfully
-							</Typography>
+							<Typography variant='subtitle1'>Updated Successfully</Typography>
 						</Grid>
 					)}
 					{error && (
@@ -149,11 +127,7 @@ export default function SelectEvent({ competitionId }) {
 						</Grid>
 					)}
 					<Grid item>
-						<Button
-							color='primary'
-							variant='contained'
-							onClick={handleSubmit}
-						>
+						<Button color='primary' variant='contained' onClick={handleSubmit}>
 							SAVE
 						</Button>
 					</Grid>
