@@ -71,7 +71,6 @@ export default function Info({ history }) {
 								Open the live stream on{' '}
 								<Link href='https://twitch.tv/cubingusa'>
 									<u>twitch.tv/cubingusa</u>
-								</Link>{' '}
 								</Link>
 								{' and the '}
 								<Link href='https://discord.gg/r5AQD2r'>
