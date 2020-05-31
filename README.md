@@ -9,9 +9,15 @@ Code that runs at https://cubingathome.com
 If you want to test this project locally, clone the code and then run
 
 ```
-npm install
-npm start
+cd src
+yarn install
+yarn start
 ```
+
+For local testing, we use the Staging Server from WCA. You can log in as any of the [admins](https://github.com/saranshgrover/cubing-at-home/blob/master/src/logic/consts.js#L146) to access admin functionality. The username and password for staging are the WCA ID and 'wca'
+
+We also use a local firestore database. So you are free to make any changes/additions in development, and it won't reflect on the website. If you absolutely need to test something with the production database, you can change it [here](https://github.com/saranshgrover/cubing-at-home/blob/master/src/utils/firebaseConfig.js).
+
 
 ## Built With
 
