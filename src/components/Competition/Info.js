@@ -82,7 +82,7 @@ export default function Info({ history, match, competitionInfo }) {
 								<Link href='https://discord.gg/r5AQD2r'>
 									<u>Discord Channel </u>
 								</Link>
-								{ to follow along as the competition progresses'}
+								{' to follow along as the competition progresses'}
 							</li>
 						</ul>
 						<li>
