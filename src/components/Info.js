@@ -72,11 +72,11 @@ export default function Info({ history }) {
 								<Link href='https://twitch.tv/cubingusa'>
 									<u>twitch.tv/cubingusa</u>
 								</Link>{' '}
-								and the 
+								and the{' '}
 								<Link href='https://discord.gg/r5AQD2r'>
 									<u>Discord Channel</u>
 								</Link>
-								{` to follow along as the competition progresses`}
+								{' to follow along as the competition progresses'}
 							</li>
 						</ul>
 						<li>
