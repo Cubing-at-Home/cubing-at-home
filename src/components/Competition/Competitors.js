@@ -12,7 +12,7 @@ export default function Competitors({ history, competitionInfo, registered }) {
 	const [competitors, setCompetitors] = useState(null)
 	// in order to avoid 100 reads every time someone switches an event, store the result if it's already been accessed
 	const [preLoadedCompetitors, setPreLoadedCompetiors] = useState({})
-	const [event, setEvent] = useState(competitionInfo.events[0])
+	const [event, setEvent] = useState(competitionInfo.eventList[0])
 	const user = useContext(UserContext)
 	// eslint-disable-next-line no-unused-vars
 	const [page, setPage] = useState(0)
@@ -58,7 +58,7 @@ export default function Competitors({ history, competitionInfo, registered }) {
 			<Typography
 				align='left'
 				variant='body1'
-			>{`${competitionInfo.competitors.length} Registered Competitors`}</Typography>
+			>{`${competitionInfo.competitorCount} Registered Competitors`}</Typography>
 			{user && user.data.competitions.includes(competitionInfo.id) && (
 				<Typography
 					align='left'
@@ -68,7 +68,7 @@ export default function Competitors({ history, competitionInfo, registered }) {
 			<EventList
 				showName={true}
 				selected={[event]}
-				events={competitionInfo.events}
+				events={competitionInfo.eventList}
 				onClick={handleEventChange}
 			/>
 			{!competitors ? (

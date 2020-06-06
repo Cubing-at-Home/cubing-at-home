@@ -41,8 +41,8 @@ export default function Register({ history, match }) {
 		}
 		firebase
 			.firestore()
-			.collection(competitionId)
-			.doc('info')
+			.collection('competitions')
+			.doc(competitionId)
 			.get()
 			.then((resp) => {
 				setCompetitionInfo(resp.data())
@@ -126,7 +126,7 @@ export default function Register({ history, match }) {
 								</Button>
 							</Grid>
 						</>
-					) : new Date() > competitionInfo.registrationEnd.toDate() ? (
+					) : new Date() > new Date(competitionInfo.registrationEnd) ? (
 						<Grid item>
 							<Typography align='center' variant='h4'>
 								{`Registration is closed. Follow `}
@@ -137,12 +137,12 @@ export default function Register({ history, match }) {
 								Competitions!`}
 							</Typography>
 						</Grid>
-					) : new Date() < competitionInfo.registrationStart.toDate() ? (
+					) : new Date() < new Date(competitionInfo.registrationStart) ? (
 						<Grid item>
 							<Typography align='center' variant='h4'>
-								{`Registration opens on: ${competitionInfo.registrationStart
-									.toDate()
-									.toDateString()} `}
+								{`Registration opens on: ${new Date(
+									competitionInfo.registrationStart
+								).toString()} `}
 							</Typography>
 						</Grid>
 					) : (

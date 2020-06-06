@@ -40,7 +40,7 @@ export default function Home({ history }) {
 	const [happeningNow, setHappeningNow] = React.useState(null)
 	React.useEffect(() => {
 		const db = firebase.firestore()
-		db.collection('Competitions')
+		db.collection('competitions')
 			.orderBy('start', 'desc')
 			.limit(5)
 			.get()
@@ -50,7 +50,7 @@ export default function Home({ history }) {
 				setCompetiions(competitions)
 				if (
 					competitions.length >= 1 &&
-					moment().isSame(competitions[0].start.toDate(), 'day')
+					moment().isSame(moment(competitions[0].start), 'day')
 				) {
 					setHappeningNow(competitions[0])
 				}
@@ -117,7 +117,7 @@ export default function Home({ history }) {
 							>
 								{competitions
 									.filter((competition) =>
-										moment().isSameOrBefore(competition.end.toDate(), 'day')
+										moment().isSameOrBefore(moment(competition.end), 'day')
 									)
 									.map((competition) => (
 										<ListItem
@@ -129,7 +129,9 @@ export default function Home({ history }) {
 										>
 											<ListItemText
 												primary={competition.name}
-												secondary={competition.start.toDate().toDateString()}
+												secondary={moment(competition.start).format(
+													'MMMM Do YYYY'
+												)}
 											/>
 											<ListItemSecondaryAction>
 												<Button
@@ -163,7 +165,7 @@ export default function Home({ history }) {
 							>
 								{competitions
 									.filter((competition) =>
-										moment().isAfter(competition.end.toDate(), 'day')
+										moment().isAfter(moment(competition.end), 'day')
 									)
 									.map((competition) => (
 										<ListItem
@@ -175,7 +177,9 @@ export default function Home({ history }) {
 										>
 											<ListItemText
 												primary={competition.name}
-												secondary={competition.start.toDate().toDateString()}
+												secondary={moment(competition.start).format(
+													'MMMM Do YYYY'
+												)}
 											/>
 										</ListItem>
 									))}

@@ -32,9 +32,7 @@ export const initializeAuth = () => {
 		)
 	}
 	/* If the token expired, sign the user out. */
-	const expirationTime = localStorage.getItem(
-		localStorageKey('expirationTime')
-	)
+	const expirationTime = localStorage.getItem(localStorageKey('expirationTime'))
 	if (expirationTime && new Date() >= new Date(expirationTime)) {
 		signOut()
 	}
@@ -67,7 +65,7 @@ export const signIn = () => {
 		scope: 'public email',
 	})
 	localStorage.setItem(localStorageKey('redirectPath'), window.location)
-	window.location = `${WCA_ORIGIN}/oauth/authorize?${params.toString()}`
+	window.location.replace(`${WCA_ORIGIN}/oauth/authorize?${params.toString()}`)
 }
 
 const oauthRedirectUri = () => {

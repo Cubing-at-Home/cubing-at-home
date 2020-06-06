@@ -9,134 +9,122 @@ import { signIn } from '../../logic/auth'
 import { LinearProgress, Typography } from '@material-ui/core'
 import { activityKey } from '../../logic/consts'
 import { average, best } from '../../logic/stats'
-
+import { parseActivityCode } from '../../logic/attempts'
+import { getOpenRounds } from '../../database/reads'
+import { submitTime } from '../../database/writes'
 export default function Scrambles({ competitionInfo }) {
-	const [selectedEvent, setSelectedEvent] = useState()
-	const [eventInfo, setEventInfo] = useState(null)
+	const [selectedEvent, setSelectedEvent] = useState(null)
+	const [rounds, setRounds] = useState(null)
 	const [status, setStatus] = useState('')
 	const [auth, setAuth] = useState(true)
 	const user = useContext(UserContext)
 	const firebase = useContext(FirebaseContext)
 
-	const handleSubmit = (attempts) => {
+	const handleSubmit = async (attempts) => {
 		setStatus('submitting')
-		const eventAverage = average(attempts, selectedEvent.event, attempts.length)
+		const eventAverage = average(
+			attempts,
+			parseActivityCode(rounds[selectedEvent].id).eventId,
+			attempts.length
+		)
 		const eventBest = best(attempts)
-		firebase
-			.firestore()
-			.collection(competitionInfo.id)
-			.doc(user.wca.id.toString())
-			.get()
-			.then((resp) => {
-				const data = resp.data()
-				firebase
-					.firestore()
-					.collection(competitionInfo.id)
-					.doc(user.wca.id.toString())
-					.set({
-						...data,
-						[selectedEvent.id]: {
-							average: eventAverage,
-							best: eventBest,
-							attempts: attempts,
-						},
-					})
-					.then(setStatus('submitted'))
-					.catch((err) => setStatus('error'))
-			})
+		const result = {
+			average: eventAverage,
+			best: eventBest,
+			attempts: attempts,
+			name: user.wca.name,
+			personId: user.wca.id.toString(),
+			lastUpdated: new Date(),
+		}
+		console.log(result)
+		await submitTime(
+			firebase,
+			competitionInfo.id,
+			rounds[selectedEvent].id,
+			result
+		).catch((err) => setError(err))
+		setStatus('submitted')
 	}
 
+	const [error, setError] = useState(null)
 	React.useEffect(() => {
-		if (user === undefined) {
-			signIn()
+		async function fetch() {
+			if (user === undefined) {
+				signIn()
+			}
+			if (!user.data.competitions.includes(competitionInfo.id)) {
+				setAuth(false)
+			} else {
+				const rounds = await getOpenRounds(
+					firebase,
+					competitionInfo.id,
+					user.wca.id.toString()
+				)
+				if (!rounds) setError('Unable to find qualified rounds')
+				else {
+					setRounds(rounds)
+					setSelectedEvent(0)
+				}
+			}
 		}
-		if (!user.data.competitions.includes(competitionInfo.id)) {
-			setAuth(false)
-		} else {
-			firebase
-				.firestore()
-				.collection(competitionInfo.id)
-				.doc('events')
-				.get()
-				.then(async (resp) => {
-					const eventInfo = resp.data().eventInfo
-					const openRounds = []
-					// eslint-disable-next-line array-callback-return
-					for (const event of eventInfo) {
-						for (const roundInfo of event.rounds) {
-							if (roundInfo.isOpen === true) {
-								if (roundInfo.id === '333-r2') {
-									const resp = await firebase
-										.firestore()
-										.collection(competitionInfo.id)
-										.doc(user.wca.id.toString())
-										.get()
-									const userResults = resp.data()
-									if (
-										userResults['333-r1'] &&
-										userResults['333-r1'].average <= roundInfo.cutoffTime
-									) {
-										console.log('hello')
-										openRounds.push({ ...roundInfo, event: event.id })
-									}
-								} else {
-									openRounds.push({ ...roundInfo, event: event.id })
-								}
-							}
-						}
-					}
-					setEventInfo(openRounds)
-					setSelectedEvent(openRounds[0])
-				})
-		}
+		fetch()
 	}, [user, competitionInfo, firebase])
+	if (error !== null)
+		return (
+			<Typography variant='h2' color='error'>
+				{error}
+			</Typography>
+		)
+	if (rounds === null || selectedEvent === null) return <LinearProgress />
+	if (!auth)
+		return <Typography>You aren't registered for this competition.</Typography>
+	if (rounds.length === 0)
+		return <Typography>No events are currently open for you.</Typography>
+
 	return (
 		<Grid container direction='column' justify='center'>
-			{!eventInfo && auth ? (
-				<LinearProgress />
-			) : auth && eventInfo.length > 0 && selectedEvent ? (
-				<>
-					<Grid item>
-						<EventList
-							selected={[selectedEvent.event]}
-							events={eventInfo.map((round) => round.event)}
-							onClick={(e) =>
-								setSelectedEvent(eventInfo.find((round) => round.event === e))
-							}
-						/>
-					</Grid>
-					<Grid item>
-						<Typography align='center'>{`${
-							activityKey[selectedEvent.event]
-						} Round ${selectedEvent.id.slice(-1)}`}</Typography>
-					</Grid>
-					<Grid item>
-						<ShowScrambles
-							competitionId={competitionInfo.id}
-							round={selectedEvent}
-						/>
-					</Grid>
-					<Grid item>
-						<ResultSubmission
-							user={user}
-							competitionId={competitionInfo.id}
-							onSubmit={handleSubmit}
-							round={selectedEvent}
-						/>
-					</Grid>
-					{status === 'submitted' && (
-						<Grid item>
-							<Typography>{`Successfully updated result.`}</Typography>
-						</Grid>
+			<Grid item>
+				<EventList
+					selected={parseActivityCode(rounds[selectedEvent].id).eventId}
+					events={rounds.map(
+						(round) => parseActivityCode(rounds[selectedEvent].id).eventId
 					)}
-					{status === 'error' && (
-						<Grid item>
-							<Typography color='error'>{`Error in submitting result`}</Typography>
-						</Grid>
-					)}
-				</>
-			) : (
-				<Typography>No events are currently open for you.</Typography>
+					onClick={(_, index) => setSelectedEvent(index)}
+				/>
+			</Grid>
+			<Grid item>
+				<Typography align='center'>{`${
+					activityKey[parseActivityCode(rounds[selectedEvent].id).eventId]
+				} Round ${
+					parseActivityCode(rounds[selectedEvent].id).roundNumber
+				}`}</Typography>
+			</Grid>
+			<Grid item>
+				<ShowScrambles
+					competitionId={competitionInfo.id}
+					round={rounds[selectedEvent]}
+				/>
+			</Grid>
+			<Grid item>
+				<ResultSubmission
+					user={user}
+					competitionId={competitionInfo.id}
+					onSubmit={handleSubmit}
+					round={{
+						...rounds[selectedEvent],
+						event: parseActivityCode(rounds[selectedEvent].id).eventId,
+					}} // im doing this because an earlier version of the db had round.event, and im too lazy to change it everywhere
+				/>
+			</Grid>
+			{status === 'submitted' && (
+				<Grid item>
+					<Typography>{`Successfully updated result.`}</Typography>
+				</Grid>
+			)}
+			{status === 'error' && (
+				<Grid item>
+					<Typography color='error'>{`Error in submitting result. Please try again.`}</Typography>
+				</Grid>
 			)}
 		</Grid>
 	)
