@@ -2,11 +2,11 @@ import React, { useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { UserContext } from '../../utils/auth'
 import { signIn, signOut } from '../../logic/auth'
+import Typography from '@material-ui/core/Typography'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -48,13 +48,15 @@ export default function Header({ history }) {
 							/>
 						</Grid> */}
 						<Grid item>
+							{' '}
 							<img
-								width='100vw'
-								height='100vh'
+								width='80vw'
+								height='80vh'
 								alt='C@H'
 								src={process.env.PUBLIC_URL + '/logo.png'}
 							/>
 						</Grid>
+
 						{/* <Grid item>
 							<img
 								width='100vw'
