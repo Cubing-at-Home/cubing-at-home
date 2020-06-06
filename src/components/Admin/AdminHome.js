@@ -10,6 +10,7 @@ import ListSubheader from '@material-ui/core/ListSubheader'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/styles'
+import moment from 'moment'
 
 const useStyles = makeStyles((theme) => ({
 	grid: {
@@ -32,7 +33,7 @@ export default function AdminHome({ history }) {
 		const competitions = []
 		firebase
 			.firestore()
-			.collection('Competitions')
+			.collection('competitions')
 			.get()
 			.then((query) => {
 				query.forEach((q) => competitions.push(q.data()))
@@ -70,9 +71,7 @@ export default function AdminHome({ history }) {
 							>
 								<ListItemText
 									primary={competition.name}
-									secondary={competition.start
-										.toDate()
-										.toDateString()}
+									secondary={moment(competition.start).format('YYYY Mo DD')}
 								/>
 							</ListItem>
 						))}

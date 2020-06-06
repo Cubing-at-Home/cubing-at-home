@@ -38,7 +38,7 @@ export default function SelectEvent({ competitionId }) {
 			.collection('competitions')
 			.doc(`${competitionId}`)
 			.get()
-			.then((resp) => setEventInfo(resp.data().rounds))
+			.then((resp) => setEventInfo(resp.data().rounds || []))
 	}, [competitionId, firebase])
 	const handleSubmit = () => {
 		const storageRef = firebase.storage().ref()
@@ -63,7 +63,7 @@ export default function SelectEvent({ competitionId }) {
 	}
 	return (
 		<>
-			{!eventInfo || !user ? (
+			{eventInfo === null || !user ? (
 				<LinearProgress />
 			) : (
 				<Grid
