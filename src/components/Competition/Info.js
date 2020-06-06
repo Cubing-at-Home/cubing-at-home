@@ -34,7 +34,7 @@ export default function Info({ history, match, competitionInfo }) {
 					<Grid item>
 						<Typography variant='h3'>{competitionInfo.name}</Typography>
 						<Typography align='center' variant='h6'>
-							{competitionInfo.start.toDate().toDateString()}
+							{competitionInfo.start}
 						</Typography>
 					</Grid>
 
@@ -44,13 +44,13 @@ export default function Info({ history, match, competitionInfo }) {
 							variant='contained'
 							color='primary'
 						>
-							{ registered ? `Registered` : `Manage Your Registration` }
+							{registered ? `Registered` : `Manage Your Registration`}
 						</Button>
 					</Grid>
 					<Typography variant='caption' color='error'>
-						{`Registration Closes on ${competitionInfo.registrationEnd
-							.toDate()
-							.toString()}`}
+						{`Registration Closes on ${new Date(
+							competitionInfo.registrationEnd
+						).toString()}`}
 					</Typography>
 					<Grid item>
 						<Typography align='center' variant='h4'>
@@ -58,8 +58,8 @@ export default function Info({ history, match, competitionInfo }) {
 						</Typography>
 						<EventList
 							button={false}
-							selected={competitionInfo.events}
-							events={competitionInfo.events}
+							selected={competitionInfo.eventList}
+							events={competitionInfo.eventList}
 							showName
 							onClick={() => {}}
 							small={true}

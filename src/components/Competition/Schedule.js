@@ -26,9 +26,7 @@ const useStyles = makeStyles({
 export default function Schedule({ competitionInfo }) {
 	const [timezone, setTimezone] = useState(null)
 	const rows = competitionInfo.schedule || []
-	const date = moment(
-		competitionInfo.start.toDate().toISOString().split('T')[0]
-	)
+	const date = moment(competitionInfo.start)
 	useEffect(() => {
 		setTimezone(jstz.determine().name())
 	}, [])
@@ -54,12 +52,6 @@ export default function Schedule({ competitionInfo }) {
 						</Typography>
 						<Typography align='center' variant='subtitle1'>
 							{`Showing times in ${timezone}`}
-						</Typography>
-						<Typography align='center' variant='subtitle1'>
-							{`Please note that 5BLD will open up before the competition officially starts.`}
-						</Typography>
-						<Typography align='center' variant='subtitle1'>
-							{`An email containing more details will be sent out before the competition.`}
 						</Typography>
 					</Grid>
 					<TableContainer component={Paper}>

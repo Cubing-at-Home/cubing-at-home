@@ -11,22 +11,25 @@ export const getOpenRounds = async (firebase, competitionId, personId) => {
 			.data()
 			.rounds.filter((round) => round.isOpen === true)
 			.map((round) => round.id)
-		const userRef = await db
-			.collection('Users')
-			.doc(personId.toString())
-			.collection('Results')
-			.doc(competitionId)
-			.get()
-		const userResults = userRef.data().results
-		let qualifiedRounds = []
-		for (const round of rounds) {
-			if (parseInt(round.slice(round.indexOf('r') + 1)) > 1) {
-				if (userResults.find((result) => result.roundId === round)?.qualified)
-					qualifiedRounds.push(round)
-			} else {
-				qualifiedRounds.push(round)
-			}
-		}
+		// const userRef = await db
+		// 	.collection('Users')
+		// 	.doc(personId.toString())
+		// 	.collection('Results')
+		// 	.doc(competitionId)
+		// 	.get()
+		// const userResults = userRef.data().results
+		let qualifiedRounds = rounds
+		/**
+		 * TODO: need to work on qualified rounds
+		 */
+		// for (const round of rounds) {
+		// 	if (parseInt(round.slice(round.indexOf('r') + 1)) > 1) {
+		// 		if (userResults.find((result) => result.roundId === round)?.qualified)
+		// 			qualifiedRounds.push(round)
+		// 	} else {
+		// 		qualifiedRounds.push(round)
+		// 	}
+		// }
 		let roundsInformation = []
 		for (const round of qualifiedRounds) {
 			const { eventId } = parseActivityCode(round)

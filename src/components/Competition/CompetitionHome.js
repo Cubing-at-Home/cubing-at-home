@@ -72,12 +72,13 @@ export default function CompetitionHome({ history, match }) {
 	React.useEffect(() => {
 		firebase
 			.firestore()
-			.collection(match.params.id)
-			.doc('info')
+			.collection('competitions')
+			.doc(match.params.id)
 			.get()
 			.then((resp) =>
 				resp.exists ? setCompetitionInfo(resp.data()) : history.push('/')
 			)
+			.catch((err) => history.push('/'))
 	}, [firebase, history, match.params.id])
 	const classes = useStyles()
 

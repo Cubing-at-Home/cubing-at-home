@@ -9,13 +9,11 @@ import Link from '@material-ui/core/Link'
 import { makeStyles } from '@material-ui/core/styles'
 import { FirebaseContext } from '../../utils/firebase'
 import { average, best, checkAgainstPersonalBest } from '../../logic/stats'
-import {
-	DialogTitle,
-	Dialog,
-	DialogContent,
-	DialogContentText,
-	DialogActions,
-} from '@material-ui/core'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import Dialog from '@material-ui/core/Dialog'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogActions from '@material-ui/core/DialogActions'
 import { decodeMbldAttempt } from './AttemptField/MbldField/MbldField'
 
 const useStyles = makeStyles((theme) => ({
@@ -93,13 +91,19 @@ export default function ResultSubmission({
 	React.useEffect(() => {
 		firebase
 			.firestore()
-			.collection(competitionId)
+			.collection('competitions')
+			.doc(competitionId)
+			.collection('Events')
+			.doc(round.event)
+			.collection('Rounds')
+			.doc(round.id)
+			.collection('Results')
 			.doc(user.wca.id.toString())
 			.get()
 			.then((resp) => {
-				const data = resp.data()
-				if (data[round.id] !== undefined) {
-					setAttempts(data[round.id].attempts)
+				if (resp.exists) {
+					const data = resp.data()
+					setAttempts(data.attempts)
 				} else {
 					setAttempts(Array(numAttempts).fill(0))
 				}
@@ -150,6 +154,7 @@ export default function ResultSubmission({
 						{attempts.map((v, i) => (
 							<Grid item key={i}>
 								<AttemptField
+									disabled
 									initialValue={attempts[i]}
 									eventId={round.event}
 									onValue={(newAttempt) => {

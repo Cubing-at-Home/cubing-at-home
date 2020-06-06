@@ -51,10 +51,9 @@ export default function SelectEvent({ competitionId }) {
 				let promsies = []
 				for (const round of eventInfo) {
 					const { eventId, roundNumber } = parseActivityCode(round.id)
-					console.log(roundNumber)
 					const path = `${competitionId}/${activityKey[eventId]} Round ${roundNumber} Scramble Set A.pdf`
 					const promise = storageRef.child(path).updateMetadata({
-						customMetadata: { isOpen: round.isOpen },
+						customMetadata: { isOpen: round.isOpen.toString() },
 					})
 					promsies.push(promise)
 				}

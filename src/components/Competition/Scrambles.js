@@ -11,41 +11,39 @@ import { activityKey } from '../../logic/consts'
 import { average, best } from '../../logic/stats'
 import { parseActivityCode } from '../../logic/attempts'
 import { getOpenRounds } from '../../database/reads'
+import { submitTime } from '../../database/writes'
 export default function Scrambles({ competitionInfo }) {
-	const [selectedEvent, setSelectedEvent] = useState()
-	const [eventInfo, setEventInfo] = useState(null)
+	const [selectedEvent, setSelectedEvent] = useState(null)
 	const [rounds, setRounds] = useState(null)
 	const [status, setStatus] = useState('')
 	const [auth, setAuth] = useState(true)
 	const user = useContext(UserContext)
 	const firebase = useContext(FirebaseContext)
 
-	const handleSubmit = (attempts) => {
+	const handleSubmit = async (attempts) => {
 		setStatus('submitting')
-		const eventAverage = average(attempts, selectedEvent.event, attempts.length)
+		const eventAverage = average(
+			attempts,
+			parseActivityCode(rounds[selectedEvent].id).eventId,
+			attempts.length
+		)
 		const eventBest = best(attempts)
-		firebase
-			.firestore()
-			.collection(competitionInfo.id)
-			.doc(user.wca.id.toString())
-			.get()
-			.then((resp) => {
-				const data = resp.data()
-				firebase
-					.firestore()
-					.collection(competitionInfo.id)
-					.doc(user.wca.id.toString())
-					.set({
-						...data,
-						[selectedEvent.id]: {
-							average: eventAverage,
-							best: eventBest,
-							attempts: attempts,
-						},
-					})
-					.then(setStatus('submitted'))
-					.catch((err) => setStatus('error'))
-			})
+		const result = {
+			average: eventAverage,
+			best: eventBest,
+			attempts: attempts,
+			name: user.wca.name,
+			personId: user.wca.id.toString(),
+			lastUpdated: new Date(),
+		}
+		console.log(result)
+		await submitTime(
+			firebase,
+			competitionInfo.id,
+			rounds[selectedEvent].id,
+			result
+		).catch((err) => setError(err))
+		setStatus('submitted')
 	}
 
 	const [error, setError] = useState(null)
@@ -62,7 +60,6 @@ export default function Scrambles({ competitionInfo }) {
 					competitionInfo.id,
 					user.wca.id.toString()
 				)
-				console.log(rounds)
 				if (!rounds) setError('Unable to find qualified rounds')
 				else {
 					setRounds(rounds)
@@ -79,6 +76,8 @@ export default function Scrambles({ competitionInfo }) {
 			</Typography>
 		)
 	if (rounds === null || selectedEvent === null) return <LinearProgress />
+	if (!auth)
+		return <Typography>You aren't registered for this competition.</Typography>
 	if (rounds.length === 0)
 		return <Typography>No events are currently open for you.</Typography>
 
@@ -111,7 +110,10 @@ export default function Scrambles({ competitionInfo }) {
 					user={user}
 					competitionId={competitionInfo.id}
 					onSubmit={handleSubmit}
-					round={rounds[selectedEvent]}
+					round={{
+						...rounds[selectedEvent],
+						event: parseActivityCode(rounds[selectedEvent].id).eventId,
+					}} // im doing this because an earlier version of the db had round.event, and im too lazy to change it everywhere
 				/>
 			</Grid>
 			{status === 'submitted' && (
@@ -121,7 +123,7 @@ export default function Scrambles({ competitionInfo }) {
 			)}
 			{status === 'error' && (
 				<Grid item>
-					<Typography color='error'>{`Error in submitting result`}</Typography>
+					<Typography color='error'>{`Error in submitting result. Please try again.`}</Typography>
 				</Grid>
 			)}
 		</Grid>
