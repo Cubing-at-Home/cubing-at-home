@@ -1,32 +1,24 @@
 import { sortAttempts } from '../logic/attempts'
 import { TIER_KEY, LEADERBOARD_POINTS } from '../logic/consts'
-export async function updateUsers(firebase) {
+export async function updateUsers(firebase, competitions) {
 	const db = firebase.firestore()
-	const competitions = [
-		{
-			name: 'cah3',
-			rounds: [
-				'333-r1',
-				'444-r1',
-				'444bf-r1',
-				'777-r1',
-				'333oh-r1',
-				'skewb-r1',
-				'222-r1',
-			],
-		},
-	]
 	for (const competition of competitions) {
-		const infoRef = await db.collection(competition.name).doc('info').get()
-		const competitors = infoRef.data().competitors
-		const competitorsDone = []
-		for (const competitor of competitors) {
-			const competitorTransaction = await firebase
-				.firestore()
-				.runTransaction(async (transaction) => {
-					let compResults = { competitionId: competition.name, results: [] }
-					for (const round of competition.rounds) {
-						const roundCompetitorRef = db
+		let compResults = { competitionId: competition.name, results: [] }
+		const results = await firebase
+			.firestore()
+			.collection(competition.name)
+			.get()
+		results.forEach(async (doc) => {
+			if (!doc.data().eventInfo && !doc.data().startDate) {
+				compResults.results.push(doc.data())
+			}
+		})
+		let i = 0
+		for (const result of compResults.results) {
+			if (result.id) {
+				for (const round of competition.rounds) {
+					if (result[round]) {
+						const resultRef = db
 							.collection('competitions')
 							.doc(competition.name)
 							.collection('Events')
@@ -34,29 +26,36 @@ export async function updateUsers(firebase) {
 							.collection('Rounds')
 							.doc(round)
 							.collection('Results')
-							.doc(competitor)
-						const roundCompetitor = await transaction.get(roundCompetitorRef)
-						if (roundCompetitor.exists) {
-							const { name, personId, wcaId, ...other } = roundCompetitor.data()
-							compResults.results.push({ ...other, roundId: round })
-						}
+							.doc(result.id)
+						await resultRef.set({
+							...result[round],
+							name: result.name || '',
+							personId: result.id || '',
+							ranking: -1,
+							wcaId: result.wcaId || '',
+						})
 					}
-					const userRef = db
-						.collection('Users')
-						.doc(competitor)
-						.collection('Results')
-						.doc(competition.name)
-					await transaction.set(userRef, compResults)
-					return Promise.resolve(competitor)
-				})
-			console.log(
-				`Updated Results for ${competitorTransaction} for ${competition.name}`
-			)
-			competitorsDone.push(competitor)
+				}
+				const userResults = {
+					competitionId: competition.name,
+					results: [],
+				}
+				for (const key of Object.keys(result)) {
+					if (competition.rounds.includes(key)) {
+						userResults.results.push({ ...result[key], roundId: key })
+					}
+				}
+				const userRef = db
+					.collection('Users')
+					.doc(result.id)
+					.collection('Results')
+					.doc(competition.name)
+				await userRef.set(userResults)
+				console.log(`Updated results for: ${result.name || ''} #${i}`)
+				i += 1
+			}
 		}
-		console.log(
-			`Updated ${competitorsDone.length}/${competitors.length} competitors for ${competition.name}`
-		)
+		return Promise.resolve()
 	}
 }
 

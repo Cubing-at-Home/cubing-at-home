@@ -1,9 +1,11 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { FirebaseContext } from '../utils/firebase'
-import { buildCompetition } from '../database/builder'
-import { updateRankings, updateLeaderboard } from '../database/scripts'
+import {
+	updateRankings,
+	updateLeaderboard,
+	updateUsers,
+} from '../database/scripts'
 import TextField from '@material-ui/core/TextField'
-import { TIER_KEY, LEADERBOARD_POINTS } from '../logic/consts'
 
 export default function Scripts() {
 	const firebase = useContext(FirebaseContext)
@@ -124,6 +126,15 @@ export default function Scripts() {
 				}
 			>
 				Update Leaderboard
+			</button>
+			<button
+				onClick={() =>
+					updateUsers(firebase, [
+						{ name: competitionId, rounds: roundIds.split(',') },
+					])
+				}
+			>
+				Update Users
 			</button>
 		</>
 	)
