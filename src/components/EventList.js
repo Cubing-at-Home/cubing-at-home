@@ -47,14 +47,13 @@ export default function EventList({
 				alignItems='center'
 			>
 				{events.map((event, index) => (
-					<Grid item key={event}>
+					<Grid item key={`${event}-${index}`}>
 						{button ? (
 							<ButtonBase
 								disableRipple
 								className={
 									selected.includes(event) ? classes.iconSelect : classes.icon
 								}
-								variant='inherit'
 								onClick={() => onClick(event, index)}
 							>
 								<CubingIcon small={small} event={event} showName={showName} />

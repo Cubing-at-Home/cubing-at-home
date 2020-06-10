@@ -1,6 +1,6 @@
 import { parseActivityCode } from '../logic/attempts'
 
-export const getOpenRounds = async (firebase, competitionId, personId) => {
+export const getOpenRounds = async (firebase, competitionId, personId = -1) => {
 	try {
 		const db = firebase.firestore()
 		const roundRef = await db

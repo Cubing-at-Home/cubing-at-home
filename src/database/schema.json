@@ -43,7 +43,11 @@
 							"best": "number",
 							"roundId": "string",
 							"lastUpdated": "date",
-							"videoURL": "string"
+							"videoURL": "string",
+							"flagged": {
+								"isFlagged": "boolean | undefined",
+								"reason": "string | undefined"
+							}
 						}
 					]
 				}

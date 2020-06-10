@@ -20,7 +20,7 @@ export default function Scrambles({ competitionInfo }) {
 	const user = useContext(UserContext)
 	const firebase = useContext(FirebaseContext)
 
-	const handleSubmit = async (attempts) => {
+	const handleSubmit = async (attempts, flag = false) => {
 		setStatus('submitting')
 		const eventAverage = average(
 			attempts,
@@ -35,6 +35,10 @@ export default function Scrambles({ competitionInfo }) {
 			name: user.wca.name,
 			personId: user.wca.id.toString(),
 			lastUpdated: new Date(),
+			flagged: {
+				isFlagged: flag,
+				reason: flag ? '30% Better than WCA Result' : '',
+			},
 		}
 		console.log(result)
 		await submitTime(
