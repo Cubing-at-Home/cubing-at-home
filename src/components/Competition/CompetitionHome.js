@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Link from '@material-ui/core/Link'
 import AppBar from '@material-ui/core/AppBar'
@@ -17,29 +16,7 @@ import { faq } from '../../logic/consts'
 import Scrambles from './Scrambles'
 import Results from './Results'
 import { useTheme } from '@material-ui/core/styles'
-
-function TabPanel(props) {
-	const { children, value, index, ...other } = props
-
-	return (
-		<Typography
-			component='div'
-			role='tabpanel'
-			hidden={value !== index}
-			id={`simple-tabpanel-${index}`}
-			aria-labelledby={`simple-tab-${index}`}
-			{...other}
-		>
-			{value === index && <Box p={3}>{children}</Box>}
-		</Typography>
-	)
-}
-
-TabPanel.propTypes = {
-	children: PropTypes.node,
-	index: PropTypes.any.isRequired,
-	value: PropTypes.any.isRequired,
-}
+import TabPanel from '../TabPanel'
 
 function a11yProps(index) {
 	return {
