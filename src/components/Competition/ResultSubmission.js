@@ -12,9 +12,9 @@ import { average, best, checkAgainstPersonalBest } from '../../logic/stats'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
 import Dialog from '@material-ui/core/Dialog'
-import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogActions from '@material-ui/core/DialogActions'
 import { decodeMbldAttempt } from './AttemptField/MbldField/MbldField'
+import DialogContentText from '@material-ui/core/DialogContentText'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -114,21 +114,21 @@ export default function ResultSubmission({
 			<Dialog open={dialog}>
 				<DialogTitle>Confirm Submission</DialogTitle>
 				<DialogContent>
-					<DialogContentText>
-						Your results are over 30% better than your WCA Personal best.
+					<DialogContentText variant='body1'>
+						{`Your results are over 30% better than your WCA Personal best.}`}
 					</DialogContentText>
-					<DialogContentText>
-						Are you sure that your times are correct?
+					<DialogContentText variant='body1'>
+						{`Are you sure that your times are correct?`}
 					</DialogContentText>
-					<DialogContentText>
-						Please note that any form of cheating is unacceptable.
+					<DialogContentText variant='body1'>
+						{`If these times are correct, your result will be flagged for approval from the results team. If we suspect cheating, we will reach out to you on your email (${user.wca.email})`}
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<Button
 						onClick={() => {
 							setDialog(false)
-							onSubmit(attempts)
+							onSubmit(attempts, true)
 						}}
 					>
 						Yes, my results are valid
@@ -154,7 +154,6 @@ export default function ResultSubmission({
 						{attempts.map((v, i) => (
 							<Grid item key={i}>
 								<AttemptField
-									disabled
 									initialValue={attempts[i]}
 									eventId={round.event}
 									onValue={(newAttempt) => {
@@ -167,7 +166,7 @@ export default function ResultSubmission({
 								<Typography variant='subtitle2'>{`Solve ${i + 1}`}</Typography>
 							</Grid>
 						))}
-						<Grid container justify='space-between' alignItems='space-around'>
+						<Grid container justify='space-between' alignItems='stretch'>
 							<Grid item>
 								<Button
 									type='submit'
@@ -215,7 +214,7 @@ export default function ResultSubmission({
 					</Grid>
 				</Grid>
 				<Grid item xs={6} container style={{ display: 'flex' }}>
-					<Typography>
+					<Typography component='div'>
 						Result Submission Process
 						<ul>
 							<li>
