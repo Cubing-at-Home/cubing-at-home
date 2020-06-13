@@ -14,20 +14,11 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 export default function LandingCarousel() {
 	const items = [
 		{
-			title: 'Cubing at Home V',
-			description:
-				'Tune in 12 PM ET at twitch.tv/cubingusa this weekend to see who gets crowned our season champion!',
-			image: `${process.env.PUBLIC_URL}/images/CH5.jpg`,
-			buttonText: 'Learn More',
-			href: '/cah5',
-		},
-		{
-			title: 'Cubing at Home Bracket Contest!',
-			description:
-				"Cubicle is sponsoring a $1000 prize bracket tournament for Cubing at Home V. All competitors will have the chance to predict the bracket for 3x3 Finals - and if anyone gets 5 exactly correct, they will win $1000. We'll be posting the contest form once registration closes",
-			image: `${process.env.PUBLIC_URL}/images/bracket.png`,
-			buttonText: 'Enter Now!',
-			href: 'https://forms.gle/xNHqrD5HTmqxQ2hp6'
+			title: 'Announcing C@H Season 1!',
+			description: `Join top speedcubers acorss the world to compete in 21 events across 5 competitions! See all the action live at twitch.tv/cubingusa`,
+			image: `${process.env.PUBLIC_URL}/images/season1.png`,
+			buttonText: 'Register FOR FREE NOW!',
+			href: '/s1/register',
 		},
 	]
 	const classes = useStyles()
@@ -46,7 +37,7 @@ const useStyles = makeStyles({
 		height: 'auto',
 	},
 	media: {
-		height: '80vh',
+		height: '100vh',
 		width: '80vw',
 		display: 'block',
 		marginLeft: 'auto',

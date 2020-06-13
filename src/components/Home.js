@@ -16,6 +16,8 @@ import { UserContext } from '../utils/auth'
 import { FirebaseContext } from '../utils/firebase'
 import moment from 'moment-timezone'
 import LandingCarousel from './LandingCarousel'
+import RegisteredIcon from '@material-ui/icons/CheckCircleOutline'
+import NotRegisteredIcon from '@material-ui/icons/Cancel'
 // eslint-disable-next-line no-unused-vars
 import { rounds } from '../logic/consts'
 
@@ -42,7 +44,6 @@ export default function Home({ history }) {
 		const db = firebase.firestore()
 		db.collection('competitions')
 			.orderBy('start', 'desc')
-			.limit(5)
 			.get()
 			.then((querySnapshot) => {
 				let competitions = []
@@ -104,17 +105,46 @@ export default function Home({ history }) {
 							<LandingCarousel />
 						</Grid>
 					)}
+					{user !== undefined && (
+						<Grid item>
+							<div
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									justify: 'space-between',
+								}}
+							>
+								{user.data.seasons.includes('s1') ? (
+									<RegisteredIcon color='primary' />
+								) : (
+									<NotRegisteredIcon color='error' />
+								)}
+								<Typography variant='h5'>
+									{`Hi ${user.wca.name.split(' ')[0]}, you are ${
+										user.data.seasons.includes('s1') ? 'successfully' : 'not'
+									} registered for C@H Season 1`}
+								</Typography>
+							</div>
+						</Grid>
+					)}
 					<Grid item className={classes.grid}>
 						<Paper className={classes.paper}>
 							<List
 								className={classes.list}
 								style={{ overflow: 'auto' }}
 								subheader={
-									<ListSubheader disableSticky={true}>
-										Upcoming Events
-									</ListSubheader>
+									<ListSubheader disableSticky={true}>Season 1</ListSubheader>
 								}
 							>
+								{competitions.filter((competition) =>
+									moment().isSameOrBefore(moment(competition.end), 'day')
+								).length === 0 && (
+									<ListItem>
+										<ListItemText>
+											No Competitions are currently available. Stay tuned.
+										</ListItemText>
+									</ListItem>
+								)}
 								{competitions
 									.filter((competition) =>
 										moment().isSameOrBefore(moment(competition.end), 'day')
@@ -139,7 +169,7 @@ export default function Home({ history }) {
 													color='primary'
 													variant='contained'
 													startIcon={<AddCircleIcon />}
-													href={`/${competition.id}/register`}
+													href={`/s1/register`}
 												>
 													{user !== undefined &&
 													user.data.competitions.includes(competition.id)

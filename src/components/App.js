@@ -86,22 +86,13 @@ export default function App() {
 									path='/cubing-at-home-I/:tab?'
 									component={Competition}
 								/> */}
-								<Route
-									exact
-									path='/:id/register'
-									component={Register}
-								/>
-								<Route
-									exact
-									path='/:id/:tab?'
-									component={CompetitionHome}
-								/>
+								<Route exact path='/:id/register' component={Register} />
+								<Route exact path='/:id/:tab?' component={CompetitionHome} />
 								<Route exact path='/' component={Home} />
-								<Route
-									exact
-									path='/:id'
-									component={CompetitionHome}
-								/>
+								<Route exact path='/:id' component={CompetitionHome} />
+								<Route exact path='/s1'>
+									<Redirect to='/' />
+								</Route>
 								<Route render={() => <Redirect to='/' />} />
 							</Switch>
 							<footer>
@@ -110,15 +101,9 @@ export default function App() {
 									onThemeChange={() => {
 										localStorage.setItem(
 											'cubingathome-theme',
-											currentTheme === 'light'
-												? 'dark'
-												: 'light'
+											currentTheme === 'light' ? 'dark' : 'light'
 										)
-										setCurrentTheme(
-											currentTheme === 'light'
-												? 'dark'
-												: 'light'
-										)
+										setCurrentTheme(currentTheme === 'light' ? 'dark' : 'light')
 									}}
 									isAuthenticated={isAuthenticated}
 								/>
