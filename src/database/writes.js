@@ -65,18 +65,35 @@ export const registerCompetitor = async (
 	wcaId,
 	competitionId
 ) => {
+	let season1 = false
+	let competitions = [competitionId]
+	if (competitionId === 's1') {
+		season1 = true
+		competitions = ['cah1.1', 'cah1.2', 'cah1.3', 'cah1.4', 'cah1.5']
+	}
 	const db = firebase.firestore()
 	const batch = db.batch()
 	const userRef = db.collection('Users').doc(userId)
 	batch.update(userRef, {
 		'data.competitions': firebase.firestore.FieldValue.arrayUnion(
-			competitionId
+			...competitions
 		),
+		'data.seasons': firebase.firestore.FieldValue.arrayUnion('s1'),
 	})
-	const competitionRef = db.collection('competitions').doc(competitionId)
-	batch.update(competitionRef, {
-		competitorCount: firebase.firestore.FieldValue.increment(1),
-	})
+	// for (const competition of competitions) {
+	// 	const competitionRef = db.collection('competitions').doc(competition)
+	// 	batch.update(competitionRef, {
+	// 		competitorCount: firebase.firestore.FieldValue.increment(1),
+	// 	})
+	// }
+	if (season1) {
+		const seasonRef = db.collection('seasons').doc('s1')
+		batch.update(seasonRef, {
+			competitorCount: firebase.firestore.FieldValue.increment(1),
+		})
+		const emailRef = userRef.collection('mails').doc('s1')
+		batch.set(emailRef, { registered: true, registeredAt: new Date() })
+	}
 	return batch.commit()
 }
 
