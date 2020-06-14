@@ -14,6 +14,13 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 export default function LandingCarousel() {
 	const items = [
 		{
+			title: 'C@H Season 1 Events',
+			description: `The events and dates for Season 1! We'll be having all 17 WCA Events and 5 Non-WCA events!`,
+			image: `${process.env.PUBLIC_URL}/images/cah1events.png`,
+			buttonText: 'Register Now!',
+			href: '/s1/register',
+		},
+		{
 			title: 'Announcing C@H Season 1!',
 			description: `Join top speedcubers acorss the world to compete in 21 events across 5 competitions! See all the action live at twitch.tv/cubingusa`,
 			image: `${process.env.PUBLIC_URL}/images/season1.png`,
