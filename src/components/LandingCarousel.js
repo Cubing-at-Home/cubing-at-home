@@ -22,7 +22,7 @@ export default function LandingCarousel() {
 		},
 		{
 			title: 'Announcing C@H Season 1!',
-			description: `Join top speedcubers acorss the world to compete in 21 events across 5 competitions! See all the action live at twitch.tv/cubingusa`,
+			description: `Join top speedcubers across the world to compete in 21 events across 5 competitions! See all the action live at twitch.tv/cubingusa`,
 			image: `${process.env.PUBLIC_URL}/images/season1.png`,
 			buttonText: 'Register FOR FREE NOW!',
 			href: '/s1/register',
