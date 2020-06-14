@@ -114,7 +114,7 @@ export default function Home({ history }) {
 									justify: 'space-between',
 								}}
 							>
-								{user.data.seasons.includes('s1') ? (
+								{user.data.seasons && user.data.seasons.includes('s1') ? (
 									<RegisteredIcon color='primary' />
 								) : (
 									<NotRegisteredIcon color='error' />
