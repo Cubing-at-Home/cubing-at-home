@@ -121,7 +121,7 @@ export default function Home({ history }) {
 								)}
 								<Typography variant='h5'>
 									{`Hi ${user.wca.name.split(' ')[0]}, you are ${
-										user.data.seasons.includes('s1') ? 'successfully' : 'not'
+										user.data.seasons?.includes('s1') ? 'successfully' : 'not'
 									} registered for C@H Season 1`}
 								</Typography>
 							</div>
