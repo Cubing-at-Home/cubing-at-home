@@ -22,7 +22,7 @@ const socialMedias = [
 		link: 'https://www.instagram.com/cubingathome/',
 	},
 
-	{ name: 'Twitch', icon: <Twitch />, link: 'https://twitch.tv/cubingusa' },
+	{ name: 'Twitch', icon: <Twitch />, link: 'https://www.twitch.tv/cubingathome' },
 ]
 
 const useStyles = makeStyles((theme) => ({
