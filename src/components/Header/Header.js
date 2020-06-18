@@ -33,7 +33,6 @@ export default function Header({ history }) {
 						direction='row'
 						alignItems='center'
 						justify='space-between'
-						style={{ cursor: 'pointer' }}
 						onClick={() => history.push('/')}
 					>
 						{/* <Grid item>
@@ -67,6 +66,21 @@ export default function Header({ history }) {
 								}
 							/>
 						</Grid> */}
+
+						<Grid item>
+							<Typography
+									align='center'
+									variant='h3'
+								>
+								Cubing at Home
+							</Typography>
+						</Grid>
+
+						<Grid item>
+							{/*
+								Ignore this, this just lets the text be centered LOL
+							*/}
+						</Grid>
 					</Grid>
 					<Button
 						onClick={
