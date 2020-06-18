@@ -33,6 +33,7 @@ export default function Header({ history }) {
 						direction='row'
 						alignItems='center'
 						justify='space-between'
+						style={{ cursor: 'pointer' }}
 						onClick={() => history.push('/')}
 					>
 						{/* <Grid item>
