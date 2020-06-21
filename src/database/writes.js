@@ -120,6 +120,7 @@ export const cancelCompetitor = async (
 }
 
 export const submitTime = async (firebase, competitionId, roundId, results) => {
+	const result = { ...results, lastUpdated: new Date() }
 	const db = firebase.firestore()
 	const userResultRef = db
 		.collection('Users')
@@ -156,10 +157,10 @@ export const submitTime = async (firebase, competitionId, roundId, results) => {
 		.collection('Rounds')
 		.doc(roundId)
 		.collection('Results')
-		.doc(results.personId)
-	batch.set(competitionResultRef, results)
-	batch.set(userResultRef, userResults)
-	if (results.flagged.isFlagged) {
+		.doc(result.personId)
+	batch.set(competitionResultRef, result, { merge: true })
+	batch.set(userResultRef, userResults, { merge: true })
+	if (results?.flagged?.isFlagged) {
 		const competitionFlaggedRef = db
 			.collection('competitions')
 			.doc(competitionId)
@@ -171,7 +172,7 @@ export const submitTime = async (firebase, competitionId, roundId, results) => {
 			{
 				flagged: true,
 				reason: results.flagged.reason,
-				lastUpdated: results.lastUpdated,
+				lastUpdated: result.lastUpdated,
 				count: firebase.firestore.FieldValue.increment(1),
 				round: roundId,
 				...other,
@@ -180,7 +181,7 @@ export const submitTime = async (firebase, competitionId, roundId, results) => {
 		)
 	}
 	// if result was flagged but is now fine, delete the flagged result
-	else if (!results.flagged.isFlagged && prevFlaggedResult.exists) {
+	else if (!results?.flagged?.isFlagged && prevFlaggedResult.exists) {
 		batch.delete(prevFlaggedResultRef)
 	}
 	return batch.commit()

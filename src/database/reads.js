@@ -7,9 +7,11 @@ export const getOpenRounds = async (firebase, competitionId, personId = -1) => {
 			.collection('competitions')
 			.doc(competitionId)
 			.get()
-		const rounds = roundRef
+		const allRounds = roundRef
 			.data()
-			.rounds.filter((round) => round.isOpen === true)
+			.rounds.sort((round) => (round.isOpen ? -1 : 1))
+		const rounds = allRounds
+			.filter((round) => round.isOpen === true)
 			.map((round) => round.id)
 		// const userRef = await db
 		// 	.collection('Users')
@@ -45,8 +47,7 @@ export const getOpenRounds = async (firebase, competitionId, personId = -1) => {
 			const roundInfo = roundInfoRef.data()
 			roundsInformation.push(roundInfo)
 		}
-		console.log(roundsInformation)
-		return roundsInformation
+		return { roundsInformation, allRounds }
 	} catch (err) {
 		console.log(err)
 		return null

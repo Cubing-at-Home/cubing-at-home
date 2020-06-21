@@ -16,10 +16,13 @@ const useStyles = makeStyles((theme) => ({
 			color: theme.palette.primary.main,
 		},
 	},
+	selected: {
+		color: 'red',
+	},
 	iconSelect: {
 		fontSize: 20,
 		padding: theme.spacing(1),
-		color: theme.palette.primary.main,
+		color: theme.palette.primary.secondary,
 		'&:hover': {
 			opacity: 0.7,
 		},
@@ -56,7 +59,12 @@ export default function EventList({
 								}
 								onClick={() => onClick(event, index)}
 							>
-								<CubingIcon small={small} event={event} showName={showName} />
+								<CubingIcon
+									selected={selected.includes(event)}
+									small={small}
+									event={event}
+									showName={showName}
+								/>
 							</ButtonBase>
 						) : (
 							<CubingIcon small={small} event={event} showName={showName} />

@@ -13,7 +13,7 @@ import Info from './Info'
 import Schedule from './Schedule'
 import Competitors from './Competitors'
 import { faq } from '../../logic/consts'
-import Scrambles from './Scrambles'
+import Compete from './Compete/Compete'
 import Results from './Results'
 import { useTheme } from '@material-ui/core/styles'
 import TabPanel from '../TabPanel'
@@ -103,7 +103,7 @@ export default function CompetitionHome({ history, match }) {
 						<Competitors competitionInfo={competitionInfo} history={history} />
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={3}>
-						<Scrambles competitionInfo={competitionInfo} />
+						<Compete competitionInfo={competitionInfo} />
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={4}>
 						{() =>
