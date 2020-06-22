@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/styles'
 import Grid from '@material-ui/core/Grid'
 import ButtonBase from '@material-ui/core/Button'
 import CubingIcon from './CubingIcon'
+import { parseActivityCode } from '../logic/attempts'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -40,6 +41,8 @@ export default function EventList({
 	button = true,
 }) {
 	const classes = useStyles()
+	const eventIds = events.map((event) => parseActivityCode(event).eventId)
+
 	return (
 		<div className={classes.root}>
 			<Grid
@@ -62,7 +65,7 @@ export default function EventList({
 								<CubingIcon
 									selected={selected.includes(event)}
 									small={small}
-									event={event}
+									event={eventIds[index]}
 									showName={showName}
 								/>
 							</ButtonBase>

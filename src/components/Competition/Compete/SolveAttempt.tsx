@@ -50,6 +50,7 @@ export default function SolveAttempt({
 			...userAttempt,
 			attempts: [...userAttempt.attempts, attempt],
 			flagged,
+			isSubmitted: currentAttempt === numAttempts - 1,
 		}
 		if (
 			currentAttempt === numAttempts - 1 &&

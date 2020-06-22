@@ -108,14 +108,14 @@ export default function ResultSubmission({
 				<Divider orientation='vertical' />
 			</Grid>
 			<Grid item style={{ width: '70%' }}>
-				{!round.isOpen && userAttempt ? (
+				{!round.isOpen && userAttempt?.isSubmitted ? (
 					<EventSubmitted
 						user={user}
 						userAttempt={userAttempt}
 						competitionId={competitionId}
 						round={round}
 					/>
-				) : !round.isOpen && !userAttempt ? (
+				) : !round.isOpen && !userAttempt?.isSubmitted ? (
 					<Typography variant='h5'>
 						Sorry, this round is not currently open.
 					</Typography>

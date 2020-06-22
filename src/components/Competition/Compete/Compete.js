@@ -92,8 +92,8 @@ export default function Compete({ competitionInfo }) {
 		<Grid container direction='column' justify='center'>
 			<Grid item>
 				<EventList
-					selected={[parseActivityCode(selectedEvent).eventId]}
-					events={allRounds.map((round) => parseActivityCode(round.id).eventId)}
+					selected={[selectedEvent]}
+					events={allRounds.map((round) => round.id)}
 					onClick={(_, index) => {
 						if (allRounds[index].id !== selectedEvent) {
 							setLoading(true)
