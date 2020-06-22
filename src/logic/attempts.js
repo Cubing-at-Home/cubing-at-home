@@ -55,3 +55,17 @@ export const parseActivityCode = (activityCode) => {
 		attemptNumber: a && parseInt(a, 10),
 	}
 }
+
+export const getNumberAttempts = (format) => {
+	if (!isNaN(parseInt(format))) {
+		return parseInt(format)
+	}
+	switch (format) {
+		case 'a':
+			return 5
+		case 'm':
+			return 3
+		default:
+			return 5
+	}
+}

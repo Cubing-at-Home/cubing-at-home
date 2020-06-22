@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/styles'
 import Grid from '@material-ui/core/Grid'
 import ButtonBase from '@material-ui/core/Button'
 import CubingIcon from './CubingIcon'
+import { parseActivityCode } from '../logic/attempts'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -16,10 +17,13 @@ const useStyles = makeStyles((theme) => ({
 			color: theme.palette.primary.main,
 		},
 	},
+	selected: {
+		color: 'red',
+	},
 	iconSelect: {
 		fontSize: 20,
 		padding: theme.spacing(1),
-		color: theme.palette.primary.main,
+		color: theme.palette.primary.secondary,
 		'&:hover': {
 			opacity: 0.7,
 		},
@@ -37,6 +41,8 @@ export default function EventList({
 	button = true,
 }) {
 	const classes = useStyles()
+	const eventIds = events.map((event) => parseActivityCode(event).eventId)
+
 	return (
 		<div className={classes.root}>
 			<Grid
@@ -56,7 +62,12 @@ export default function EventList({
 								}
 								onClick={() => onClick(event, index)}
 							>
-								<CubingIcon small={small} event={event} showName={showName} />
+								<CubingIcon
+									selected={selected.includes(event)}
+									small={small}
+									event={eventIds[index]}
+									showName={showName}
+								/>
 							</ButtonBase>
 						) : (
 							<CubingIcon small={small} event={event} showName={showName} />

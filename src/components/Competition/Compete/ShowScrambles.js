@@ -3,8 +3,8 @@ import TextField from '@material-ui/core/TextField'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 import { LinearProgress, Button } from '@material-ui/core'
-import { activityKey } from '../../logic/consts'
-import { FirebaseContext } from '../../utils/firebase'
+import { activityKey } from '../../../logic/consts'
+import { FirebaseContext } from '../../../utils/firebase'
 
 export default function ShowScrambles({ competitionId, round }) {
 	const [show, setShow] = useState(false)
@@ -49,12 +49,7 @@ export default function ShowScrambles({ competitionId, round }) {
 						View Scrambles PDF
 					</Button>
 					<FormControlLabel
-						control={
-							<Switch
-								checked={show}
-								onChange={() => setShow(!show)}
-							/>
-						}
+						control={<Switch checked={show} onChange={() => setShow(!show)} />}
 						label={`Show Scrambles`}
 					/>
 					{show && (
@@ -63,9 +58,7 @@ export default function ShowScrambles({ competitionId, round }) {
 							multiline
 							rowsMax={15}
 							fullWidth
-							helperText={
-								'Note: You can copy paste this to cstimer'
-							}
+							helperText={'Note: You can copy paste this to cstimer'}
 							label='Scrambles'
 							value={scrambles}
 							inputProps={{ readOnly: true }}

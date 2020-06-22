@@ -42,9 +42,12 @@ const useStyles = makeStyles((theme) => ({
 	iconSmall: {
 		fontSize: 24,
 	},
+	selected: {
+		color: theme.palette.primary.main,
+	},
 }))
 
-const CubingIcon = ({ event, small = false, showName, ...props }) => {
+const CubingIcon = ({ event, small = false, showName, selected, ...props }) => {
 	const classes = useStyles()
 	return (
 		<Grid
@@ -62,6 +65,7 @@ const CubingIcon = ({ event, small = false, showName, ...props }) => {
 						classes.icon,
 						{
 							[classes.iconSmall]: small,
+							[classes.selected]: selected,
 						}
 					)}
 					{...props}
