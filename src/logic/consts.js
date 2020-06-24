@@ -185,4 +185,5 @@ export const activityKey = {
 	'666bf': '6x6x6 Blindfolded',
 	'777bf': '7x7x7 Blindfolded',
 	miniguild: 'Mini Guildford Challenge',
+	mirror: 'Mirror Blocks'
 }

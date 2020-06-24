@@ -55,10 +55,12 @@ export default function Competitors({ history, competitionInfo, registered }) {
 	}
 	return (
 		<>
-			<Typography
-				align='left'
-				variant='body1'
-			>{`${competitionInfo.competitorCount} Registered Competitors`}</Typography>
+			{competitionInfo.competitorCount > 0 && (
+				<Typography
+					align='left'
+					variant='body1'
+				>{`${competitionInfo.competitorCount} Registered Competitors`}</Typography>
+			)}
 			{user && user.data.competitions.includes(competitionInfo.id) && (
 				<Typography
 					align='left'

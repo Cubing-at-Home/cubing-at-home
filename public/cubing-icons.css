@@ -167,3 +167,6 @@
 .cubing-icon.unofficial-redi:before {
 	content: '\EA29';
 }
+.cubing-icon.unofficial-mirror:before {
+	content: url('./images/mirror.svg');
+}

@@ -32,6 +32,7 @@ const activityToIcon = {
 	'666bf': 'unofficial-666bf',
 	'777bf': 'unofficial-777bf',
 	miniguild: 'unofficial-miniguild',
+	mirror: 'unofficial-mirror',
 }
 
 const useStyles = makeStyles((theme) => ({
