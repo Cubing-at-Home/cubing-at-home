@@ -6,6 +6,7 @@ import {
 	updateUsers,
 } from '../database/scripts'
 import TextField from '@material-ui/core/TextField'
+import { buildCompetition } from '../database/builder'
 
 export default function Scripts() {
 	const firebase = useContext(FirebaseContext)
@@ -59,29 +60,9 @@ export default function Scripts() {
 		// 		}
 		// 		buildCompetition(firebase, competition)
 		// 	}
-		async function getInfo(id) {
-			const resp1 = await firebase.firestore().collection(id).doc('info').get()
-			const info = resp1.data()
-			const competition = {
-				id: info.id,
-				name: info.name,
-				shortName: 'C@H V',
-				registrationEnd: new Date('2020-05-28T00:00:00'),
-				registrationStart: new Date('2020-05-04T00:00:00'),
-				start: '2020-05-30',
-				end: '2020-05-30',
-				schedule: info.schedule,
-				settings: {},
-				competitorCount: info.competitors.length,
-				persons: [],
-				eventList: info.events,
-			}
-			const resp2 = await firebase
-				.firestore()
-				.collection(id)
-				.doc('events')
-				.get()
-			const events = resp2.data().eventInfo
+		function getInfo(competitionInfo) {
+			const competition = competitionInfo
+			const events = competition.events
 			events.forEach((event) => {
 				event.qualification = null
 				delete event.extensions
@@ -90,12 +71,18 @@ export default function Scripts() {
 					round.results = []
 					round.cutoff = null
 					round.timeLimit = null
-					round.advancementCondition = null
+					round.advancementCondition =
+						round.id === '333-r1'
+							? { type: 'percent', level: 50 }
+							: round.id === '333-r2'
+							? { type: 'ranking', level: 8 }
+							: null
 				})
 			})
 			competition.events = events
-			console.log(competition)
+			return competition
 		}
+		buildCompetition(firebase, getInfo(competition))
 	}, [])
 	const [competitionId, setCompetitionId] = useState('')
 	const [roundId, setRoundId] = useState('')
@@ -141,13 +128,13 @@ export default function Scripts() {
 }
 
 const competition = {
-	id: 'cah5',
-	name: 'Cubing at Home V',
-	shortName: 'C@H V',
-	registrationEnd: '2020-05-28T04:00:00.000Z',
+	id: 'cah1.1',
+	name: 'Cubing at Home 1.1',
+	shortName: 'C@H 1.1',
+	registrationEnd: '2020-05-29T04:00:00.000Z',
 	registrationStart: '2020-05-04T04:00:00.000Z',
-	start: '2020-05-30',
-	end: '2020-05-30',
+	start: '2020-05-28',
+	end: '2020-05-28',
 	schedule: [
 		{
 			start: '12:00',
@@ -242,399 +229,359 @@ const competition = {
 		},
 	],
 	settings: {},
-	competitorCount: 2081,
 	persons: [],
-	eventList: ['333', 'skewb', '444', '222', '333bf', 'kilominx', '555bf'],
+	eventList: ['333', '222', 'pyra', '555', '333oh', 'sq1', '333mbf', 'mirror'],
 	events: [
 		{
+			id: '333',
 			rounds: [
 				{
+					id: '333-r1',
+					format: 'a',
 					scrambleSetCount: 1,
-					id: '555bf-r1',
 					scrambleSets: [
 						{
-							extraScrambles: [
-								"Lw U' L' Fw2 D' Bw U' L2 U Uw' Lw' Fw2 B U2 F D2 Rw2 F2 Lw L2 Fw2 U' L' Bw2 U F2 D' B' L U' Bw2 F' Uw' Dw' Lw' Dw F U' Uw F' Fw B D L U' L Bw' F' D Fw Rw2 U D2 Rw F2 Bw Rw2 Dw U' Bw2 3Rw2",
-								"F2 Bw Lw' L2 Fw2 Dw' U Fw2 Bw2 Rw B' Bw2 Dw2 Bw' B' R2 Lw' Bw F Fw' U Dw2 Rw B' R' B2 Dw2 R Rw Fw2 Bw2 R2 Lw2 Fw Lw' U2 B' R Rw2 U' B2 U' Rw2 D B' D2 Uw B L Rw F' Lw D' Dw2 B2 Fw' Lw' Fw' D2 Fw 3Rw'",
-							],
-							scrambles: [
-								"Fw' Lw D2 Uw U2 Fw' D' Dw Bw' Fw' D Dw Bw' Uw2 R' Dw2 Lw Fw' Bw F2 Uw' Dw Fw Uw' L' Lw2 Bw2 R Bw' Fw Lw' D Uw Bw R' Lw2 Fw L' B' Bw' F2 R Bw' R' U2 Rw' B Uw' Bw' U Dw2 Lw Rw2 F2 B L2 R' Uw2 Bw L' 3Rw2",
-								"Rw B R Bw2 Uw2 Bw Lw' D' L2 Bw2 B2 Fw2 F2 U Lw2 Uw2 Dw' Lw B2 U L' Uw2 B2 L' B' F Rw' Lw2 Uw2 D Fw Lw Bw2 Uw' F' Bw' Dw Uw2 Bw2 B2 Rw Dw Uw Rw2 Uw' B' R2 Fw' Rw' F Fw' Uw L2 Uw2 Lw L' Fw2 D' L 3Rw2 3Uw",
-								"U2 L Rw R Fw2 R L' U' Uw2 Lw' Fw F' R2 Fw' R Lw Bw2 B' D' Dw Uw2 Fw R' F L2 F2 D Lw F2 Dw Rw Lw Fw2 F Bw2 U Lw' D' F2 B2 U2 Fw2 Bw Uw' F' B' U2 Dw L2 F2 Bw' D' B' Lw' L R2 Uw' L U2 Uw' 3Rw2 3Uw'",
-							],
 							id: 2,
+							scrambles: [
+								"R D2 L2 U2 R B2 R U2 R' U2 R' U' F D2 R' F' D' B2 U'",
+								"U2 R' B2 R2 B2 D2 L' B2 D2 U' F U2 L U' R D R2 B' D",
+								"F R U2 L U2 B2 U2 R' U2 L2 R' U' F R F2 L' U F D' U",
+								"L U' L F2 B' D' L' B D2 R2 L' F2 D2 F2 R' F2 L' U2 D F'",
+								"U L2 D' F B' L F U2 R' L' D2 R' U2 F2 L U2 R D B D",
+							],
+							extraScrambles: [
+								"U2 L' B R2 B2 D L2 U2 B2 D2 B2 U2 L' U' F' D2 R F L F",
+								"F' R' U L D2 B D2 B' U' L2 D' F2 B2 D' B2 R2 U L2 D' R2",
+							],
 						},
 					],
-					format: '3',
-					results: [],
-					cutoff: null,
-					timeLimit: null,
-					advancementCondition: null,
+					extensions: [
+						{
+							id: 'org.worldcubeassociation.tnoodle.SheetCopyCount',
+							specUrl: '',
+							data: {
+								numCopies: 1,
+							},
+						},
+					],
 				},
-			],
-			id: '555bf',
-			qualification: null,
-		},
-		{
-			rounds: [
 				{
+					id: '333-r2',
 					format: 'a',
 					scrambleSetCount: 1,
-					id: 'skewb-r1',
 					scrambleSets: [
 						{
-							extraScrambles: [
-								"B L B' U B R' L U R' B U",
-								"B L B L B' L' R B' R' B U'",
-							],
-							scrambles: [
-								"U R L B' R U' B L B L' R",
-								"U B L R B L' U' L R U B",
-								"U L R' U B U' B L B' U B'",
-								"R U R L' R' B' R' L R' L' B",
-								"R B U R U' R U B L B U'",
-							],
 							id: 3,
+							scrambles: [
+								"R2 B2 U' R2 U' B2 U' L2 U2 L2 R' D2 F D L' F D2 U R'",
+								"F' D R2 U L2 D' B L2 B' U L D F' L D2 U2",
+								"R F2 L2 R2 D B2 U' F2 U' L D2 L D' R' F' U2 L2 B D2",
+								"L2 R U' R2 D L2 U' B2 U B2 L F2 D' B R2 B L' F L",
+								"D' L F2 D R2 D' F2 D B2 L2 F' R U L2 D2 B2 F2 R2",
+							],
+							extraScrambles: [
+								"U L F' U2 B U2 B2 U2 F L2 D' B2 D B D R2 U' L'",
+								"F' D R D2 R' F2 R' D2 U2 L' B' L D' U2 B U B D'",
+							],
 						},
 					],
-					results: [],
-					cutoff: null,
-					timeLimit: null,
-					advancementCondition: null,
+					extensions: [
+						{
+							id: 'org.worldcubeassociation.tnoodle.SheetCopyCount',
+							specUrl: '',
+							data: {
+								numCopies: 1,
+							},
+						},
+					],
 				},
 			],
-			id: 'skewb',
-			qualification: null,
 		},
 		{
-			id: '444',
+			id: '222',
 			rounds: [
 				{
+					id: '222-r1',
+					format: 'a',
 					scrambleSetCount: 1,
-					id: '444-r1',
 					scrambleSets: [
 						{
-							extraScrambles: [
-								"F' D' R2 F2 D2 R L2 D2 R2 D2 L' F' U' R2 L2 F2 U F' U2 R' Uw2 L D F2 L' Fw2 F2 Rw2 L' U' Fw2 L U2 Fw L F' U2 Fw B' Uw' B' L2 Uw L",
-								"U' B D' B2 L2 D2 F2 L' U2 R2 B2 L U2 D F B' R2 F L' F Rw2 Fw2 R Uw2 L2 D' L F2 D2 Rw2 U' F' U' Fw' F U2 R Uw' Rw F' Uw L' F' Uw' B2",
-							],
-							scrambles: [
-								"D' R2 D' R2 D2 B2 R2 U R2 D B2 R' F' D B L' B2 L' R U' Uw2 L' Uw2 Fw2 U2 F' Rw2 R D2 Rw2 R L' Uw L' F2 L2 F' Fw' R2 Fw' Uw2 Rw' L2 Uw Fw",
-								"R2 F2 U2 L2 B' L2 F' L F L' U F2 D' R U F2 R2 L Rw2 B' L2 D' F Rw2 R2 F Uw2 Fw2 D B' Uw2 Rw' D2 L2 F' Rw U2 Uw' B' Rw Uw' Rw U2 Fw'",
-								"D2 U' R D2 U' B' R' D' L U2 R F2 L' R F2 D2 B2 D2 R' D' Uw2 F' Uw2 D2 B' Uw2 R2 Fw2 D2 L' B D2 R2 Uw' R B' R2 U Fw Uw' D' R' F' Rw' Fw' B'",
-								"L U2 L F2 B' U F' L2 U2 L2 D F2 U' L2 U F2 L2 U' L2 Rw2 D' B L2 U2 B Uw2 Rw2 F' U2 Rw2 U2 Fw2 Rw Fw2 D L' B Fw R2 Fw Rw2 B' Uw' B",
-								"B2 L' F' D L' D' F2 U2 L D2 B' L2 B' D2 F2 B U2 R Fw2 Uw2 U Fw2 D B' U2 Rw2 F' B U B' Rw D R' B2 Rw Fw' D Fw Uw D' Rw2 U'",
-							],
 							id: 4,
+							scrambles: [
+								"R' U2 R U' R' U2 R U' F' R U",
+								"R U2 F' R2 F U' F' U2 R U' R'",
+								"U2 R U' F' R2 U' F R2 U' F R",
+								"R' F R U2 R' U R2 U2 R2 U' R2",
+								"U' R U' F' R' U' F2 R U2 R U2",
+							],
+							extraScrambles: [
+								"R' F' R2 U' R2 F' U2 F2 R U2 R",
+								"R' U' F U2 R U2 F' R U2 R' U2",
+							],
 						},
 					],
-					format: 'a',
-					results: [],
-					cutoff: null,
-					timeLimit: null,
-					advancementCondition: null,
+					extensions: [
+						{
+							id: 'org.worldcubeassociation.tnoodle.SheetCopyCount',
+							specUrl: '',
+							data: {
+								numCopies: 1,
+							},
+						},
+					],
 				},
 			],
-			qualification: null,
+		},
+		{
+			id: 'pyram',
+			rounds: [
+				{
+					id: 'pyram-r1',
+					format: 'a',
+					scrambleSetCount: 1,
+					scrambleSets: [
+						{
+							id: 5,
+							scrambles: [
+								"L' R' B R' U' B L' R B' U B' u' r b",
+								"B' U R' U R B' L B R' B R' l b'",
+								"R B U' L R U' L B U L' B' u r",
+								"U' L U R' B' R' U R' U L R' u' l' r",
+								"B' R' B R' B' U R' L' U B L b'",
+							],
+							extraScrambles: [
+								"R' U L' B' U R' L U R B L' u r' b",
+								"R U R' B U B U' R' B U' R' u' b",
+							],
+						},
+					],
+					extensions: [
+						{
+							id: 'org.worldcubeassociation.tnoodle.SheetCopyCount',
+							specUrl: '',
+							data: {
+								numCopies: 1,
+							},
+						},
+					],
+				},
+			],
+		},
+		{
+			id: '555',
+			rounds: [
+				{
+					id: '555-r1',
+					format: 'a',
+					scrambleSetCount: 1,
+					scrambleSets: [
+						{
+							id: 6,
+							scrambles: [
+								"U Dw' B L2 Uw' L' R2 U B D Fw2 D' Rw2 U2 Dw' R F' Dw' Lw2 F Bw R2 F2 D' Rw Bw U F2 U Bw Uw U F2 Rw2 L2 Lw2 Uw' Lw' U' R2 Bw' Lw' Uw' B R' Dw' Rw' Bw2 Fw R' B' Fw2 R L2 Bw' U' F Uw B2 Dw",
+								"L2 Bw' L' Bw' R' Lw Uw' L' D Uw' U Lw2 Uw R2 Uw' U2 Fw' Dw Uw2 D Rw2 Bw2 F' Lw' F2 Uw' B D Bw' R' B' F L Lw Bw' Uw2 U2 Lw2 Rw2 Fw F2 B' Dw2 Uw' Rw2 D2 L2 B' Rw' B' Bw' L2 Bw2 Fw2 B2 L D' R' B' Rw'",
+								"Uw Bw2 F' Fw' D' Lw L Fw R' Rw' F D2 F' Rw B' Uw2 Fw2 Dw2 Rw' Bw B2 D2 U Rw2 D Lw2 Bw B' L2 Uw Dw2 B Lw' Uw' Fw U L R F2 B2 R2 D2 Fw B2 D2 Fw Rw B L2 Lw' D2 F' Lw2 Bw D2 Rw Lw' Bw2 B Fw2",
+								"Fw2 Dw Uw2 Fw' Uw2 Lw2 Rw Uw2 B' Rw2 U2 Bw B L2 Lw2 U D2 R2 Bw2 Fw' Dw Bw L U2 Lw' Fw' D2 Bw2 F D U2 Rw2 Bw2 Fw L' D2 B Dw L2 R' Fw' Dw' Rw B' Bw' Lw' Fw2 Rw2 L2 Bw2 L2 U' F' Rw U2 F R2 D2 L2 Lw'",
+								"Uw' R L U' Rw2 Dw2 U D2 F' Fw L' R U2 Fw2 Bw' R Rw' D2 Bw U Bw Dw' B Lw L' U' Fw' Lw2 R D L2 R' Uw2 U' B Rw2 F2 R' B' Fw' Rw' R2 U2 R' U2 F' Uw' L R2 Rw F Fw' B' L' U' Lw2 Uw' U R Rw'",
+							],
+							extraScrambles: [
+								"R Lw2 Rw Dw D' L R Dw' Fw2 B2 U2 Fw Rw' Fw2 B2 R D Bw' Rw' B' R Uw' F2 U R2 F2 Dw2 Bw Uw' R Rw2 Dw2 Fw L2 U2 Bw2 Dw2 Rw R2 Fw L2 U D L2 Fw Uw L2 Bw' U2 B R2 Rw Lw' U Lw Fw' F2 B R2 B'",
+								"Dw' B2 R F' Rw' F2 D' Rw2 Uw' B Uw D R' Dw' Fw' Lw Dw2 Lw' B2 R' B' D' R' D' Uw2 Bw B2 Fw Uw' B' Bw2 U F2 U F B R' Uw' D2 B' D' L Dw2 F2 R Uw Dw2 Lw2 Uw U' L' Uw U' Bw2 Lw2 B Dw F2 Fw' D'",
+							],
+						},
+					],
+					extensions: [
+						{
+							id: 'org.worldcubeassociation.tnoodle.SheetCopyCount',
+							specUrl: '',
+							data: {
+								numCopies: 1,
+							},
+						},
+					],
+				},
+			],
 		},
 		{
 			id: '333oh',
 			rounds: [
 				{
-					scrambleSetCount: 1,
 					id: '333oh-r1',
-					scrambleSets: [
-						{
-							extraScrambles: [
-								"F L B F2 U' B2 D' U2 L2 F2 U2 L2 B' U' L R' F2 D' L R",
-								"F' U B U2 F L' F' D' F2 R' U B2 R L U2 F2 U2 F2",
-							],
-							scrambles: [
-								"D2 B2 L2 R2 D B2 F2 U2 L2 F2 U' L B R' U' R' B' D B'",
-								"L' B2 U' L' R' B2 L' D2 B2 L F2 U2 L D F2 L B' D' R' F'",
-								"F D2 L D2 L2 F2 R F2 U2 F2 B' R' F D2 U' L' B' L2",
-								"U L R F2 U2 L' D2 L2 F2 D' F L2 B D' B2 U2 L R B2",
-								"R D' F B2 L F2 D2 R2 F2 L' R' D2 R' U L' F' D' B' F L",
-							],
-							id: 5,
-						},
-					],
-					format: 'a',
-					results: [],
-					cutoff: null,
-					timeLimit: null,
-					advancementCondition: null,
-				},
-			],
-			qualification: null,
-		},
-		{
-			rounds: [
-				{
-					scrambleSetCount: 1,
-					id: '222-r1',
-					scrambleSets: [
-						{
-							extraScrambles: [
-								"U R' U2 F U' R' U2 F U R2 U2",
-								"U2 R' F' U F2 R U' R' U2 F U'",
-							],
-							scrambles: [
-								"U' R' U' F' U2 R2 F' U2 R' U R",
-								"R' F2 R U R' F U2 F R' U2 R",
-								"U R' U' F2 R2 U' F R U' R U'",
-								"R U2 R' U' R U2 R2 U F U' R2",
-								"U R' U2 F R U' F U2 F R U",
-							],
-							id: 6,
-						},
-					],
-					format: 'a',
-					results: [],
-					cutoff: null,
-					timeLimit: null,
-					advancementCondition: null,
-				},
-			],
-			id: '222',
-			qualification: null,
-		},
-		{
-			rounds: [
-				{
 					format: 'a',
 					scrambleSetCount: 1,
-					id: '333-r1',
 					scrambleSets: [
 						{
-							extraScrambles: [
-								"L2 F' U' L D' L' B2 L' F' B2 D B2 D' R2 B2 R2 D2 R2 U' B'",
-								"U2 B R2 B D2 B' F U' B2 D B2 L2 F' L' R D F' R",
-							],
-							scrambles: [
-								"U F2 L' F' D2 L' F' L D2 F B' R2 D F2 R2 U B2 L2 U",
-								"U D R' B' R D2 R D' B2 L2 F2 R2 U2 B2 D F2 D' F' R2 U2",
-								"B2 R' D2 L' U2 B2 D2 U2 L' F' D2 U2 F D2 L' B2 D' U2 F",
-								"L2 F' L D2 B2 R U2 F2 D2 B2 R2 D' F L U' F D' B2 D2",
-								"L2 D2 B2 D' F2 U' L2 D2 F2 R2 F R B' L2 R D R' B L2 F'",
-							],
 							id: 7,
+							scrambles: [
+								"F' U2 L B2 D2 U B2 U' F2 R2 U B' F D2 L' F2 R B",
+								"R' L' D F2 U' L' D2 L' F2 R F2 B' L2 B' R2 U2 B U2 L2 F'",
+								"B2 D2 B L2 F' D2 L2 D R' U2 F' L B D R' D2 L2 R",
+								"B U2 F L D2 R' U2 L2 B2 R2 F2 B L B U B2 L' B' D2",
+								"D2 R U2 B2 L F2 L F2 D' F' U B' F R U2 B' F2 R' D2",
+							],
+							extraScrambles: [
+								"F D2 F2 B L' B U' F' D2 R F U2 D F2 U' L2",
+								"U2 F2 R2 U' L2 R2 B2 D R2 D' F' R D2 L' B2 F' D B D",
+							],
 						},
 					],
-					results: [],
-					cutoff: null,
-					timeLimit: null,
-					advancementCondition: null,
+					extensions: [
+						{
+							id: 'org.worldcubeassociation.tnoodle.SheetCopyCount',
+							specUrl: '',
+							data: {
+								numCopies: 1,
+							},
+						},
+					],
 				},
+			],
+		},
+		{
+			id: 'sq1',
+			rounds: [
 				{
+					id: 'sq1-r1',
+					format: 'a',
 					scrambleSetCount: 1,
-					id: '333-r2',
 					scrambleSets: [
 						{
-							extraScrambles: [
-								"D' R2 B' L2 F' R' B U B L' B' U2 F R2 F2 D2 F U2",
-								"U' L2 R2 U2 F2 D' U2 F2 L B2 R D' R2 B2 R2 F' U' B L'",
-							],
-							scrambles: [
-								"F U2 F' D2 R2 D2 B R U B' L' R' D' R2 F2 L D' F2",
-								"U B' L' D R2 D B2 L2 R2 D2 R2 U' L U B2 U2 F' D L'",
-								"B2 U B' F2 U F2 R2 U2 F2 U' F2 B R' D R D' B2 R' D'",
-								"R F' L2 F' U2 F2 R U2 L' D2 U2 L2 D' B L R2 D2 B2 F",
-								"U' L B' L' D2 R D2 R B2 D2 B2 U' F' R' D L2 D F' D'",
-							],
 							id: 8,
+							scrambles: [
+								'(0,-1) / (-2,-5) / (-1,5) / (3,0) / (0,-3) / (-2,-3) / (0,-3) / (-1,0) / (-2,0) / (2,0) / (3,-2) / (-4,0) / (2,-2)',
+								'(0,-4) / (0,3) / (4,-5) / (-1,-1) / (4,0) / (-3,0) / (-1,0) / (2,-5) / (2,0) / (6,0) / (0,-4) / (-2,0) / (-3,-4) /',
+								'(-5,0) / (0,3) / (3,-3) / (-4,-1) / (6,0) / (-3,0) / (0,-5) / (-3,-3) / (6,-5) / (0,-2) / (0,-2) / (-2,-5) / (-1,0)',
+								'(0,5) / (-5,-2) / (5,5) / (3,-3) / (-5,-2) / (2,0) / (-3,-3) / (0,-1) / (0,-4) / (-4,-5) / (-2,0) / (1,0) /',
+								'(-5,0) / (3,0) / (0,3) / (2,-4) / (3,0) / (-3,0) / (-2,0) / (-3,0) / (5,-3) / (-5,0) / (-2,0) / (0,-2) / (4,0) /',
+							],
+							extraScrambles: [
+								'(-5,0) / (-3,6) / (-4,2) / (-3,0) / (3,0) / (3,-3) / (-2,0) / (-3,-3) / (1,0) / (-4,-2) / (-4,0) / (4,-2)',
+								'(0,2) / (1,-2) / (0,-3) / (5,-1) / (3,0) / (-5,-2) / (-4,0) / (0,-3) / (4,0) / (0,-1) / (4,0) / (-3,-4) / (-4,0)',
+							],
 						},
 					],
-					format: 'a',
-					results: [],
-					cutoff: null,
-					timeLimit: null,
-					advancementCondition: null,
-				},
-				{
-					scrambleSetCount: 8,
-					id: '333-r3',
-					scrambleSets: [
+					extensions: [
 						{
-							extraScrambles: [
-								"D2 R2 U2 L2 R2 U2 B D' R' D' B F' R' F' L2 F' R' U2",
-								"D' B' L U2 F2 B2 L D F B R2 U2 B' U2 F' B' D2 R2 U'",
-							],
-							scrambles: [
-								"U2 F B2 R D2 F' D L F B2 L2 F' U2 D2 F2 D2 F' D2 L2",
-								"B2 R2 U' B2 R2 F2 D B2 U' L D' B' U' B2 R' F2 U2 R' U",
-								"R L2 D2 R2 U L2 F2 D2 F U2 L D2 B2 R' F2 R2 F2 D2 R'",
-								"R' F L' U B' U' D2 F2 D L U R2 B2 D2 L2 B2 D2 L2 U",
-								"B' U2 R' F' R' U' B D B2 U2 R2 U R2 F2 D2 B2 U' F L' U",
-							],
-							id: 9,
-						},
-						{
-							extraScrambles: [
-								"U2 F' U L2 R B2 L2 F2 D2 L' D' L F' D2 B2 L2 F' L'",
-								"R' L' B' R2 L U2 F D' R2 L2 B2 L2 U2 D R2 B2 D F' R'",
-							],
-							scrambles: [
-								"R2 U B D B' R D' B U' L' B2 R' F2 U2 L' B2 D2 B2 D2 R2",
-								"U F2 U2 L D2 U2 L' D2 L' D2 L2 B2 L F U B' L' R F D",
-								"D B2 U' F2 L2 U' L2 F2 B' R' U2 B' D' R' U2 L' D2",
-								"D2 B' R2 B2 F' L2 F' L U2 R F' D' R U F U' L' B'",
-								"R' U' R2 F2 L F' L' B U' B2 R' D2 R2 B2 U2 D2 L U2 L2 U2",
-							],
-							id: 10,
-						},
-						{
-							extraScrambles: [
-								"D2 L' R2 F2 L2 R2 F' L2 R2 U2 L B F2 R U R D' L' B2",
-								"L2 F2 B2 U' B D2 B2 U2 R' L2 D2 B' L2 U2 F U2 R",
-							],
-							scrambles: [
-								"L' F2 D2 F' U2 R2 B2 D2 L2 F' L2 D' U' L F' R B2 L2 R B'",
-								"D L2 F2 R D2 B U2 R2 B R2 D2 F2 L' D' F U L2 U' L",
-								"L B2 U2 B2 U2 R D2 L D2 F U' L D R' B' D' L2 B' U'",
-								"F2 B' L U' F' D R' D R' F2 L' D2 F2 R U2 L2 U2 R' B",
-								"R' F' U2 R L' U2 L2 D' F2 L2 F R2 F R2 B' D2 L2 B' D2",
-							],
-							id: 11,
-						},
-						{
-							extraScrambles: [
-								"R2 D U2 F2 L2 U2 R2 D2 F R' B2 D' R2 B' L F2 D2 R' U'",
-								"U2 R2 U2 B' F2 D2 F' U2 L2 B2 L' D B' D' R2 F' D U2 R' U",
-							],
-							scrambles: [
-								"U L' F L' D U B2 U R2 F2 L2 U' F' D2 R' U' F2 L' R'",
-								"R F U2 R2 B' U F R U2 F2 U2 F2 U' B2 L2 U R2 B U'",
-								"R2 D2 R F2 L B2 R' F2 U2 L D U F' U' L' B2 L' B' L' U",
-								"L U D' R F' R' L' U2 L2 D2 F2 R2 B2 U' L2 U2 L2 B'",
-								"F2 U D F' D F2 D' R' L F U' R2 U R2 B2 U R2 U' F'",
-							],
-							id: 12,
-						},
-						{
-							extraScrambles: [
-								"U B' U L B2 U' L2 U L2 U B2 D' F R B2 L' B R' D2",
-								"D2 L2 U' B2 U2 F L' B2 L2 U2 B2 U2 F2 R2 U' L D2 L'",
-							],
-							scrambles: [
-								"D L R2 D2 B' R2 D2 B U2 B L' U' B' L' R' F' L' R' F",
-								"U F' D2 B2 D2 R2 F R2 F L2 D2 L' U2 F D' B F D' L'",
-								"B U D2 L2 D2 R2 B2 L' U2 R' F' L D R B R' U2 F'",
-								"D2 R U L D F2 D2 L' U F U2 F' D2 L2 F' L2 B U2 B2 U'",
-								'D R2 D2 R2 B2 U2 B2 U2 R B L U2 L B D2 L2 R D',
-							],
-							id: 13,
-						},
-						{
-							extraScrambles: [
-								"D' R F' L' U' B2 D2 R F R' L F2 U2 R2 D2 R D2 L' U'",
-								"F2 L' F' U2 D B D2 F2 L2 B2 R2 D' R2 D' F2 R2 D' B2 R U",
-							],
-							scrambles: [
-								"F L D2 B2 L R F2 L' B2 D2 R2 U R' F U' L2 D2 B2 F'",
-								"F D' R2 D B2 L U2 F2 R2 F2 L B' R D R F2 D2 F2",
-								"B' D L' F' R' B2 L' F' L D L U2 B' U2 F2 B' D2 F D2",
-								"U2 R D2 L R B2 F2 U B R' B R2 F' D2 B' U L' F2",
-								"R U' L2 B U2 F2 R B U' F' L R2 U F2 D' B2 D2",
-							],
-							id: 14,
-						},
-						{
-							extraScrambles: [
-								"F2 D2 F2 U F L' F' L' F' U2 B2 R2 L U2 R' F2 L' F'",
-								"U2 B2 L' B2 R2 B2 D2 R' U2 F2 B R F' D R' D' U' F2 L D2",
-							],
-							scrambles: [
-								"B' L2 B2 D2 L2 D2 R F L2 F D2 L2 F' L2 F2 B' L' D B'",
-								"F' U' R' D F' D2 L2 F2 R2 B' F2 U R B U2 L2 U' F'",
-								"D' R' D2 L' F B2 R' D' R2 U2 R2 F B2 U2 B2 U2 D' F2",
-								"R2 B' D2 B2 U2 B' U2 F' U2 D' B L2 F U2 F' U' L2 F L'",
-								"R D R B' L' D R' D F R' L' B2 L D2 L' U2 D2 R",
-							],
-							id: 15,
-						},
-						{
-							extraScrambles: [
-								"R2 B2 R2 F' R2 F U2 F' U R' U2 L' F U' L2 U B U' L'",
-								"R2 D' B2 R2 U B2 U' R2 D2 B' L F2 R B F L2 B' U L' U",
-							],
-							scrambles: [
-								"F2 U F D2 U2 L F2 L D2 L2 F2 L' F2 B' L2 R' D B2 U' L",
-								"U2 D F' D B' R2 B R' L2 U2 F2 U F2 U2 L2 F2 D B' R'",
-								"R2 L F2 U2 D' R F2 D' B R2 L U2 L2 D2 L' B2 R F",
-								"R' F2 L2 B2 U2 B2 D' B2 F2 U F' L' D' R' F R' B2 U'",
-								"D' F' D' F2 U2 F2 R' B2 D2 U2 L' D B' L B2 L' B2 L",
-							],
-							id: 16,
+							id: 'org.worldcubeassociation.tnoodle.SheetCopyCount',
+							specUrl: '',
+							data: {
+								numCopies: 1,
+							},
 						},
 					],
-					format: 'a',
-					results: [],
-					cutoff: null,
-					timeLimit: null,
-					advancementCondition: null,
 				},
 			],
-			id: '333',
-			qualification: null,
 		},
 		{
+			id: '333mbf',
 			rounds: [
 				{
-					format: 'a',
+					id: 'mirror-r1',
+					format: 'ao5',
 					scrambleSetCount: 1,
-					id: 'kilominx-r1',
 					scrambleSets: [
 						{
-							extraScrambles: [
-								"R flip U2' R F2 U F R BR' U flip R2 U' L2 BR2 U' L2 BR2 U' BL2' U F' R2 U' F2 R2' F U2' R2 U' F U2",
-								"R flip R' F2' L' BL BR2 R F flip R BL L2 BR2' U2 BL2 L U R2 F2 R U2 F' R' F U R2 U2 F2'",
-							],
+							id: 9,
 							scrambles: [
-								"flip R2' U' R2 U' F2 BR2 R2 flip F L2' U' BR2' BL' L2 BL2' BR R' U2' F2' U2' R F U2 F' R F2' U2'",
-								"U2 F' L' U F2 BL2' U' R2 flip U R' BR' BL U BR2' BL L2' U' R' U F' R2 U F2 R2' U' R2 F2' R2",
-								"U R2' L BR' U' R L U' flip U BL L2 F' U2' L2 U2' BR2 U2 R' U2' F' R' U' R2' F2 U F2' U2' R' U2'",
-								"R flip F2' U2' F2' BL2 L2' U' R2 flip F2 BL2 U' L2 BR2' R U' BL2' L2 U2' R2' U F2 R' U2' F' R2 U' F' U' R'",
-								"R flip U BR2' R' BR U2 BR BL' flip F' R F' L2 U2 BR2 BL U F2' U2 F2' R F2' U2' R2 F2 R F2' U2'",
+								"L U2 R' D' F' U2 D2 B' U' F B' L2 U D L2 F2 L2 F' L' U",
+								"U L D' L R2 U2 F L' U' D2 L2 D2 B R' U2 L' R2 D L R",
+								"D R' L' B L R' F' U B D B' U' L2 D L B' F2 D2 F L'",
+								"B' F' D R2 U D' R' U D2 B L' R2 F2 U D2 R U' R' F2 B2",
+								"L D' L U' B' U2 F2 B' L F2 R' L' F' B' R B R F' R B",
 							],
-							id: 17,
+							extraScrambles: [
+								"L U R' D2 R' U2 D2 R B2 U2 B' R' B L2 F L R2 F2 R B2",
+								"U2 D' L' B U L' U' L2 B' L' B F2 L D L R' F' D2 B' U2",
+							],
 						},
 					],
-					results: [],
-					cutoff: null,
-					timeLimit: null,
-					advancementCondition: null,
+					extensions: [
+						{
+							id: 'org.worldcubeassociation.tnoodle.SheetCopyCount',
+							specUrl: '',
+							data: {
+								numCopies: 1,
+							},
+						},
+					],
 				},
 			],
-			id: 'kilominx',
-			qualification: null,
 		},
 		{
+			id: '333mbf',
 			rounds: [
 				{
-					id: '333bf-r1',
+					id: '333mbf-r1',
+					format: '1',
 					scrambleSetCount: 1,
-					results: [],
 					scrambleSets: [
 						{
-							extraScrambles: [
-								"D2 R2 U2 L2 R2 U2 B D' R' D' B F' R' F' L2 F' R' U2",
-								"D' B' L U2 F2 B2 L D F B R2 U2 B' U2 F' B' D2 R2 U'",
-							],
-							scrambles: [
-								"U2 F B2 R D2 F' D L F B2 L2 F' U2 D2 F2 D2 F' D2 L2",
-								"B2 R2 U' B2 R2 F2 D B2 U' L D' B' U' B2 R' F2 U2 R' U",
-								"R L2 D2 R2 U L2 F2 D2 F U2 L D2 B2 R' F2 R2 F2 D2 R'",
-								"R' F L' U B' U' D2 F2 D L U R2 B2 D2 L2 B2 D2 L2 U",
-								"B' U2 R' F' R' U' B D B2 U2 R2 U R2 F2 D2 B2 U' F L' U",
-							],
 							id: 9,
+							scrambles: [
+								"F U B R' U' R' D' F B L F2 B2 U D2 F2 D R2 U R Uw2\nL2 U' R2 D2 B' D2 R2 B F D' R U2 F L2 B2 D L D'\nU' R' D' F D2 B L2 D2 U2 F' L2 B U L' D U' R U' F\nB2 L2 U' L2 R2 D B2 D' U B2 F U B' U' R' B2 F2 L2 B' R' Fw Uw'\nD2 B L2 F2 U2 L2 F2 U2 B' L2 R2 U' B2 R D2 R F' R D R2\nL2 B2 L2 R2 D F2 R2 D' U2 F2 D2 L F D2 L F2 D' U R' B U' Fw' Uw2\nL' D2 R2 B' R2 F2 U' D B' D L U2 R' B2 L U2 B2 L' B2 Rw2 Uw'\nR' D' R' D2 R2 D2 B U2 B2 U2 B L2 F R' B' L' F2 L F2 L2 Fw' Uw\nB2 U2 R2 D' F' L2 U2 F U2 B' U2 B2 R D U' B' L' B F' Rw' Uw2\nD2 L' B L B L B D F2 R' L2 D2 F L2 F' R2 F' U2 B' Rw Uw\nF L' U R2 B2 U2 L D2 B2 R D2 F D2 R' U' B2 F' U2 Fw\nL B D L' F' B2 D F2 R' B U2 F' U2 L2 U2 D2 F' U2 B2 Uw\nL F2 D2 U2 L' F2 R2 D2 R' D' R' F' U L' U2 F' R' B' U2 R Fw Uw\nR2 U L2 D L2 F2 D' B2 U' R2 B' U' F2 R' F' D2 F2 R U2 Rw' Uw'\nL2 U R' B' L2 F' D F2 U R' B' D B2 R2 D R2 U L2 U D' Fw' Uw'\nL F2 B' R' U R D' L2 F L F' L U2 D2 F2 L D2 F2 R2 Fw'\nB U D2 B' R2 D2 L' B2 L2 B2 R2 D2 F2 B L2 U2 L' U R Fw' Uw\nR' L' U' F2 R F' B2 R B2 L D' B2 D2 F' U2 R2 B' R2 U2 Rw' Uw'\nU' L D2 B2 U B2 U' L2 D' F2 L F2 L B L R' D L2 F' Uw\nF R' D2 R D F' L2 F U' L F2 D2 R2 D2 F B L2 B' U2 Fw' Uw\nR' F2 R2 U2 F2 R U2 B2 R' F2 U' F' L B D2 B R2 F' U'\nL B2 U R2 B2 L' B2 D2 F2 D B2 D L2 B2 R' B R Fw' Uw2\nR' D B2 F2 U R2 B2 D F2 L' F R' D U R B R D B2 Rw Uw2\nL D' L' B' D' L' U R L' D' F B2 L2 D2 B R2 U2 B' U Rw\nD B L2 D' B2 D2 F2 L2 F2 R F' L2 U R' B' F' R2 D Fw' Uw\nR' U L' U2 L2 B2 U2 B' D2 F' D2 B' L U' B' D U' R D2 F2 Rw Uw2\nF2 L D2 L2 F2 U F2 D2 R2 D' R2 U2 L' F R2 D' L D' L2 R' Fw' Uw\nB U D' F U F' B2 D L' D' R U L2 B2 D2 B2 U' R2 D' Fw' Uw\nB U2 R' F2 D L' B' R2 D' R F2 R2 L2 U R2 F2 U2 D' B Rw\nU2 B2 D' U2 R D2 L U2 L' R U2 F' L' R' D B F' R' D' Fw' Uw\nR D2 L2 B' L' U2 F R2 B2 U2 D2 L2 F2 D2 F2 D R D B' U' Rw2 Uw'\nL2 U2 D2 B R L2 F U' R2 D2 L2 F' L2 U2 D R' D2 Fw Uw\nU2 B' D' B D' R2 U F2 U2 R2 D2 R' B2 D F R B L' F2 Rw Uw\nF' L D2 B2 R D2 L2 U2 B D' U F U L2 D' U L B' Uw2\nB2 U2 B' D2 L2 U2 R F2 L D2 B2 D' B' L2 F R' U2 F Rw Uw2\nU' L' B2 L' D2 B2 U F2 B U2 F' U2 D2 R2 F' L D2 B U Fw' Uw'\nD2 R' U' F' D F2 R2 B2 L2 U R2 D B L B2 D2 B' F R Fw Uw'\nD2 R2 L F' R2 U F2 D2 F R' U2 B2 R L' B2 U2 L D Fw Uw'\nF U B2 U' F2 R2 F2 R2 D' L2 F L' F2 U' B' R2 F2 R2 F' R Fw' Uw2\nL2 F L2 U' L2 R2 D' B2 F2 R2 D' F' R D B' D2 R' U' R B Rw\nD' F2 U L2 R2 D' R2 D2 R2 U2 B L D' R2 B' L' F2 R D' U' Fw\nB2 D' B2 U' L2 F2 U2 F2 D' U2 R' F2 U B2 F D' B2 F L' Fw'\nB' U L2 F U2 B2 R' F B2 D F2 L2 D2 B L2 U2 F' L2 F2 Rw2\nL2 F2 U2 R2 L U2 F U2 D L' F U2 L2 F R2 U2 F' R2 L2 Fw'\nU2 F2 L U L D' R' B' U F D2 F D2 B' L2 U2 B' R2 D2 F Rw2 Uw'\nF2 L2 D' L' D2 F' B L F2 U2 D' L2 D L2 F2 R2 D2 R' U2 R2 Fw Uw\nL' U2 L2 F2 D2 B2 U B2 D' L' F2 U' L F D F2 L' U' F' Rw'\nB2 U' B U' B2 U' L D2 F' U L' R2 D' R2 L2 F2 U' B2 L2 Uw\nR' L2 F U2 L2 B2 U2 R2 F D2 R2 F D' L2 B' R' D R' U' Rw\nF R' F' L2 F' D R2 U L2 F B2 R' B2 L2 F2 B2 L U Rw Uw'\nF2 R2 D2 B2 R2 F L2 R2 U2 R' U L2 B' R F' L2 U F D L Fw' Uw\nU2 L' B2 D' F2 L2 B2 R2 D2 F D' B F' L R' D' R' F' Rw Uw\nU R' B' U' D B' R2 U2 B2 R U L2 D2 F U2 B L2 F' U2 Fw Uw2\nB' D2 R' B' F2 R U2 B2 L' U2 R F2 B D2 L' D L2 R2 U2 Rw'\nD L' B U' R2 U2 F B' R' L2 D B2 U R2 U2 R2 D2 B2 U' L2 Fw Uw2\nD B2 F2 L2 B2 F2 L' D2 F2 U' R B L' U2 L' B2 L' D' F2 Rw\nB L' D' B2 L F' R2 F2 D B2 U2 R2 F2 L2 U R2 F L' U Fw Uw'\nF2 B2 L U2 R F B D U2 B2 R' L2 F2 L' U2 B2 U2 Rw Uw\nU2 F' L' R2 D' R2 D' B2 R2 F2 U B' L' D B' R' F2 U2 F2 Rw' Uw2\nU' B2 R U' F R' U' R' D2 F' B2 U2 B R2 B2 R U' F Rw",
+								"L2 B2 D F2 U L2 U' F' U2 F2 U2 L2 D' R D F2 U2 R2 Fw' Uw'\nL U2 B' F U2 R2 F2 L2 F L2 R' F D2 F2 L D' U F L U' Fw'\nF' R' B L2 B U2 L2 F R2 U2 R U' F D' L' F' L B' U Fw Uw'\nR' U' L2 F L2 U2 R2 D2 B2 F2 D L U' L' B' L' B U F Rw Uw2\nB' L2 R2 F' D2 L2 F' L2 F2 L2 F' U2 L' B D2 B U B R D Rw2\nB U' D2 L2 D2 R' D2 U2 F2 L' U2 F2 D' U' F' L U' L2 B' F Uw2\nR L U2 L' D F' D' F2 D' F2 R2 B2 L2 D' B L2 U' Fw' Uw2\nL' D2 R B D2 B2 L2 D2 F' D2 B' U2 B R U R2 B R2 D U' Rw' Uw'\nD' L2 D2 F2 R' F' U B2 U2 F' B2 U2 F D' L' U L' Fw'\nF' D L' B' D2 F2 D2 B' D2 B U2 F' R' D U' F2 R' F2 D R Uw\nF' R2 D2 L2 D2 B2 F' R2 F2 R D R U B' D2 L' R' B' R' F Rw'\nF' D' F' D2 F' D2 U2 B' U2 F R' B2 R2 F2 L D' U B\nU F B' D' R D' F U R D2 F2 R2 L' U2 L' F2 R' D2 U' B' Rw Uw'\nF' B' D2 R L D L2 U F U2 R2 F2 U' D2 F2 U2 F L Fw' Uw'\nD' B' D2 R2 B2 D2 R2 U' L2 U R2 L' U F R B U L' R' Fw Uw\nR2 D2 R2 U D B2 R' U2 F' L D' R2 F' L2 F' B2 U2 D2 Fw\nB' R2 B' U2 L2 F2 L2 B L2 F L' R' F2 D L F' D U L2 F2 Rw2 Uw2\nF' D2 F' L2 F' L2 U2 R2 D B' R' F' L F U' B F2 L U' Fw' Uw2\nR' B2 L' F2 R2 U2 L F2 U2 R' U B D' R' D F L' U L U2 Fw Uw\nU F' D B U' D2 B L2 B R' L D2 F R2 L2 B' R2 L2 F2 Rw Uw\nU2 L2 F2 R F2 L' B2 L' U2 R2 F U B2 L2 F' U B2 F' R2 Uw2\nD R L2 U L2 B2 R2 F2 D2 R2 F2 R' D L2 B' D2 B U L2 F Rw Uw'\nR' B D' L R2 B2 U2 L2 D2 R2 F2 D2 R' U R' B' D U2 L2 Fw' Uw2\nL U2 B2 U2 L' D2 L B2 F' U2 L' U L' B L2 B' D B R2 Fw' Uw'\nR D F2 U' L B' R F U L' U' D2 B2 U2 D' F2 L2 F' Rw' Uw2\nF2 U2 B2 F2 R F2 D2 R D F U' F2 L2 U2 B2 R' U' L2 F' Rw2 Uw\nB2 U2 R2 U2 L2 B' F' U2 F2 D' R F2 L' B' F' U' B2 L' D2 R' Fw Uw2\nR' L2 D2 B2 R' B U F B2 D2 R' F U2 B' U2 L2 F2 Rw' Uw2\nD L U' B U' F2 U2 R' F2 D' B2 L2 U2 D' R2 U2 B' D' Rw' Uw\nL F2 B2 D2 R D B U' F' R D2 B2 U2 B2 R U2 R2 L' F2 Rw2 Uw\nR F' U2 F2 L2 D2 F2 R2 F' R F2 L U' R D U2 L D2 U' Rw Uw2\nF' D R' D B' R B' R2 D2 L2 D F2 R2 L2 B D' R2 B Uw2\nB2 U2 B2 U' R2 F2 U' B2 U2 L2 D' F' L2 U B' L B' D' R U2 Fw Uw'\nD' B' U2 F2 L D2 R' B2 F2 U2 L' D' F2 L2 U2 F' D' B D' Fw Uw2\nU B2 L D2 R B2 U2 R2 F2 R' B2 D2 U L2 B' D' L U2 B F' U Rw Uw'\nF2 R B2 R2 B2 U2 L U2 F' D2 U2 B' R D2 R F' U' F2 Rw'\nU B U' F L B2 L' F B2 R2 F2 B2 U' F2 R2 U' D' F2 Rw Uw\nU2 B' L2 F2 D R2 D' L2 R2 F2 U2 R' D' B2 D2 B2 R2 F D2 Rw\nD F' B2 U L2 F2 B2 U F' D F2 R2 F2 R2 U' L2 U' L U' Fw' Uw'\nF D L' B' D F2 U' L2 F B' L2 B' R2 L2 U' R2 F U' Fw Uw2\nB' D B' F' R2 D2 B R2 D2 R2 F2 R D' U' B' D2 F' L2 R Fw\nB U2 R U2 F2 D2 B2 R2 U2 L R2 F2 B' D' R2 D2 U B' L' Fw Uw\nF R D' F U L D L' F2 R' L' D2 B2 D' L2 U2 F2 U B2 Rw2 Uw'\nF R2 B2 L D2 F' D F2 U2 L2 U2 R2 F B2 L2 F' U' L' B\nR2 D' F D2 R' F2 L' U L2 D B' L2 B2 D2 L2 B' U2 B' L2 Uw'\nU' L2 U' F2 U' L2 U F2 D2 B2 U' B R B D' F2 L U' B2 L B Rw2\nF' L2 D2 F' D2 B2 U2 B' D2 L' D2 F' R' D' R2 B2 L F R' Fw'\nR U2 B2 D2 R2 F' D2 B' L2 B2 R2 L U2 L D2 F R U L2 Uw2\nR2 U' D' B2 L' F' B D' U2 F' B R2 B U2 B2 D2 L' D2 Rw2 Uw2\nL F U B' L2 B2 F U2 B' L2 F L' D F D U F2 L D2 Rw' Uw2\nF L F2 D' F U2 F' L2 F D2 L2 D2 F2 R' U2 L B' L2 B' D' Rw\nR' D' L D' B' L2 U2 F L2 F' U2 F2 R' B2 U' F2 L' U R2 Fw' Uw2\nU' R' D L D2 L2 F2 U' B' D' B2 D2 L2 D2 F' U2 D2 Rw Uw\nD' B F' L2 U2 B L2 B' R D2 F U2 L2 D R2 B2 L U2 Fw Uw2\nL2 D2 L2 F' D2 B U2 F' R' U2 L R2 B' U' F' L D B' R Fw' Uw\nB L2 D2 F2 U L2 D2 B2 U' F L2 U2 F' R' U2 F2 U L' B' Rw' Uw2\nU2 B' L2 R2 B F2 U2 F D L2 R B2 F' L' R2 U R B' L2 Fw Uw'\nR2 B D' B' R' B2 R2 U' L' R2 F D2 F' L2 F2 L2 F U2 L B2 Rw Uw2\nB' F2 R2 D2 U B2 U2 R2 B2 U' L U' B R B F2 D B2 F U' Fw Uw'\nD2 U' R2 F2 L2 B2 U F D' R' F' U' L' D' L2 B' F2 Uw2",
+								"D' R B' D R' D' L B' D2 F U2 L2 F2 U2 F U2 F' R2 U L Uw\nL F2 D2 R2 B D' L B R F2 U2 F L2 F L2 D2 B U2 L2 D Fw Uw\nD R U' D B' L D' B' L U F2 R2 B2 U B2 D B2 D F Rw2 Uw\nF' D' R' F R2 U R2 F U' B U' B2 D' B2 U R2 U2 B2 D B2 Rw\nF2 R' L2 F U2 F' R2 U2 F2 U2 B2 U2 L B2 F U L D' F2 Uw'\nU' B2 D2 B2 U L2 B2 U' B2 U L2 F U B R2 B2 L' B2 U2 Rw2\nU R' B' L' D2 B' D' B2 D2 B U2 B R2 L2 B' D2 R2 D L2 Uw2\nB2 L2 R U2 B2 L2 R' B2 L2 U' R2 B F L' D2 B' L' R' F Rw2\nD2 B' U2 B2 F2 D' B2 D2 B2 U F' L B D' U' B L R' D2 Fw Uw\nR' F2 D U2 L' D2 R2 F2 R' D2 R U2 D' F L' D' B F D2 Rw Uw2\nB2 L2 R2 U2 L2 U' B2 D' U2 B2 L B R B2 F2 D R' F L' D Fw' Uw2\nR2 D2 F2 U2 B' F' D2 U2 F L' U R B' F' D2 L' F D2 B2 U' Fw' Uw2\nL2 B2 L2 D U' R2 D B' U2 R' F2 D2 F R2 F' D' F L U Rw2 Uw\nD' L2 B' R' L2 U2 L F2 B2 U R2 U' F2 R2 F2 B' R' B' L' Fw'\nL U R F2 R U2 R2 F D B R B2 D' L2 U' R2 D2 L2 U' Rw Uw\nR' B2 D' L U F2 L2 U' R' U F D2 L2 B D2 F L2 B' D2 Fw'\nD L B2 L' F L D' L U' F L' F2 D' F2 U2 R2 F2 R2 F2 U Rw Uw\nD U2 L2 B L2 R2 D2 R2 B L2 B L' B' D F' U' B2 D2 U2 Fw' Uw'\nU R F R' U2 R F2 D2 R U R' B U B' D2 R F' Rw'\nL' U B2 L2 D2 U' L2 F2 L2 B' D R' F U B F2 D R' D Fw Uw\nD R2 D L2 D2 U' R' F' D' U2 B R F2 L' D U' L F Rw' Uw'\nD' L' B' U R D F' D B' U R2 B2 U' B2 D2 B2 D' F2 R2\nU' R2 D' F2 L F' D R2 F2 R' D2 F2 R2 U2 D' R2 U' L2 U Rw\nU B D2 B R2 F' R L2 D2 F L2 D2 B U2 B' D' L2 B U' Rw'\nL' B' U F2 R D' R U F U B' L2 B' D2 F' L2 B R2 D2 Rw2\nL2 D2 B' R U F' U L' U B2 U L2 F2 D2 R2 D L U' F2 Rw2\nD' F2 D2 F U2 B U2 L2 U2 F' R' U2 L2 R U L2 B L' R' Fw Uw'\nR2 F' L' D L' U D2 B U' L B2 D2 L2 U' B2 U2 R2 B2 R2 D2 Rw' Uw'\nB L2 B' U' L U2 L B L' U2 D2 F2 R L U2 R' U F D Rw2 Uw\nL2 R2 B R2 F' U2 R2 L' F' L U F2 D2 B' D2 L' U B Rw Uw\nB2 L' F R D2 F2 U' D F' D' F2 R2 U2 B2 U2 L F Uw\nF2 U D B D R' D F U' L' F2 U2 B2 U2 R' L2 B2 U2 F2 U2 R' Fw' Uw2\nD B' L U2 D2 F' R2 F' R2 B' R D F2 R2 D2 F2 D L2 B2 Rw' Uw\nU2 B2 R' D B D R' B U2 D F' R2 F2 D2 L' F2 D2 B2 Uw2\nD' L2 F B2 L2 D F2 D F2 D F2 B U' F' U' B L' U F Rw' Uw'\nR2 F' U B2 D2 L' U2 F2 R U2 L F2 D2 U' L2 B2 F2 D' F L' Fw' Uw'\nL' R2 B2 U2 R B2 D2 U2 F2 D F U' L D' B' L2 U2 B' U2 Fw Uw\nF2 R2 F2 U L2 D2 U F' L R D U F' D L B' L D F' Uw\nU R F2 L' F' D' B' L D R' D R2 L2 B2 L2 U2 B U2 B' Uw2\nF L2 F' L F2 R' U F R F2 L2 F2 R B2 U2 R' F2 L U2 F' Rw' Uw'\nD2 L2 B2 D' R2 F2 D' L U' F' U F L F2 U2 L' U2 Rw' Uw\nD' B D2 B' R2 U2 L2 F2 D2 B' D B F L2 B' R U' B D Fw\nB' R' L U' R2 B L B2 R2 U' L2 F2 U L2 U2 B' R2 F U Fw' Uw'\nD' F D L' F D' F U2 R2 U' F2 R2 F2 D B' U R F2 Rw Uw\nB2 L U' F2 D2 L2 U' F2 D' L2 D' L' U' F2 U' B L' U' F R'\nB' U' R U B2 F2 L2 R2 D2 L2 D' R' D' L2 D B L' F2 D2 Rw2\nL F D L D' F2 R2 B U' R' B2 R' B2 R2 B2 L' U2 R' L' Fw' Uw2\nU2 B' D' R' U R B R D2 B' R2 U2 F R2 F L2 U2 F R2 Fw\nU2 B2 R2 B' U2 B L2 B' D2 F2 L' U L2 U R F' U L U' Rw2\nF' D2 L2 F' L2 B U2 F U2 D L' F' R' F R' U B' F' U' R2 Fw' Uw\nF' U' B' U2 F2 U R2 D' R2 U' F R' B R2 B L U2 F Rw' Uw\nD R' D2 L2 U2 R U2 L F2 B D R2 D L F' R2 D F' L Fw Uw2\nD L2 U' R2 D' F2 U' R F' U L' B U2 B2 F2 U B' L2 R' Fw' Uw'\nF' U2 L2 U2 B D2 F2 L2 D' B' U2 B' L2 D' B2 R F L' D' Rw' Uw'\nR F2 R D2 F2 L' R D2 R' U2 R U F R U R2 F2 R' U2\nD' B' L' U' L' B2 U2 L B2 D2 B2 L2 U F D R' F' U2 B Rw' Uw'\nU' F' D2 L2 U' B L' F D2 B2 R2 F R2 B' R2 D2 U' L2 U2 Fw'\nR' B' L B' L' U' D R D F2 U2 R2 F' R2 F2 D2 L2 F2 D2 F2 Rw2 Uw'\nF' U2 R U' L2 R2 U2 F2 D R2 D F' U R2 D2 U F' D' Fw'\nD B2 U2 L' F2 L' B2 R2 F2 U2 R B R2 F D L B' R' U Rw",
+							],
+							extraScrambles: [],
+						},
+					],
+					extensions: [
+						{
+							id: 'org.worldcubeassociation.tnoodle.SheetCopyCount',
+							specUrl: '',
+							data: {
+								numCopies: 1,
+							},
+						},
+						{
+							id: 'org.worldcubeassociation.tnoodle.MultiScrambleCount',
+							specUrl: 'TODO',
+							data: {
+								requestedScrambles: 60,
+							},
 						},
 					],
 				},
 			],
-			id: '333bf',
-			qualification: null,
 		},
 	],
+	rounds: [
+		{
+			id: '333-r1',
+			isOpen: false,
+		},
+		{
+			id: '333-r2',
+			isOpen: false,
+		},
+		{
+			id: '333-r3',
+			isOpen: false,
+		},
+		{
+			id: 'pyram-r1',
+			isOpen: false,
+		},
+		{
+			id: '555-r1',
+			isOpen: false,
+		},
+		{
+			id: '333oh-r1',
+			isOpen: false,
+		},
+		{
+			id: 'sq1-r1',
+			isOpen: false,
+		},
+		{
+			id: '333mbf-r1',
+			isOpen: false,
+		},
+		{
+			id: 'mirror-r1',
+			isOpen: false,
+		},
+	],
+	competitorCount: -1,
 }

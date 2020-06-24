@@ -53,6 +53,7 @@ export const buildCompetition = async (firebase, competition) => {
 		schedule,
 		settings,
 		competitorCount,
+		rounds,
 	} = competition
 	try {
 		await firebase.firestore().collection('competitions').doc(id).set({
@@ -67,6 +68,7 @@ export const buildCompetition = async (firebase, competition) => {
 			eventList,
 			registrationStart,
 			registrationEnd,
+			rounds: rounds,
 		})
 		for (const person of persons) {
 			await firebase
