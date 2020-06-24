@@ -13,7 +13,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContentText from '@material-ui/core/DialogContentText'
-import { checkAgainstPersonalBest } from '../../../logic/stats'
+import { checkAgainstPersonalBest, best, average } from '../../../logic/stats'
 import ShowScrambles from './ShowScrambles'
 
 interface Props {
@@ -51,6 +51,8 @@ export default function SolveAttempt({
 			attempts: [...userAttempt.attempts, attempt],
 			flagged,
 			isSubmitted: currentAttempt === numAttempts - 1,
+			best: best( [...userAttempt.attempts, attempt]),
+			average: average( [...userAttempt.attempts, attempt],round.event, numAttempts)
 		}
 		if (
 			currentAttempt === numAttempts - 1 &&
