@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import { makeStyles } from '@material-ui/styles'
-import { TextField } from '@material-ui/core'
+import { TextField, Tooltip } from '@material-ui/core'
 import { WCA_ORIGIN } from '../../logic/wca-env'
 import Checkbox from '@material-ui/core/Checkbox'
 import Link from '@material-ui/core/Link'
@@ -14,6 +14,7 @@ import { FirebaseContext } from '../../utils/firebase'
 import { UserContext } from '../../utils/auth'
 import { signIn } from '../../logic/auth'
 import { registerCompetitor, cancelCompetitor } from '../../database/writes'
+import moment from 'moment'
 
 const useStyles = makeStyles((theme) => ({
 	grid: {
@@ -31,7 +32,8 @@ export default function Register({ history, match }) {
 	const [error, setError] = useState(false)
 	const competitionId = match.params.id
 	const registered = user
-		? user.data.competitions.includes(competitionId)
+		? user.data.competitions.includes(competitionId) ||
+		  user.data.seasons?.includes(competitionId)
 		: false
 	const firebase = React.useContext(FirebaseContext)
 	const [competitionInfo, setCompetitionInfo] = useState(null)
@@ -39,22 +41,36 @@ export default function Register({ history, match }) {
 		if (user === undefined) {
 			signIn()
 		}
-		firebase
-			.firestore()
-			.collection(competitionId)
-			.doc('info')
-			.get()
-			.then((resp) => {
-				setCompetitionInfo(resp.data())
-			})
-			.catch((err) => setError(err))
+		if (competitionId === 's1') {
+			firebase
+				.firestore()
+				.collection('seasons')
+				.doc(competitionId)
+				.get()
+				.then((resp) => setCompetitionInfo(resp.data()))
+		} else
+			firebase
+				.firestore()
+				.collection('competitions')
+				.doc(competitionId)
+				.get()
+				.then((resp) => {
+					setCompetitionInfo(resp.data())
+				})
+				.catch((err) => setError(err))
 	}, [competitionId, firebase, user])
 	const handleChange = (event) => {
 		setChecked(event.target.checked)
 	}
 	const handleSubmit = (register) => {
 		const exec = register ? registerCompetitor : cancelCompetitor
-		exec(firebase, user.wca.id.toString(), competitionId)
+		exec(
+			firebase,
+			user.wca.id.toString(),
+			user.wca.name,
+			user.wca.wca_id,
+			competitionId
+		)
 			.then(() => window.location.reload())
 			.catch((err) => setError(err))
 	}
@@ -78,9 +94,7 @@ export default function Register({ history, match }) {
 					direction='column'
 				>
 					<Grid item>
-						<Typography variant='h6'>
-							{competitionInfo.name}
-						</Typography>
+						<Typography variant='h6'>{competitionInfo.name}</Typography>
 					</Grid>
 					<Grid item>
 						<Avatar
@@ -90,11 +104,7 @@ export default function Register({ history, match }) {
 						/>
 					</Grid>
 					<Grid item>
-						<TextField
-							label='Name'
-							value={user.wca.name}
-							disabled
-						/>
+						<TextField label='Name' value={user.wca.name} disabled />
 						<TextField
 							fullWidth
 							label='Email'
@@ -104,9 +114,7 @@ export default function Register({ history, match }) {
 								<>
 									{`You can change this information in your WCA
 									Account `}
-									<Link href={`${WCA_ORIGIN}/profile/edit`}>
-										here
-									</Link>
+									<Link href={`${WCA_ORIGIN}/profile/edit`}>here</Link>
 								</>
 							}
 						/>
@@ -115,8 +123,7 @@ export default function Register({ history, match }) {
 						<>
 							<Grid item>
 								<Typography variant='h4'>
-									You have successfully registered for this
-									competition
+									{`You have successfully registered for ${competitionInfo.name} competition. Please check ${user.wca.email} for a confirmation of your registration`}
 								</Typography>
 							</Grid>
 							<Grid item>
@@ -124,13 +131,13 @@ export default function Register({ history, match }) {
 									onClick={() => handleSubmit(false)}
 									variant='contained'
 									color='primary'
+									disabled
 								>
 									Cancel Registration
 								</Button>
 							</Grid>
 						</>
-					) : new Date() >
-					  competitionInfo.registrationEnd.toDate() ? (
+					) : new Date() > new Date(competitionInfo.registrationEnd) ? (
 						<Grid item>
 							<Typography align='center' variant='h4'>
 								{`Registration is closed. Follow `}
@@ -141,17 +148,36 @@ export default function Register({ history, match }) {
 								Competitions!`}
 							</Typography>
 						</Grid>
-					) : new Date() <
-					  competitionInfo.registrationStart.toDate() ? (
+					) : new Date() < new Date(competitionInfo.registrationStart) ? (
 						<Grid item>
 							<Typography align='center' variant='h4'>
-								{`Registration opens on: ${competitionInfo.registrationStart
-									.toDate()
-									.toDateString()} `}
+								{`Registration opens on: ${new Date(
+									competitionInfo.registrationStart
+								).toString()} `}
 							</Typography>
 						</Grid>
 					) : (
 						<>
+							<h2>Important, Please Read</h2>
+							{competitionId === 's1' && (
+								<ul style={{ maxWidth: '50vw', fontSize: '16px' }}>
+									<li>
+										{`By registering, you are signing up for all 5 Season 1 competitions. 
+												You do not need to register for each event individually.
+												Please check your email(${user.wca.email}) for a confirmation once you register. If you do not see a confirmation, contact us from the icon below `}
+									</li>
+									<li>
+										Season 1 Events:
+										<ul>
+											{competitionInfo.competitions.map((competition) => (
+												<li>{`${competition.name}: ${moment(
+													competition.start
+												).format('dddd MMMM Do')}`}</li>
+											))}
+										</ul>
+									</li>
+								</ul>
+							)}
 							<Grid item>
 								<FormControlLabel
 									style={{ maxWidth: '50vw' }}
@@ -163,31 +189,34 @@ export default function Register({ history, match }) {
 										/>
 									}
 									label={
-										<ul>
-											<li>
-												By signing up, I agree to submit
-												my times as they occur along
-												with any penalties. I understand
-												that any form of cheating can
-												result in disqualification for
-												any further Cubing at Home
-												competitions.
-											</li>
-											<li>
-												I also understand that in order
-												to claim a podium prize, I am
-												required to submit a full uncut
-												video of the entire round.
-											</li>
-											<li>
-												I allow CubingUSA and/or The
-												Cubicle to edit and repost any
-												videos I submit and content I
-												particiapte in for this event
-												without any additional
-												compensation
-											</li>
-										</ul>
+										<>
+											<ul>
+												{competitionId === 's1' && (
+													<li>
+														{`If you are eligible for a leaderboard prize or a participating prize from our sponsors, we have the right to deny the prize if we suspect cheating or any form of violations against the `}{' '}
+														<Link href='https://docs.google.com/document/d/e/2PACX-1vQgJNuwV3bCHidJn2QGjrShAlRPV4X6luLTr7D120RUhaBbTPnn2qdGf3KCR2Rsk1m3vzk4JB6TjB07/pub'>
+															{'Cubing at Home Season 1 rules'}
+														</Link>
+													</li>
+												)}
+												<li>
+													By signing up, I agree to submit my times as they
+													occur along with any penalties. I understand that any
+													form of cheating can result in disqualification for
+													any further Cubing at Home competitions.
+												</li>
+												<li>
+													I also understand that in order to claim a podium
+													prize, I am required to submit a full uncut video of
+													the entire round.
+												</li>
+												<li>
+													I allow CubingUSA and/or The Cubicle to edit and
+													repost any videos I submit and content I particiapte
+													in for this event without any additional compensation
+												</li>
+											</ul>
+										</>
 									}
 								/>
 							</Grid>

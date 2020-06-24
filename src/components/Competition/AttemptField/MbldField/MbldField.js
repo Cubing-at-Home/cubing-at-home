@@ -39,7 +39,7 @@ export const validateMbldAttempt = ({ attempted, solved, centiseconds }) => {
 	return { solved, attempted, centiseconds }
 }
 
-const MbldField = ({ initialValue, onValue, disabled, label }) => {
+const MbldField = ({ initialValue, onValue, disabled, label, ...other }) => {
 	const [prevInitialValue, setPrevInitialValue] = useState(null)
 	const [decodedValue, setDecodedValue] = useState(
 		decodeMbldAttempt(initialValue)
@@ -74,12 +74,7 @@ const MbldField = ({ initialValue, onValue, disabled, label }) => {
 	}
 
 	return (
-		<Grid
-			container
-			direction='row'
-			spacing={1}
-			onInputCapture={handleAnyInput}
-		>
+		<Grid container direction='row' spacing={1} onInputCapture={handleAnyInput}>
 			<Grid item xs={2}>
 				<CubesField
 					initialValue={decodedValue.solved}
@@ -87,6 +82,7 @@ const MbldField = ({ initialValue, onValue, disabled, label }) => {
 						handleDecodedValueChange({ ...decodedValue, solved })
 					}
 					disabled={disabled}
+					helperText={'Completed'}
 				/>
 			</Grid>
 			<Grid item xs={2}>
@@ -96,6 +92,7 @@ const MbldField = ({ initialValue, onValue, disabled, label }) => {
 						handleDecodedValueChange({ ...decodedValue, attempted })
 					}
 					disabled={disabled}
+					helperText={'Attempted'}
 				/>
 			</Grid>
 			<Grid item xs={8}>
@@ -109,6 +106,7 @@ const MbldField = ({ initialValue, onValue, disabled, label }) => {
 						})
 					}
 					disabled={disabled}
+					{...other}
 				/>
 			</Grid>
 		</Grid>

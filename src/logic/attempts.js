@@ -55,3 +55,28 @@ export const sortAttempts = (personA, personB, format) => {
 	if (bResult <= 0) return -1
 	return aResult === bResult ? aSingle - bSingle : aResult - bResult
 }
+export const parseActivityCode = (activityCode) => {
+	const [, e, r, g, a] = activityCode.match(
+		/(\w+)(?:-r(\d+))?(?:-g(\d+))?(?:-a(\d+))?/
+	)
+	return {
+		eventId: e,
+		roundNumber: r && parseInt(r, 10),
+		groupNumber: g && parseInt(g, 10),
+		attemptNumber: a && parseInt(a, 10),
+	}
+}
+
+export const getNumberAttempts = (format) => {
+	if (!isNaN(parseInt(format))) {
+		return parseInt(format)
+	}
+	switch (format) {
+		case 'a':
+			return 5
+		case 'm':
+			return 3
+		default:
+			return 5
+	}
+}

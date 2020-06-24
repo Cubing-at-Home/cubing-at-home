@@ -12,7 +12,7 @@ export default function Competitors({ history, competitionInfo, registered }) {
 	const [competitors, setCompetitors] = useState(null)
 	// in order to avoid 100 reads every time someone switches an event, store the result if it's already been accessed
 	const [preLoadedCompetitors, setPreLoadedCompetiors] = useState({})
-	const [event, setEvent] = useState(competitionInfo.events[0])
+	const [event, setEvent] = useState(competitionInfo.eventList[0])
 	const user = useContext(UserContext)
 	// eslint-disable-next-line no-unused-vars
 	const [page, setPage] = useState(0)
@@ -26,23 +26,15 @@ export default function Competitors({ history, competitionInfo, registered }) {
 		} else {
 			setCompetitors(null)
 
-			const criteria = [
-				'333bf',
-				'333fm',
-				'444bf',
-				'555bf',
-				'333mbf',
-			].includes(event)
+			const criteria = ['333bf', '333fm', '444bf', '555bf', '333mbf'].includes(
+				event
+			)
 				? 'single'
 				: 'average'
 			firebase
 				.firestore()
 				.collection('Users')
-				.where(
-					'data.competitions',
-					'array-contains',
-					competitionInfo.id
-				)
+				.where('data.competitions', 'array-contains', competitionInfo.id)
 				.orderBy(`wca.personal_records.${event}.${criteria}.world_rank`)
 				.startAfter(page)
 				.limit(100)
@@ -66,7 +58,7 @@ export default function Competitors({ history, competitionInfo, registered }) {
 			<Typography
 				align='left'
 				variant='body1'
-			>{`${competitionInfo.competitors.length} Registered Competitors`}</Typography>
+			>{`${competitionInfo.competitorCount} Registered Competitors`}</Typography>
 			{user && user.data.competitions.includes(competitionInfo.id) && (
 				<Typography
 					align='left'
@@ -74,8 +66,9 @@ export default function Competitors({ history, competitionInfo, registered }) {
 				>{`${user.wca.name}: You are successfully registered.`}</Typography>
 			)}
 			<EventList
+				showName={true}
 				selected={[event]}
-				events={competitionInfo.events}
+				events={competitionInfo.eventList}
 				onClick={handleEventChange}
 			/>
 			{!competitors ? (
@@ -94,17 +87,13 @@ export default function Competitors({ history, competitionInfo, registered }) {
 						page={page}
 						event={event}
 						onClick={(e, competitor) =>
-							open(
-								`${WCA_ORIGIN}/persons/${competitor.wca.wca_id}`
-							)
+							open(`${WCA_ORIGIN}/persons/${competitor.wca.wca_id}`)
 						}
 					/>
 					<Typography>
-						Note: We restrict Psych Sheet to Top 100 in each event.
-						If you want to make sure you registered, check the{' '}
-						<Link href={`/${competitionInfo.id}/register`}>
-							registration
-						</Link>{' '}
+						Note: We restrict Psych Sheet to Top 100 in each event. If you want
+						to make sure you registered, check the{' '}
+						<Link href={`/${competitionInfo.id}/register`}>registration</Link>{' '}
 						page
 					</Typography>
 				</>

@@ -1,85 +1,76 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/styles'
-import { Grid, IconButton, Typography } from '@material-ui/core'
+import Grid from '@material-ui/core/Grid'
+import ButtonBase from '@material-ui/core/Button'
+import CubingIcon from './CubingIcon'
+import { parseActivityCode } from '../logic/attempts'
 
-const activityKey = {
-	'222': '2x2',
-	'333': '3x3',
-	'444': '4x4',
-	'555': '5x5',
-	'666': '6x6',
-	'777': '7x7',
-	pyram: 'Pyraminx',
-	'333oh': '3x3 One Handed',
-	'333bf': '3x3 Blindfolded',
-	'444bf': '4x4 Blindfolded',
-	'555bf': '5x5 Blindfolded',
-	skewb: 'Skewb',
-	clock: 'Clock',
-	'333ft': '3x3 with Feet',
-	'333mbf': '3x3 Multiple Blindfolded',
-	'333fm': 'Fewest Moves',
-	sq1: 'Square 1',
-	minx: 'Megaminx'
-}
-
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
-		flexGrow: 1
+		flexGrow: 1,
 	},
 	icon: {
 		fontSize: 20,
 		padding: theme.spacing(1),
 		'&:hover': {
 			opacity: 0.7,
-			color: theme.palette.primary.main
-		}
+			color: theme.palette.primary.main,
+		},
+	},
+	selected: {
+		color: 'red',
 	},
 	iconSelect: {
 		fontSize: 20,
 		padding: theme.spacing(1),
-		color: theme.palette.primary.main,
+		color: theme.palette.primary.secondary,
 		'&:hover': {
-			opacity: 0.7
-		}
-	}
+			opacity: 0.7,
+		},
+	},
 }))
 
 export default function EventList({
 	selected = [],
 	onClick,
-	justify,
+	justify = 'center',
 	events,
 	alignment = 'row',
-	size = 2,
-	user = 'spectator',
-	showName = false
+	showName = false,
+	small = false,
+	button = true,
 }) {
 	const classes = useStyles()
+	const eventIds = events.map((event) => parseActivityCode(event).eventId)
+
 	return (
 		<div className={classes.root}>
-			<Grid spacing={2} container direction={alignment} justify={justify}>
-				{events.map(event => (
-					<Grid item key={event}>
-						<IconButton
-							variant='inherit'
-							onClick={() => onClick(event)}
-						>
-							<span
+			<Grid
+				spacing={2}
+				container
+				direction={alignment}
+				justify={justify}
+				alignItems='center'
+			>
+				{events.map((event, index) => (
+					<Grid item key={`${event}-${index}`}>
+						{button ? (
+							<ButtonBase
+								disableRipple
 								className={
-									(selected.includes(event)
-										? classes.iconSelect
-										: classes.icon) +
-									` cubing-icon event-${event}`
+									selected.includes(event) ? classes.iconSelect : classes.icon
 								}
-							/>
-						</IconButton>
-						{showName && (
-							<Grid item>
-								<Typography align='center'>
-									{activityKey[event]}
-								</Typography>
-							</Grid>
+								onClick={() => onClick(event, index)}
+							>
+								<CubingIcon
+									selected={selected.includes(event)}
+									small={small}
+									event={eventIds[index]}
+									showName={showName}
+								/>
+							</ButtonBase>
+						) : (
+							<CubingIcon small={small} event={event} showName={showName} />
 						)}
 					</Grid>
 				))}

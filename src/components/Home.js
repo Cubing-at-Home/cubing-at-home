@@ -15,7 +15,11 @@ import { LinearProgress, Typography } from '@material-ui/core'
 import { UserContext } from '../utils/auth'
 import { FirebaseContext } from '../utils/firebase'
 import moment from 'moment-timezone'
-// import { rounds } from '../logic/consts'
+import LandingCarousel from './LandingCarousel'
+import RegisteredIcon from '@material-ui/icons/CheckCircleOutline'
+import NotRegisteredIcon from '@material-ui/icons/Cancel'
+// eslint-disable-next-line no-unused-vars
+import { rounds } from '../logic/consts'
 
 const useStyles = makeStyles((theme) => ({
 	grid: {
@@ -38,9 +42,8 @@ export default function Home({ history }) {
 	const [happeningNow, setHappeningNow] = React.useState(null)
 	React.useEffect(() => {
 		const db = firebase.firestore()
-		db.collection('Competitions')
+		db.collection('competitions')
 			.orderBy('start', 'desc')
-			.limit(5)
 			.get()
 			.then((querySnapshot) => {
 				let competitions = []
@@ -48,7 +51,7 @@ export default function Home({ history }) {
 				setCompetiions(competitions)
 				if (
 					competitions.length >= 1 &&
-					moment().isSame(competitions[0].start.toDate(), 'day')
+					moment().isSame(moment(competitions[0].start), 'day')
 				) {
 					setHappeningNow(competitions[0])
 				}
@@ -65,12 +68,12 @@ export default function Home({ history }) {
 		// 		}
 		// 	})
 		// This is to set a schedule for a competition. Still need to add UI for this.
-		// db.collection('cah2')
+		// db.collection('cah5')
 		// 	.doc('info')
 		// 	.get()
 		// 	.then((doc) => {
 		// 		const data = doc.data()
-		// 		db.collection('cah2')
+		// 		db.collection('cah5')
 		// 			.doc('info')
 		// 			.set({ ...data, schedule: rounds })
 		// 	})
@@ -89,13 +92,39 @@ export default function Home({ history }) {
 					justify='center'
 				>
 					{' '}
-					{happeningNow !== null && (
+					{happeningNow !== null ? (
 						<Grid item className={classes.grid}>
 							<Typography
 								align='center'
 								variant='h6'
 							>{`Ongoing: ${happeningNow.name}`}</Typography>
 							<ReactTwitchEmbedVideo channel='cubingusa' />
+						</Grid>
+					) : (
+						<Grid item className={classes.grid}>
+							<LandingCarousel />
+						</Grid>
+					)}
+					{user !== undefined && (
+						<Grid item>
+							<div
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									justify: 'space-between',
+								}}
+							>
+								{user.data.seasons && user.data.seasons.includes('s1') ? (
+									<RegisteredIcon color='primary' />
+								) : (
+									<NotRegisteredIcon color='error' />
+								)}
+								<Typography variant='h5'>
+									{`Hi ${user.wca.name.split(' ')[0]}, you are ${
+										user.data.seasons?.includes('s1') ? 'successfully' : 'not'
+									} registered for C@H Season 1`}
+								</Typography>
+							</div>
 						</Grid>
 					)}
 					<Grid item className={classes.grid}>
@@ -104,17 +133,21 @@ export default function Home({ history }) {
 								className={classes.list}
 								style={{ overflow: 'auto' }}
 								subheader={
-									<ListSubheader disableSticky={true}>
-										Upcoming Events
-									</ListSubheader>
+									<ListSubheader disableSticky={true}>Season 1</ListSubheader>
 								}
 							>
+								{competitions.filter((competition) =>
+									moment().isSameOrBefore(moment(competition.end), 'day')
+								).length === 0 && (
+									<ListItem>
+										<ListItemText>
+											No Competitions are currently available. Stay tuned.
+										</ListItemText>
+									</ListItem>
+								)}
 								{competitions
 									.filter((competition) =>
-										moment().isSameOrBefore(
-											competition.end.toDate(),
-											'day'
-										)
+										moment().isSameOrBefore(moment(competition.end), 'day')
 									)
 									.map((competition) => (
 										<ListItem
@@ -126,24 +159,20 @@ export default function Home({ history }) {
 										>
 											<ListItemText
 												primary={competition.name}
-												secondary={competition.start
-													.toDate()
-													.toDateString()}
+												secondary={moment(competition.start).format(
+													'MMMM Do YYYY'
+												)}
 											/>
 											<ListItemSecondaryAction>
 												<Button
 													size='small'
 													color='primary'
 													variant='contained'
-													startIcon={
-														<AddCircleIcon />
-													}
-													href={`/${competition.id}/register`}
+													startIcon={<AddCircleIcon />}
+													href={`/s1/register`}
 												>
 													{user !== undefined &&
-													user.data.competitions.includes(
-														competition.id
-													)
+													user.data.competitions.includes(competition.id)
 														? 'Manage Registration'
 														: 'Register'}
 												</Button>
@@ -164,23 +193,9 @@ export default function Home({ history }) {
 									</ListSubheader>
 								}
 							>
-								<ListItem
-									alignItems='center'
-									// button
-									// component={Link}
-									// to={`/cubing-at-home-I`}
-								>
-									<ListItemText
-										primary={'Cubing at Home I'}
-										secondary={'March 28th, 2020'}
-									/>
-								</ListItem>
 								{competitions
 									.filter((competition) =>
-										moment().isAfter(
-											competition.end.toDate(),
-											'day'
-										)
+										moment().isAfter(moment(competition.end), 'day')
 									)
 									.map((competition) => (
 										<ListItem
@@ -192,12 +207,23 @@ export default function Home({ history }) {
 										>
 											<ListItemText
 												primary={competition.name}
-												secondary={competition.start
-													.toDate()
-													.toDateString()}
+												secondary={moment(competition.start).format(
+													'MMMM Do YYYY'
+												)}
 											/>
 										</ListItem>
 									))}
+								<ListItem
+									alignItems='center'
+									// button
+									// component={Link}
+									// to={`/cubing-at-home-I`}
+								>
+									<ListItemText
+										primary={'Cubing at Home I'}
+										secondary={'March 28th, 2020'}
+									/>
+								</ListItem>
 							</List>
 						</Paper>
 					</Grid>

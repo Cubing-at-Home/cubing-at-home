@@ -2,22 +2,22 @@ import React, { useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { UserContext } from '../../utils/auth'
 import { signIn, signOut } from '../../logic/auth'
+import Typography from '@material-ui/core/Typography'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
-		flexGrow: 1
+		flexGrow: 1,
 	},
 	menuButton: {
-		marginRight: theme.spacing(2)
+		marginRight: theme.spacing(2),
 	},
 	title: {
-		flexGrow: 1
-	}
+		flexGrow: 1,
+	},
 }))
 
 export default function Header({ history }) {
@@ -32,11 +32,11 @@ export default function Header({ history }) {
 						container
 						direction='row'
 						alignItems='center'
-						justify='space-evenly'
+						justify='space-between'
 						style={{ cursor: 'pointer' }}
 						onClick={() => history.push('/')}
 					>
-						<Grid item>
+						{/* <Grid item>
 							<img
 								width='100vw'
 								height='100vh'
@@ -46,24 +46,18 @@ export default function Header({ history }) {
 									'/cubingusa_logo.png'
 								}
 							/>
-						</Grid>
+						</Grid> */}
 						<Grid item>
-							<Typography
-								style={{ cursor: 'pointer' }}
-								align='center'
-								variant='h2'
-							>
-								Cubing at Home
-							</Typography>
-							<Typography
-								align='center'
-								gutterBottom
-								variant='h6'
-							>
-								Online Cubing Competitions for Quarantiners
-							</Typography>
+							{' '}
+							<img
+								width='80vw'
+								height='80vh'
+								alt='C@H'
+								src={process.env.PUBLIC_URL + '/logo.png'}
+							/>
 						</Grid>
-						<Grid item>
+
+						{/* <Grid item>
 							<img
 								width='100vw'
 								height='100vh'
@@ -72,19 +66,28 @@ export default function Header({ history }) {
 									process.env.PUBLIC_URL + '/cubicle_logo.png'
 								}
 							/>
+						</Grid> */}
+
+						<Grid item>
+							<Typography
+									align='center'
+									variant='h3'
+								>
+								Cubing at Home
+							</Typography>
+						</Grid>
+
+						<Grid item>
+							{/*
+								Ignore this, this just lets the text be centered LOL
+							*/}
 						</Grid>
 					</Grid>
 					<Button
 						onClick={
-							user
-								? () =>
-										signOut().then(
-											(window.location.href = '/')
-										)
-								: signIn
+							user ? () => signOut().then((window.location.href = '/')) : signIn
 						}
 						variant='text'
-						size='large'
 						color='inherit'
 					>
 						{user ? user.wca.name : `Login with WCA`}

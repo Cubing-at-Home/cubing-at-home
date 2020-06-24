@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Link from '@material-ui/core/Link'
 import AppBar from '@material-ui/core/AppBar'
@@ -14,32 +13,10 @@ import Info from './Info'
 import Schedule from './Schedule'
 import Competitors from './Competitors'
 import { faq } from '../../logic/consts'
-import Scrambles from './Scrambles'
+import Compete from './Compete/Compete'
 import Results from './Results'
 import { useTheme } from '@material-ui/core/styles'
-
-function TabPanel(props) {
-	const { children, value, index, ...other } = props
-
-	return (
-		<Typography
-			component='div'
-			role='tabpanel'
-			hidden={value !== index}
-			id={`simple-tabpanel-${index}`}
-			aria-labelledby={`simple-tab-${index}`}
-			{...other}
-		>
-			{value === index && <Box p={3}>{children}</Box>}
-		</Typography>
-	)
-}
-
-TabPanel.propTypes = {
-	children: PropTypes.node,
-	index: PropTypes.any.isRequired,
-	value: PropTypes.any.isRequired,
-}
+import TabPanel from '../TabPanel'
 
 function a11yProps(index) {
 	return {
@@ -72,23 +49,20 @@ export default function CompetitionHome({ history, match }) {
 	React.useEffect(() => {
 		firebase
 			.firestore()
-			.collection(match.params.id)
-			.doc('info')
+			.collection('competitions')
+			.doc(match.params.id)
 			.get()
 			.then((resp) =>
-				resp.exists
-					? setCompetitionInfo(resp.data())
-					: history.push('/')
+				resp.exists ? setCompetitionInfo(resp.data()) : history.push('/')
 			)
+			.catch((err) => history.push('/'))
 	}, [firebase, history, match.params.id])
 	const classes = useStyles()
 
 	const [value, setValue] = React.useState(match.params.tab || 'information')
 
 	const handleChange = (event, newValue) => {
-		history.push(
-			`/${match.params.id}/${event.target.innerText.toLowerCase()}`
-		)
+		history.push(`/${match.params.id}/${event.target.innerText.toLowerCase()}`)
 		setValue(event.target.innerText.toLowerCase())
 	}
 
@@ -126,16 +100,17 @@ export default function CompetitionHome({ history, match }) {
 						<Schedule competitionInfo={competitionInfo} />
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={2}>
-						<Competitors
-							competitionInfo={competitionInfo}
-							history={history}
-						/>
+						<Competitors competitionInfo={competitionInfo} history={history} />
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={3}>
-						<Scrambles competitionInfo={competitionInfo} />
+						<Compete competitionInfo={competitionInfo} />
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={4}>
-						<Results />
+						{() =>
+							window.location.replace(
+								`https://results.cubingathome.com/${match.params.id}`
+							)
+						}
 					</TabPanel>
 					<TabPanel value={tabs[value]} index={5}>
 						<div>
@@ -149,11 +124,7 @@ export default function CompetitionHome({ history, match }) {
 									rowContentColor: theme.palette.text.primary,
 								}}
 							/>
-							<Typography
-								color='primary'
-								align='center'
-								variant='h6'
-							>
+							<Typography color='primary' align='center' variant='h6'>
 								<Link
 									color='inherit'
 									target='_blank'

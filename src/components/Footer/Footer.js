@@ -5,7 +5,25 @@ import Link from '@material-ui/core/Link'
 import ContactMailIcon from '@material-ui/icons/ContactMail'
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects'
 import { makeStyles } from '@material-ui/core/styles'
-import { Tooltip } from '@material-ui/core'
+import Tooltip from '@material-ui/core/Tooltip'
+import Facebook from 'mdi-material-ui/Facebook'
+import Instagram from 'mdi-material-ui/Instagram'
+import Twitch from 'mdi-material-ui/Twitch'
+
+const socialMedias = [
+	{
+		name: 'Facebook',
+		icon: <Facebook />,
+		link: 'https://www.facebook.com/CubingatHome/',
+	},
+	{
+		name: 'Instagram',
+		icon: <Instagram />,
+		link: 'https://www.instagram.com/cubingathome/',
+	},
+
+	{ name: 'Twitch', icon: <Twitch />, link: 'https://www.twitch.tv/cubingathome' },
+]
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -44,15 +62,24 @@ const Footer = ({ currTheme, onThemeChange, isAuthenticated }) => {
 					<Grid container spacing={2}>
 						{isAuthenticated && (
 							<Grid item>
-								<Link
-									className={classes.link}
-									variant='body2'
-									href='/admin'
-								>
+								<Link className={classes.link} variant='body2' href='/admin'>
 									Admin
 								</Link>
 							</Grid>
 						)}
+						{socialMedias.map((social) => (
+							<Tooltip key={social.name} title={social.name}>
+								<Grid item key={social.name}>
+									<Link
+										className={classes.link}
+										variant='body2'
+										href={social.link}
+									>
+										{social.icon}
+									</Link>
+								</Grid>
+							</Tooltip>
+						))}
 						<Tooltip title={'Contact'}>
 							<Grid item key='Contact'>
 								<Link
@@ -68,9 +95,7 @@ const Footer = ({ currTheme, onThemeChange, isAuthenticated }) => {
 						</Tooltip>
 						<Tooltip
 							title={
-								currTheme === 'light'
-									? 'Switch to Dark'
-									: 'Switch to Light'
+								currTheme === 'light' ? 'Switch to Dark' : 'Switch to Light'
 							}
 						>
 							<Grid item key='Theme'>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import { Typography } from '@material-ui/core'
@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/styles'
 import Grid from '@material-ui/core/Grid'
 import EventList from '../EventList'
 import Link from '@material-ui/core/Link'
+import { UserContext } from '../../utils/auth'
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -14,7 +15,12 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Info({ history, match, competitionInfo }) {
+	const user = useContext(UserContext)
 	const classes = useStyles()
+	const competitionId = match.params.id
+	const registered = user
+		? user.data.competitions.includes(competitionId)
+		: false
 	return (
 		<>
 			<Paper className={classes.paper}>
@@ -26,39 +32,37 @@ export default function Info({ history, match, competitionInfo }) {
 					spacing={4}
 				>
 					<Grid item>
-						<Typography variant='h3'>
-							{competitionInfo.name}
-						</Typography>
+						<Typography variant='h3'>{competitionInfo.name}</Typography>
 						<Typography align='center' variant='h6'>
-							{competitionInfo.start.toDate().toDateString()}
+							{competitionInfo.start}
 						</Typography>
 					</Grid>
 
 					<Grid item>
 						<Button
-							onClick={() =>
-								history.push(`/${match.params.id}/register`)
-							}
+							onClick={() => history.push(`/${match.params.id}/register`)}
 							variant='contained'
 							color='primary'
 						>
-							Manage Your Registration
+							{registered ? `Registered` : `Manage Your Registration`}
 						</Button>
 					</Grid>
 					<Typography variant='caption' color='error'>
-						{`Registration Closes on ${competitionInfo.registrationEnd
-							.toDate()
-							.toString()}`}
+						{`Registration Closes on ${new Date(
+							competitionInfo.registrationEnd
+						).toString()}`}
 					</Typography>
 					<Grid item>
 						<Typography align='center' variant='h4'>
 							Events
 						</Typography>
 						<EventList
-							selected={competitionInfo.events}
-							events={competitionInfo.events}
+							button={false}
+							selected={competitionInfo.eventList}
+							events={competitionInfo.eventList}
 							showName
 							onClick={() => {}}
+							small={true}
 						/>
 					</Grid>
 					<Grid item>
@@ -73,12 +77,12 @@ export default function Info({ history, match, competitionInfo }) {
 								Open the live stream on{' '}
 								<Link href='https://twitch.tv/cubingusa'>
 									<u>twitch.tv/cubingusa</u>
-								</Link>{' '}
-								and the
-								<Link href='https://discord.gg/r5AQD2r'>
-									<u>Discord Channel </u>
 								</Link>
-								{` to follow along as the competition progresses`}
+								{' and the '}
+								<Link href='https://discord.gg/r5AQD2r'>
+									<u>Discord Channel</u>
+								</Link>
+								{' to follow along as the competition progresses'}
 							</li>
 						</ul>
 						<li>
@@ -88,20 +92,15 @@ export default function Info({ history, match, competitionInfo }) {
 							</Link>
 						</li>
 						<ul>
-							<li>
-								Scramble your cube using the provided scramble
-								sequence
-							</li>
+							<li>Scramble your cube using the provided scramble sequence</li>
 						</ul>
 						<li>
-							Complete each of your solves and enter the times and
-							any penalties
+							Complete each of your solves and enter the times and any penalties
 						</li>
 						<ul>
 							<li>
-								You can time your solves with a stackmat timer
-								or with another timer, such as{' '}
-								<u>cstimer.net</u>
+								You can time your solves with a stackmat timer or with another
+								timer, such as <u>cstimer.net</u>
 							</li>
 							<li>
 								<b>
@@ -116,18 +115,11 @@ export default function Info({ history, match, competitionInfo }) {
 							</li>
 						</ul>
 						<li>
-							Enter your time in the format ss.cc (as in 12.34) if
-							it is less than a minute and m:ss.cc (as in 2:34.56)
-							if it is over a minute
+							Enter your time in the format ss.cc (as in 12.34) if it is less
+							than a minute and m:ss.cc (as in 2:34.56) if it is over a minute
 						</li>
-						<li>
-							Rounds will run for 20-30 minutes depending on the
-							event
-						</li>
-						<li>
-							Don’t discuss the scrambles in chat until the round
-							is over
-						</li>
+						<li>Rounds will run for 20-30 minutes depending on the event</li>
+						<li>Don’t discuss the scrambles in chat until the round is over</li>
 						<li>
 							After everyone is done, we will post the results at{' '}
 							<Link href='https://results.cubingathome.com'>
@@ -137,15 +129,12 @@ export default function Info({ history, match, competitionInfo }) {
 						</li>
 
 						<p>
-							<strong>
-								Requirements to Podium or Make Finals
-							</strong>
+							<strong>Requirements to Podium or Make Finals</strong>
 						</p>
 						<ul>
 							<li>
-								If you want to be eligible for a podium in any
-								event, you must have video of the entire round,
-								which includes
+								If you want to be eligible for a podium in any event, you must
+								have video of the entire round, which includes
 							</li>
 							<ul>
 								<li>Opening the document with the scrambles</li>
@@ -153,13 +142,10 @@ export default function Info({ history, match, competitionInfo }) {
 								<li>Submitting your times</li>
 							</ul>
 
+							<li>This must be in one unbroken video for the entire round</li>
 							<li>
-								This must be in one unbroken video for the
-								entire round
-							</li>
-							<li>
-								We will contact anyone who podiums to get this
-								video for verification purposes
+								We will contact anyone who podiums to get this video for
+								verification purposes
 							</li>
 						</ul>
 
@@ -172,10 +158,10 @@ export default function Info({ history, match, competitionInfo }) {
 								align='center'
 								variant='body1'
 							>
-								<b>Note: </b> By signing up, you allow CubingUSA
-								and/or The Cubicle to edit and repost any videos
-								you submit and content you particiapte in for
-								this event without any additional compensation
+								<b>Note: </b> By signing up, you allow CubingUSA and/or The
+								Cubicle to edit and repost any videos you submit and content you
+								particiapte in for this event without any additional
+								compensation
 							</Typography>
 							<Typography align='center' variant='h6'>
 								<Link

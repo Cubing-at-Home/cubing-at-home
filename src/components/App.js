@@ -92,6 +92,9 @@ export default function App() {
 								<Route exact path='/:id/:tab?' component={CompetitionHome} />
 								<Route exact path='/' component={Home} />
 								<Route exact path='/:id' component={CompetitionHome} />
+								<Route exact path='/s1'>
+									<Redirect to='/' />
+								</Route>
 								<Route render={() => <Redirect to='/' />} />
 							</Switch>
 							<footer>

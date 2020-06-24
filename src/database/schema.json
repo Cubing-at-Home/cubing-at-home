@@ -1,0 +1,107 @@
+{
+	"Users": [
+		{
+			"data": {
+				"competitions": ["id"]
+			},
+			"wca": {
+				"avatar": {
+					"isDefault": "boolean",
+					"thumb_url": "string",
+					"url": "string"
+				},
+				"country_iso2": "string",
+				"email": "string",
+				"id": "number",
+				"isDelegate": "boolean",
+				"name": "string",
+				"personal_records": {
+					"eventId": {
+						"average": {
+							"best": "number",
+							"continent_rank": "number",
+							"world_rank": "number",
+							"country_rank": "number"
+						},
+						"single": {
+							"best": "number",
+							"continent_rank": "number",
+							"world_rank": "number",
+							"country_rank": "number"
+						}
+					}
+				},
+				"wca_id": "string | undefined"
+			},
+			"Results": {
+				"competitionId": {
+					"competitionId": "string",
+					"results": [
+						{
+							"attempts": ["number"],
+							"average": "number",
+							"best": "number",
+							"roundId": "string",
+							"lastUpdated": "date",
+							"videoURL": "string",
+							"flagged": {
+								"isFlagged": "boolean | undefined",
+								"reason": "string | undefined"
+							}
+						}
+					]
+				}
+			}
+		}
+	],
+	"competitions": [
+		{
+			"competitionId": {
+				"competitorCount": "number",
+				"end": "string",
+				"start": "string",
+				"eventList": ["string"],
+				"id": "string",
+				"name": "string",
+				"registrationStart": "string",
+				"registrationEnd": "string",
+				"rounds": [{ "id": "string", "isOpen": "boolean" }],
+				"shortName": "string",
+				"schedule": [
+					{
+						"id": "string",
+						"name": "string",
+						"end": "string",
+						"start": "string",
+						"qualification": "string"
+					}
+				],
+				"Events": [
+					{
+						"id": "string",
+						"qualification": "WCA_QUAL | null see https://github.com/thewca/wcif/blob/master/specification.md#Qualification",
+						"Rounds": [
+							{
+								"...round": "see https://github.com/thewca/wcif/blob/master/specification.md#Round",
+								"isOpen": "boolean",
+								"Results": [
+									{
+										"attempts": ["number"],
+										"average": "number",
+										"best": "number",
+										"name": "string",
+										"personId": "string",
+										"ranking": "number // -1 if the ranking script isnt executed yet",
+										"wcaId": "string | null | undefined",
+										"lastUpdated": "date",
+										"videoURL": "string"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		}
+	]
+}
