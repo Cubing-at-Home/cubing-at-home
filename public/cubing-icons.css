@@ -168,5 +168,5 @@
 	content: '\EA29';
 }
 .cubing-icon.unofficial-mirror:before {
-	content: './images/mirror.svg';
+	content: url('./images/mirror.svg');
 }
