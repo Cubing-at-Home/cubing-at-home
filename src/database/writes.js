@@ -134,22 +134,25 @@ export const submitTime = async (firebase, competitionId, roundId, results) => {
 		.collection('Flagged_Results')
 		.doc(results.personId)
 	let prevFlaggedResult = await prevFlaggedResultRef.get()
-	let userResults = {
-		competitionId,
-		results: [],
-	}
-	if (userPrevResultRef.exists) {
-		userResults = userPrevResultRef.data()
-	}
-	userResults.results.push({
-		roundId,
-		average: results.average,
-		attempts: results.attempts,
-		best: results.best,
-		lastUpdated: results.lastUpdated,
-		flagged: results.flagged,
-	})
 	const batch = db.batch()
+	if (results.isSubmitted) {
+		let userResults = {
+			competitionId,
+			results: [],
+		}
+		if (userPrevResultRef.exists) {
+			userResults = userPrevResultRef.data()
+		}
+		userResults.results.push({
+			roundId,
+			average: results.average,
+			attempts: results.attempts,
+			best: results.best,
+			lastUpdated: results.lastUpdated,
+			flagged: results.flagged,
+		})
+		batch.set(userResultRef, userResults, { merge: true })
+	}
 	const competitionResultRef = db
 		.collection('competitions')
 		.doc(competitionId)
@@ -160,7 +163,6 @@ export const submitTime = async (firebase, competitionId, roundId, results) => {
 		.collection('Results')
 		.doc(result.personId)
 	batch.set(competitionResultRef, result, { merge: true })
-	batch.set(userResultRef, userResults, { merge: true })
 	if (results?.flagged?.isFlagged) {
 		const competitionFlaggedRef = db
 			.collection('competitions')
@@ -202,4 +204,57 @@ export const approveFlaggedResult = async (firebase, competitionId, result) => {
 		},
 	}
 	return submitTime(firebase, competitionId, result.round, newResult)
+}
+
+export const removeResult = async (
+	firebase,
+	competitionId,
+	roundId,
+	results
+) => {
+	const result = { ...results, lastUpdated: new Date() }
+	const db = firebase.firestore()
+	const userResultRef = db
+		.collection('Users')
+		.doc(results.personId)
+		.collection('Results')
+		.doc(competitionId)
+	const userPrevResultRef = await userResultRef.get()
+	const prevFlaggedResultRef = db
+		.collection('competitions')
+		.doc(competitionId)
+		.collection('Flagged_Results')
+		.doc(results.personId)
+	let userResults = {
+		competitionId,
+		results: [],
+	}
+	if (userPrevResultRef.exists) {
+		userResults = userPrevResultRef.data()
+	}
+	userResults.results = userResults.results.filter(
+		(result) => result.roundId !== roundId
+	)
+	const batch = db.batch()
+	const competitionResultRef = db
+		.collection('competitions')
+		.doc(competitionId)
+		.collection('Events')
+		.doc(roundId.split('-')[0])
+		.collection('Rounds')
+		.doc(roundId)
+		.collection('Results')
+		.doc(result.personId)
+	batch.delete(competitionResultRef)
+	batch.set(userResultRef, userResults, { merge: true })
+	batch.delete(prevFlaggedResultRef)
+	return batch.commit()
+}
+
+export const banCompetitor = async (firebase, personId) => {
+	return firebase
+		.firestore()
+		.collection('Users')
+		.doc(personId)
+		.set({ data: { banned: true } }, { merge: true })
 }

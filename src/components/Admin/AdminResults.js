@@ -7,17 +7,36 @@ import AdminApproveFlaggedResult from './AdminApproveFlaggedResult'
 import moment from 'moment'
 import IconButton from '@material-ui/core/IconButton'
 import Approve from '@material-ui/icons/ThumbUp'
-import { approveFlaggedResult } from '../../database/writes'
+import Remove from '@material-ui/icons/RemoveCircleOutline'
+import Ban from '@material-ui/icons/Block'
+import {
+	approveFlaggedResult,
+	removeResult,
+	banCompetitor,
+} from '../../database/writes'
+import { Link } from '@material-ui/core'
 
 export default function AdminResults({ competitionId }) {
 	const [loading, setLoading] = useState(false)
 	const firebase = useContext(FirebaseContext)
 	const handleApprove = async (result) => {
-		console.log(result)
 		setLoading(true)
 		await approveFlaggedResult(firebase, competitionId, result)
 		setLoading(false)
 	}
+
+	const handleRemove = async (result) => {
+		setLoading(true)
+		await removeResult(firebase, competitionId, result.round, result)
+		setLoading(false)
+	}
+
+	const handleBan = async (result) => {
+		setLoading(true)
+		await banCompetitor(firebase, result.personId)
+		setLoading(false)
+	}
+
 	const columns = [
 		{
 			name: 'personId',
@@ -27,6 +46,21 @@ export default function AdminResults({ competitionId }) {
 		{
 			name: 'name',
 			label: 'Name',
+		},
+		{
+			name: 'wcaId',
+			label: 'WCA ID',
+			options: {
+				customBodyRender: (val) => (
+					<Link
+						target='_blank'
+						rel='noopener'
+						href={`https://worldcubeassociation.org/persons/${val}`}
+					>
+						{val}
+					</Link>
+				),
+			},
 		},
 		{
 			name: 'round',
@@ -104,6 +138,42 @@ export default function AdminResults({ competitionId }) {
 						onClick={() => handleApprove(results[tableMeta.rowIndex])}
 					>
 						<Approve />
+					</IconButton>
+				),
+			},
+		},
+		{
+			name: 'Remove',
+			label: 'Remove',
+			options: {
+				download: false,
+				print: false,
+				sort: false,
+				filter: false,
+				customBodyRender: (value, tableMeta, rowIndex) => (
+					<IconButton
+						disabled={loading}
+						onClick={() => handleRemove(results[tableMeta.rowIndex])}
+					>
+						<Remove />
+					</IconButton>
+				),
+			},
+		},
+		{
+			name: 'Ban',
+			label: 'Ban',
+			options: {
+				download: false,
+				print: false,
+				sort: false,
+				filter: false,
+				customBodyRender: (value, tableMeta, rowIndex) => (
+					<IconButton
+						disabled={loading}
+						onClick={() => handleBan(results[tableMeta.rowIndex])}
+					>
+						<Ban />
 					</IconButton>
 				),
 			},

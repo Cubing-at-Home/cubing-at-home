@@ -21,9 +21,9 @@ export default function AdminApproveFlaggedResult({
 	}
 	return (
 		<ButtonGroup variant='text' color='default' aria-label=''>
-			<IconButton disabled={loading} aria-label='' onClick={approveResults}>
+			{/* <IconButton disabled={loading} aria-label='' onClick={approveResults}>
 				<Approve />
-			</IconButton>
+			</IconButton> */}
 		</ButtonGroup>
 	)
 }
