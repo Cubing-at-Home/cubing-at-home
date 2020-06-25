@@ -141,13 +141,14 @@ export const submitTime = async (firebase, competitionId, roundId, results) => {
 	if (userPrevResultRef.exists) {
 		userResults = userPrevResultRef.data()
 	}
-	userResults.results[roundId] = {
+	userResults.results.push({
 		roundId,
 		average: results.average,
 		attempts: results.attempts,
 		best: results.best,
 		lastUpdated: results.lastUpdated,
-	}
+		flagged: results.flagged,
+	})
 	const batch = db.batch()
 	const competitionResultRef = db
 		.collection('competitions')
