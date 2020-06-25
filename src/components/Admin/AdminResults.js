@@ -9,16 +9,19 @@ import IconButton from '@material-ui/core/IconButton'
 import Approve from '@material-ui/icons/ThumbUp'
 import Remove from '@material-ui/icons/RemoveCircleOutline'
 import Ban from '@material-ui/icons/Block'
+import Edit from '@material-ui/icons/Edit'
 import {
 	approveFlaggedResult,
 	removeResult,
 	banCompetitor,
 } from '../../database/writes'
 import { Link } from '@material-ui/core'
+import EditResult from './EditResult'
 
 export default function AdminResults({ competitionId }) {
 	const [loading, setLoading] = useState(false)
 	const firebase = useContext(FirebaseContext)
+	const [edit, setEdit] = useState(null)
 	const handleApprove = async (result) => {
 		setLoading(true)
 		await approveFlaggedResult(firebase, competitionId, result)
@@ -143,6 +146,24 @@ export default function AdminResults({ competitionId }) {
 			},
 		},
 		{
+			name: 'Edit',
+			label: 'Edit',
+			options: {
+				download: false,
+				print: false,
+				sort: false,
+				filter: false,
+				customBodyRender: (value, tableMeta, rowIndex) => (
+					<IconButton
+						disabled={loading}
+						onClick={() => setEdit(results[tableMeta.rowIndex])}
+					>
+						<Edit />
+					</IconButton>
+				),
+			},
+		},
+		{
 			name: 'Remove',
 			label: 'Remove',
 			options: {
@@ -205,6 +226,13 @@ export default function AdminResults({ competitionId }) {
 
 	return (
 		<>
+			{edit && (
+				<EditResult
+					competitionId={competitionId}
+					result={edit}
+					onComplete={() => setEdit(null)}
+				/>
+			)}
 			<MUIDataTable
 				title='Flagged Competitors'
 				data={results}
