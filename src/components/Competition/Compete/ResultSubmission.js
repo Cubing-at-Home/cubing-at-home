@@ -15,10 +15,10 @@ import DoneAllIcon from '@material-ui/icons/DoneAll'
 export default function ResultSubmission({
 	user,
 	competitionId,
-	onSubmit,
 	round,
 	userAttempt,
 	loading,
+	showAdmin,
 }) {
 	const centisecondsToInput = (centiseconds) => {
 		if (round.event === '333mbf') {
@@ -115,7 +115,7 @@ export default function ResultSubmission({
 						competitionId={competitionId}
 						round={round}
 					/>
-				) : !round.isOpen && !userAttempt?.isSubmitted ? (
+				) : !round.isOpen && !showAdmin && !userAttempt?.isSubmitted ? (
 					<Typography variant='h5'>
 						Sorry, this round is not currently open.
 					</Typography>

@@ -7,10 +7,9 @@ import { FirebaseContext } from '../../../utils/firebase'
 import { signIn } from '../../../logic/auth'
 import { LinearProgress, Typography } from '@material-ui/core'
 import { activityKey } from '../../../logic/consts'
-import { average, best } from '../../../logic/stats'
 import { parseActivityCode } from '../../../logic/attempts'
 import { getOpenRounds } from '../../../database/reads'
-import { submitTime } from '../../../database/writes'
+import moment from 'moment'
 
 export default function Compete({ competitionInfo }) {
 	const [rounds, setRounds] = useState(null)
@@ -20,6 +19,9 @@ export default function Compete({ competitionInfo }) {
 	const [auth, setAuth] = useState(true)
 	const user = useContext(UserContext)
 	const firebase = useContext(FirebaseContext)
+	const showAdmin =
+		['organizer', 'staff'].includes(user.data.role) &&
+		moment(competitionInfo.start).diff(moment(), 'days') <= 1
 
 	const [selectedEvent, setSelectedEvent] = useState(null)
 	useEffect(
@@ -61,16 +63,21 @@ export default function Compete({ competitionInfo }) {
 			if (!user.data.competitions.includes(competitionInfo.id)) {
 				setAuth(false)
 			} else {
-				const { roundsInformation, allRounds } = await getOpenRounds(
-					firebase,
-					competitionInfo.id,
-					user.wca.id.toString()
-				)
-				if (!roundsInformation) setError('Unable to find qualified rounds')
-				else {
-					setRounds(roundsInformation)
-					setAllRounds(allRounds)
-					setSelectedEvent(allRounds[0].id)
+				try {
+					const { roundsInformation, allRounds } = await getOpenRounds(
+						firebase,
+						competitionInfo.id,
+						user.wca.id.toString(),
+						showAdmin
+					)
+					if (!roundsInformation) setError('Unable to find qualified rounds')
+					else {
+						setRounds(roundsInformation)
+						setAllRounds(allRounds)
+						setSelectedEvent(allRounds[0]?.id)
+					}
+				} catch (err) {
+					setError(err.message)
 				}
 			}
 		}
@@ -82,10 +89,10 @@ export default function Compete({ competitionInfo }) {
 				{error}
 			</Typography>
 		)
-	if (rounds === null || selectedEvent === null || allRounds === null)
-		return <LinearProgress />
 	if (!auth)
 		return <Typography>You aren't registered for this competition.</Typography>
+	if (rounds === null || selectedEvent === null || allRounds === null)
+		return <LinearProgress />
 	if (allRounds.length === 0)
 		return <Typography>No events are currently available</Typography>
 	return (
@@ -118,6 +125,7 @@ export default function Compete({ competitionInfo }) {
 						...allRounds.find((round) => round.id === selectedEvent),
 					}} // im doing this because an earlier version of the db had round.event, and im too lazy to change it everywhere
 					userAttempt={userAttempt}
+					showAdmin={showAdmin}
 				/>
 			</Grid>
 		</Grid>

@@ -44,7 +44,9 @@ export default function App() {
 		typography: typography,
 	}
 	const user = useContext(UserContext)
-	const isAuthenticated = user ? isAdmin(user.wca) : false
+	const isAuthenticated = user
+		? ['staff', 'organizer'].includes(user.data?.role)
+		: false
 	const muiTheme = createMuiTheme(theme)
 
 	return (
