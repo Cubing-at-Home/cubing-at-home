@@ -33,11 +33,16 @@ export default function DrawScramble({
 }: Props): ReactElement {
 	if (validEvents.includes(eventId))
 		return (
-			<scramble-display
-				visualization='3D'
-				event={eventId}
-				scramble={scramble}
-			/>
+			<>
+				<scramble-display
+					visualization='3D'
+					event={eventId}
+					scramble={scramble}
+				/>
+				{eventId === 'pyram' && (
+					<Typography>Note: Pyraminx Orientation is incorrect. </Typography>
+				)}
+			</>
 		)
 	else
 		return (
