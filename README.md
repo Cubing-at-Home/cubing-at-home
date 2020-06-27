@@ -23,14 +23,15 @@ We also use a local firestore database. So you are free to make any changes/addi
 
 -   [React](https://www.reactjs.org)
 -   [Material UI](https://www.material-ui.com)
-
-*   [Firebase](https://firebase.google.com)
+-   [Firebase](https://firebase.google.com)
 
 ## Authors
 
 -   **Saransh Grover** - [saranshgrover](https://saranshgrover.com)
 
 ## License
+
+Software in this repository is under the `GNU General Public License v3.0` Read more about the license [here](https://github.com/saranshgrover/cubing-at-home/blob/master/LICENSE)
 
 ## Acknowledgments
 
