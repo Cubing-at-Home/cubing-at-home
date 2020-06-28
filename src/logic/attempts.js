@@ -45,6 +45,15 @@ export const centisecondsToClockFormat = (centiseconds) => {
 }
 
 export const parseActivityCode = (activityCode) => {
+	console.log(activityCode)
+	if (typeof activityCode !== 'string' || !activityCode) {
+		return {
+			eventId: '',
+			roundNumber: 1,
+			attemptNumber: 1,
+			groupNumber: 1,
+		}
+	}
 	const [, e, r, g, a] = activityCode.match(
 		/(\w+)(?:-r(\d+))?(?:-g(\d+))?(?:-a(\d+))?/
 	)
