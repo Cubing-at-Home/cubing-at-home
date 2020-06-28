@@ -1,144 +1,61 @@
 export const text = {}
 
-export const rounds = [
-	{
-		id: 'twitch',
-		name: 'Twitch Solves',
-		start: '12:00',
-		end: '13:00',
-		qualification: '',
-	},
-	{
-		id: '',
-		name: 'Welcome',
-		start: '13:00',
-		end: '13:10',
-		qualification: '',
-	},
-	{
-		id: 'minx',
-		name: 'Skewb Final',
-		start: '13:10',
-		end: '13:30',
-		qualification: '',
-	},
-	{
-		id: '555bf',
-		name: '5x5 Blindfolded Final',
-		start: '13:30',
-		end: '13:50',
-		qualification: '',
-	},
-	{
-		id: '333',
-		name: '3x3 Round 1',
-		start: '13:50',
-		end: '14:10',
-		qualification: '',
-	},
-	{
-		id: 'kilominx',
-		name: 'Kilominx',
-		start: '14:10',
-		end: '14:30',
-		qualification: '',
-	},
-	{
-		id: '444',
-		name: '4x4 Final',
-		start: '14:30',
-		end: '14:50',
-		qualification: '',
-	},
-	{
-		id: '333',
-		name: '3x3 Round 2',
-		start: '14:50',
-		end: '15:10',
-		qualification: 'Top 50%',
-	},
-	{
-		id: 'sq1',
-		name: 'Statistical Showdown',
-		start: '15:10',
-		end: '15:30',
-		qualification: '',
-	},
-	{
-		id: '333bf',
-		name: '3x3 Blindfolded Final',
-		start: '15:30',
-		end: '15:50',
-		qualification: '',
-	},
-	{
-		id: '222',
-		name: '2x2 Final',
-		start: '15:50',
-		end: '16:10',
-		qualification: '',
-	},
-	{
-		id: '333',
-		name: '3x3 Final',
-		start: '16:10',
-		end: '17:20',
-		qualification: 'Top 8',
-	},
-	{
-		id: '',
-		name: 'Awards',
-		start: '17:20',
-		end: '17:30',
-		qualification: '',
-	},
-]
-
 export const faq = {
 	title: 'Frequently asked Questions',
 	rows: [
 		{
 			title:
-				'Is this competition official? Will the results be on my WCA Account?',
+				'Is this an official competition? Will the results be on my WCA Account?',
 			content:
-				'Cubing At Home is not an official WCA Competition. All results are unofficial and are not tracked or recognized by the WCA',
+				'Cubing At Home is not an official WCA competition. All results are unofficial and are not tracked or recognized by the WCA.',
 		},
 		{
-			title: 'Can I listen to music? Do I have to follow X WCA Regulation?',
+			title:
+				'What Regulations do I need to follow?',
 			content:
-				'We recommend that you follow WCA Regulations as close as possible. This means that you may not listen to music while solving.',
+				'Competitors should follow the <a href="https://docs.google.com/document/d/1EPd81tMdGZplgX19lPwF_MvmWlCLRHJ2VijtgJef9a4/edit?usp=sharing">Cubing at Home Regulations</a>.',
 		},
 		{
 			title:
 				'Am I registered for everything? Do I need to register for a specific event?',
 			content:
-				' You are registered for all events, if you plan on not competing in an event then just dont enter results for it',
+				'You are registered for all competitions and events in the season. If you do not plan on competing in an event then you can ignore it and not enter results for it.',
 		},
 		{
-			title: 'Do I need to film all my solves?',
+			title:
+				'What is the points system?',
 			content:
-				"You only need to film to claim a prize for podiuming or making it into Finals (Top 8)! If you don't think you will podium or make finals then there is no need to film",
+				'The points system is used to determine the winner of each Cubing at Home season. Information on the points system can be found <a href="https://docs.google.com/document/d/1UJrr0VpM_A5lQGZZ5meEt5nSk-dlTsqvJtbW5smtyqo/edit?usp=sharing">here</a>.',
 		},
 		{
-			title: 'How am I supposed to time my solves? Keep track of inspection?',
+			title: 
+				'Do I need to film all my solves?',
 			content:
-				' We recommend using a stackmat to time solves but you can feel free to use any website or app to keep track of time. To keep track of inspection you can use built in app or timer features on your timer or alternatively you can go to https://cubing.net/inspection/',
+				'You must film to be eligible to earn points. If you believe you may earn points then be sure to film.',
 		},
 		{
-			title: "Can I still compete if I don't know how to scramble?",
+			title: 
+				'How am I supposed to time my solves? Keep track of inspection?',
 			content:
-				"We require competitors to know how to scramble events they compete in. If you do not know how to scramble an event, please make sure to learn it. <a href='https://www.youtube.com/watch?v=QZ3jOJ6VKdw'>Here </a> is a good resource for learning notation and scrambling for most events.",
-		},
-
-		{
-			title: 'Where will I submit my times?',
-			content:
-				"You will submit your times using a google form which can be found on the <a href='/scrambles'>scrambles</a> page",
+				'We recommend using a StackMat Timer to time solves but you can feel free to use any website or app to keep track of time. To keep track of inspection you can use a built-in app or timer features on your timer or alternatively you can go to <a href="https://cubing.net/inspection/">https://cubing.net/inspection/</a>',
 		},
 		{
-			title: 'Where do I submit videos if I podium?',
+			title: 
+				'Can I still compete if I don\'t know how to scramble?',
 			content:
-				"We will reach out to you to get videos. Please make sure to be active on the <a href='/cubing-at-home-I/discord'>discord </a>",
+				'We require competitors to know how to scramble events they compete in. If you do not know how to scramble an event, please make sure to learn it. <a href="https://www.youtube.com/watch?v=QZ3jOJ6VKdw">Here</a> is a good resource for learning notation and scrambling for most events.',
+		},
+		{
+			title: 
+				'Where will I submit my times?',
+			content:
+				'You will submit your times on the competitors page.',
+		},
+		{
+			title: 
+				'Where do I submit videos if I podium?',
+			content:
+				'After completing your solves there will be a field on the competitors page for you to submit a link to your video. You can upload your video to a service like YouTube or Google Drive to link it.',
 		},
 	],
 }
