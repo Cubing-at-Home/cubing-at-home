@@ -49,13 +49,13 @@ export const faq = {
 			title: 
 				'Where will I submit my times?',
 			content:
-				'You will submit your times on the competitors page.',
+				'You will submit your times on the compete page.',
 		},
 		{
 			title: 
 				'Where do I submit videos if I podium?',
 			content:
-				'After completing your solves there will be a field on the competitors page for you to submit a link to your video. You can upload your video to a service like YouTube or Google Drive to link it.',
+				'After completing your solves there will be a field on the compete page for you to submit a link to your video. You can upload your video to a service like YouTube or Google Drive to link it.',
 		},
 	],
 }
