@@ -20,7 +20,7 @@ export default function Compete({ competitionInfo }) {
 	const user = useContext(UserContext)
 	const firebase = useContext(FirebaseContext)
 	const showAdmin =
-		['organizer', 'staff'].includes(user.data.role) &&
+		['organizer', 'staff'].includes(user?.data?.role) &&
 		moment(competitionInfo.start).diff(moment(), 'days') <= 1
 
 	const [selectedEvent, setSelectedEvent] = useState(null)

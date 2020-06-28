@@ -25,25 +25,31 @@ const validEvents = [
 	'555bf',
 	'333mbf',
 	'333ft',
+	'mirror'
 ]
 
 export default function DrawScramble({
 	scramble,
 	eventId,
 }: Props): ReactElement {
-	if (validEvents.includes(eventId))
+	if (validEvents.includes(eventId)) {
+		let scrambleParse = scramble
+		if(eventId ==='sq1') {
+			scrambleParse = scrambleParse.replace(/, /g, ",").replace(/,/g, ", ");
+		}
 		return (
 			<>
 				<scramble-display
 					visualization='3D'
-					event={eventId}
-					scramble={scramble}
+					event={eventId === 'mirror' ? '333' : eventId}
+					scramble={scrambleParse}
 				/>
 				{eventId === 'pyram' && (
 					<Typography>Note: Pyraminx Orientation is incorrect. </Typography>
 				)}
 			</>
 		)
+	}
 	else
 		return (
 			<Typography variant='body1' color='error' align='center'>

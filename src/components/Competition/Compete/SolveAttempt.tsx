@@ -61,8 +61,8 @@ export default function SolveAttempt({
 			user.wca.personal_records[round.event] &&
 			checkAgainstPersonalBest(
 				round.event,
-				userAttempt.attempts.length === 5 || userAttempt.attempts.length === 3,
-				userAttempt.attempts,
+				newUserAttempt.attempts.length === 5 || newUserAttempt.attempts.length === 3,
+				newUserAttempt.attempts,
 				user.wca.personal_records[round.event]
 			)
 		) {

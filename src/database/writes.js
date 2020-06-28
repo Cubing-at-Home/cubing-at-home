@@ -132,7 +132,7 @@ export const submitTime = async (firebase, competitionId, roundId, results) => {
 		.collection('competitions')
 		.doc(competitionId)
 		.collection('Flagged_Results')
-		.doc(results.personId)
+		.doc(`${results.personId}-${roundId}`)
 	let prevFlaggedResult = await prevFlaggedResultRef.get()
 	const batch = db.batch()
 	if (results.isSubmitted) {
@@ -224,7 +224,7 @@ export const removeResult = async (
 		.collection('competitions')
 		.doc(competitionId)
 		.collection('Flagged_Results')
-		.doc(results.personId)
+		.doc(`${results.personId}-${result.roundId}`)
 	let userResults = {
 		competitionId,
 		results: [],

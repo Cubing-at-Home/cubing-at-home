@@ -1,4 +1,4 @@
-/* Temporarily it's a copy of server/utils/stats.js */
+import {decodeMbldAttempt} from './attempts'
 
 const complete = (attempt) => attempt > 0
 
@@ -74,10 +74,20 @@ export const checkAgainstPersonalBest = (
 	attempts,
 	personalBest
 ) => {
+	console.log(attempts)
 	const func = isAverage ? average : best
 	const pbComparator = isAverage
 		? personalBest.average?.best
 		: personalBest.single?.best
-	const result = func(attempts, eventId, attempts.length)
+	let result = func(attempts, eventId, attempts.length)
+	if(eventId === '333mbf') {
+		const {solved, attempted} = decodeMbldAttempt(result)
+		const pointsCurr = solved - (attempted - solved)
+		const {solved:solvedOld, attempted: attemptedOld} = personalBest?.single?.best ? decodeMbldAttempt(personalBest.single.best) : 0
+		const pointsOld = solvedOld - (attemptedOld - solvedOld)
+		return (1.3*pointsCurr < pointsOld) && (result >= 0)
+	}
+	else {
 	return (1.3 * result < pbComparator) && (result >= 0)
+	}
 }
