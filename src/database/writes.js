@@ -168,7 +168,7 @@ export const submitTime = async (firebase, competitionId, roundId, results) => {
 			.collection('competitions')
 			.doc(competitionId)
 			.collection('Flagged_Results')
-			.doc(results.personId)
+			.doc(`${results.personId}-${roundId}`)
 		const { flagged, lastUpdated, ...other } = results
 		batch.set(
 			competitionFlaggedRef,
