@@ -45,7 +45,6 @@ export const centisecondsToClockFormat = (centiseconds) => {
 }
 
 export const parseActivityCode = (activityCode) => {
-	console.log(activityCode)
 	if (typeof activityCode !== 'string' || !activityCode) {
 		return {
 			eventId: '',
