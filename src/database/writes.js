@@ -224,7 +224,7 @@ export const removeResult = async (
 		.collection('competitions')
 		.doc(competitionId)
 		.collection('Flagged_Results')
-		.doc(`${results.personId}-${result.roundId}`)
+		.doc(`${results.personId}-${roundId}`)
 	let userResults = {
 		competitionId,
 		results: [],
