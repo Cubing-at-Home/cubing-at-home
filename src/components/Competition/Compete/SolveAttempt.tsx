@@ -136,7 +136,7 @@ export default function SolveAttempt({
 				<Grid container direction='row' justify='center' spacing={4}>
 					<Grid item>
 						<AttemptField
-							helperText={`Please enter you time for Solve ${
+							helperText={`Please enter your time for Solve ${
 								currentAttempt + 1
 							} with penalities applied. `}
 							eventId={round.event}
