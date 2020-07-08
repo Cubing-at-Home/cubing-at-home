@@ -122,7 +122,7 @@ export default function ResultSubmission({
 				) : !userAttempt ? (
 					<EventStart round={round} user={user} competitionId={competitionId} />
 				) : userAttempt.submitted ||
-				  userAttempt.attempts.length >= numAttempts ? (
+				  userAttempt?.attempts?.length >= numAttempts ? (
 					<EventSubmitted
 						userAttempt={userAttempt}
 						competitionId={competitionId}

@@ -15,6 +15,9 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import { checkAgainstPersonalBest, best, average } from '../../../logic/stats'
 import ShowScrambles from './ShowScrambles'
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox'
+import {formatAttemptResult} from '../../../logic/attempts'
 
 interface Props {
 	user: User
@@ -35,7 +38,8 @@ export default function SolveAttempt({
 		isFlagged: boolean
 		reason?: string
 	}>({ isFlagged: false })
-	const currentAttempt = userAttempt.attempts.length
+	const [checked, setChecked] = useState(false)
+	const currentAttempt = userAttempt?.attempts.length
 	const numAttempts = getNumberAttempts(round.format)
 	const firebase = useContext(FirebaseContext)
 	if (currentAttempt >= numAttempts)
@@ -46,13 +50,16 @@ export default function SolveAttempt({
 		)
 	const scramble = round.scrambleSets[0].scrambles[currentAttempt]
 	const handleAttemptSubmit = async () => {
+		const recordedAttempt = attempt
+		setAttempt(0)
+		setChecked(false)
 		let newUserAttempt: Result = {
 			...userAttempt,
-			attempts: [...userAttempt.attempts, attempt],
+			attempts: [...userAttempt.attempts, recordedAttempt],
 			flagged,
 			isSubmitted: currentAttempt === numAttempts - 1,
-			best: best( [...userAttempt.attempts, attempt]),
-			average: average( [...userAttempt.attempts, attempt],round.event, numAttempts)
+			best: best( [...userAttempt.attempts, recordedAttempt]),
+			average: average( [...userAttempt.attempts, recordedAttempt],round.event, numAttempts)
 		}
 		if (
 			currentAttempt === numAttempts - 1 &&
@@ -145,8 +152,10 @@ export default function SolveAttempt({
 						/>
 					</Grid>
 					<Grid item>
+						<FormControlLabel label={attempt !==0 ? `${formatAttemptResult(attempt,round.event )} is the correct time for Solve ${currentAttempt + 1}` : ''} control ={<Checkbox disabled={attempt===0} checked={checked} color='primary' onChange={({target:{checked}}) => setChecked(checked) } />
+					}/>
 						<Button
-							disabled={attempt === 0}
+							disabled={attempt === 0 || !checked}
 							variant='contained'
 							onClick={handleAttemptSubmit}
 						>
