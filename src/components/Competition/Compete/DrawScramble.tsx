@@ -40,7 +40,7 @@ export default function DrawScramble({
 		return (
 			<>
 				<scramble-display
-					visualization='3D'
+					visualization='2D'
 					event={eventId === 'mirror' ? '333' : eventId}
 					scramble={scrambleParse}
 				/>
