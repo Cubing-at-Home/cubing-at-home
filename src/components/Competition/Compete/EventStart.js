@@ -34,6 +34,8 @@ export default function EventStart({ user, competitionId, round }) {
 							that you submit accurate times so please double check each sovle
 							before submitting.
 						</li>
+						{round.event !== '333fm' ?
+						<>
 						<li>
 							After you complete each solve, enter in the exact time in the
 							corresponding fields. If you have a penalty, add the penalty and
@@ -41,6 +43,19 @@ export default function EventStart({ user, competitionId, round }) {
 							to enter a DNS, type S. For Multiple Blindfolded, the format is:
 							Completed, Attempted, Time.
 						</li>
+						<li>
+							If you plan to record, please <b>Start Recording BEFORE you click Begin Attempt</b>
+						</li>
+						</>
+						:
+						<>
+						<li>
+							<Typography>For 3x3 FMC, You will have 1 hour and 5 minutes for each attempt. FMC will be open for a total of 4 hours, so you may take breaks in between events - but please plan accordingly. We will be requiring both a move count as well as an <a href='https://alg.cubing.net'>alg.cubing.net</a> link. </Typography>
+						</li>
+						<li>
+							Note: For Fewest Moves, we will not be asking for video. Instead, please make sure to explain your solution in the https://alg.cubing.net link you provide. The extra 5 minutes per solve is for that. You may also submit a video breakdown of your solves within 4 hours of submitting your time if you feel like you don't want to explain your solution in alg.cubing.net, though we highly recommend you do that. In addition, if we suspect any issues, we will reach out to you for clarifications.
+						</li>
+						</>}
 						<li>
 							<Typography color='error'>
 								Please note: If we detect any form of cheating, it will result

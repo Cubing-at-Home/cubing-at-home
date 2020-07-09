@@ -10,6 +10,7 @@ import Divider from '@material-ui/core/Divider'
 import EventStart from './EventStart'
 import EventSubmitted from './EventSubmitted'
 import SolveAttempt from './SolveAttempt'
+import FMCAttempt from './FMCAttempt'
 import DoneAllIcon from '@material-ui/icons/DoneAll'
 
 export default function ResultSubmission({
@@ -128,7 +129,16 @@ export default function ResultSubmission({
 						competitionId={competitionId}
 						round={round}
 					/>
-				) : (
+				) : 
+				round.event === '333fm' ? 
+				<FMCAttempt
+				user={user}
+				round={round}
+				competitionId={competitionId}
+				userAttempt={userAttempt}
+			/>
+			: 
+				(
 					<SolveAttempt
 						user={user}
 						round={round}
