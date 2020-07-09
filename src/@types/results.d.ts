@@ -27,6 +27,16 @@ interface Result {
 	}
 }
 
+interface FMCResult extends Result {
+	attemptInfo: AttemptInfo[]
+	solutionUrl?: string[]
+}
+
+interface AttemptInfo {
+	started: boolean
+	startedAt: number
+}
+
 interface ScrambleSet {
 	id: number
 	scrambles: string[]
