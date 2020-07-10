@@ -98,7 +98,7 @@ export const activityKey = {
 	'2345relay': '2x2-5x5 Relay',
 	kilominx: 'Kilominx',
 	mpyram: 'Master Pyraminx',
-	redi: '-Redi Cube',
+	redi: 'Redi Cube',
 	'666bf': '6x6x6 Blindfolded',
 	'777bf': '7x7x7 Blindfolded',
 	miniguild: 'Mini Guildford Challenge',
