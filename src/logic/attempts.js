@@ -12,7 +12,7 @@ export const formatAttemptResult = (
 	eventId,
 	isAverage = false
 ) => {
-	if (attemptResult === 0) return ''
+	if (attemptResult === 0 || !attemptResult) return ''
 	if (attemptResult === -1) return 'DNF'
 	if (attemptResult === -2) return 'DNS'
 	if (eventId === '333fm') {

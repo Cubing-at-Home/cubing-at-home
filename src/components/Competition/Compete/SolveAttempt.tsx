@@ -15,9 +15,9 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import { checkAgainstPersonalBest, best, average } from '../../../logic/stats'
 import ShowScrambles from './ShowScrambles'
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
-import {formatAttemptResult} from '../../../logic/attempts'
+import { formatAttemptResult } from '../../../logic/attempts'
 
 interface Props {
 	user: User
@@ -51,15 +51,17 @@ export default function SolveAttempt({
 	const scramble = round.scrambleSets[0].scrambles[currentAttempt]
 	const handleAttemptSubmit = async () => {
 		const recordedAttempt = attempt
-		setAttempt(0)
-		setChecked(false)
 		let newUserAttempt: Result = {
 			...userAttempt,
 			attempts: [...userAttempt.attempts, recordedAttempt],
 			flagged,
 			isSubmitted: currentAttempt === numAttempts - 1,
-			best: best( [...userAttempt.attempts, recordedAttempt]),
-			average: average( [...userAttempt.attempts, recordedAttempt],round.event, numAttempts)
+			best: best([...userAttempt.attempts, recordedAttempt]),
+			average: average(
+				[...userAttempt.attempts, recordedAttempt],
+				round.event,
+				numAttempts
+			),
 		}
 		if (
 			currentAttempt === numAttempts - 1 &&
@@ -68,7 +70,8 @@ export default function SolveAttempt({
 			user.wca.personal_records[round.event] &&
 			checkAgainstPersonalBest(
 				round.event,
-				newUserAttempt.attempts.length === 5 || newUserAttempt.attempts.length === 3,
+				newUserAttempt.attempts.length === 5 ||
+					newUserAttempt.attempts.length === 3,
 				newUserAttempt.attempts,
 				user.wca.personal_records[round.event]
 			)
@@ -76,6 +79,8 @@ export default function SolveAttempt({
 			setFlagged({ isFlagged: true, reason: '30% better than personal best' })
 			setDialog(true)
 		} else {
+			setAttempt(0)
+			setChecked(false)
 			await submitTime(firebase, competitionId, round.id, newUserAttempt)
 		}
 	}
@@ -152,8 +157,24 @@ export default function SolveAttempt({
 						/>
 					</Grid>
 					<Grid item>
-						<FormControlLabel label={attempt !==0 ? `${formatAttemptResult(attempt,round.event )} is the correct time for Solve ${currentAttempt + 1}` : ''} control ={<Checkbox disabled={attempt===0} checked={checked} color='primary' onChange={({target:{checked}}) => setChecked(checked) } />
-					}/>
+						<FormControlLabel
+							label={
+								attempt !== 0
+									? `${formatAttemptResult(
+											attempt,
+											round.event
+									  )} is the correct time for Solve ${currentAttempt + 1}`
+									: ''
+							}
+							control={
+								<Checkbox
+									disabled={attempt === 0}
+									checked={checked}
+									color='primary'
+									onChange={({ target: { checked } }) => setChecked(checked)}
+								/>
+							}
+						/>
 						<Button
 							disabled={attempt === 0 || !checked}
 							variant='contained'
