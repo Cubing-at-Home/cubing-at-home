@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import ButtonBase from '@material-ui/core/Button'
 import CubingIcon from './CubingIcon'
 import { parseActivityCode } from '../logic/attempts'
+import Badge from '@material-ui/core/Badge'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -31,6 +32,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function EventList({
+	roundBadge = false,
+	badgeProps = {},
 	selected = [],
 	onClick,
 	justify = 'center',
@@ -42,6 +45,9 @@ export default function EventList({
 }) {
 	const classes = useStyles()
 	const eventIds = events.map((event) => parseActivityCode(event).eventId)
+	const roundNumbers = events.map(
+		(event) => parseActivityCode(event).roundNumber
+	)
 
 	return (
 		<div className={classes.root}>
@@ -54,24 +60,30 @@ export default function EventList({
 			>
 				{events.map((event, index) => (
 					<Grid item key={`${event}-${index}`}>
-						{button ? (
-							<ButtonBase
-								disableRipple
-								className={
-									selected.includes(event) ? classes.iconSelect : classes.icon
-								}
-								onClick={() => onClick(event, index)}
-							>
-								<CubingIcon
-									selected={selected.includes(event)}
-									small={small}
-									event={eventIds[index]}
-									showName={showName}
-								/>
-							</ButtonBase>
-						) : (
-							<CubingIcon small={small} event={event} showName={showName} />
-						)}
+						<Badge
+							invisible={!roundBadge}
+							badgeContent={roundNumbers[index]}
+							{...badgeProps}
+						>
+							{button ? (
+								<ButtonBase
+									disableRipple
+									className={
+										selected.includes(event) ? classes.iconSelect : classes.icon
+									}
+									onClick={() => onClick(event, index)}
+								>
+									<CubingIcon
+										selected={selected.includes(event)}
+										small={small}
+										event={eventIds[index]}
+										showName={showName}
+									/>
+								</ButtonBase>
+							) : (
+								<CubingIcon small={small} event={event} showName={showName} />
+							)}
+						</Badge>
 					</Grid>
 				))}
 			</Grid>

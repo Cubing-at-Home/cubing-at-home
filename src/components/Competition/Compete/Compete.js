@@ -99,6 +99,8 @@ export default function Compete({ competitionInfo }) {
 		<Grid container direction='column' justify='center'>
 			<Grid item>
 				<EventList
+					roundBadge
+					badgeProps={{ color: 'primary' }}
 					selected={[selectedEvent]}
 					events={allRounds.map((round) => round.id)}
 					onClick={(_, index) => {
