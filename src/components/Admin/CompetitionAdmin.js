@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import SelectEvent from './SelectEvent'
 import AdminResults from './AdminResults'
-import { Switch, Route, useRouteMatch } from 'react-router-dom'
 import Tabs from '@material-ui/core/Tabs'
 import AppBar from '@material-ui/core/AppBar'
 import Tab from '@material-ui/core/Tab'
 import TabPanel from '../TabPanel'
+import AdminStream from './AdminStream'
 
 export default function CompetitionAdmin({ match }) {
 	const [value, setValue] = useState('events')
@@ -18,6 +18,7 @@ export default function CompetitionAdmin({ match }) {
 				<Tabs value={value} onChange={onChange} aria-label=''>
 					<Tab label='Events' value={'events'} />
 					<Tab label='Results' value={'results'} />
+					<Tab label='Stream' value={'stream'} />
 				</Tabs>
 			</AppBar>
 			<TabPanel value={value} index={'events'}>
@@ -25,6 +26,9 @@ export default function CompetitionAdmin({ match }) {
 			</TabPanel>
 			<TabPanel value={value} index={'results'}>
 				<AdminResults competitionId={match.params.competitionId} />
+			</TabPanel>
+			<TabPanel value={value} index='stream'>
+				<AdminStream competitionId={match.params.competitionId} />
 			</TabPanel>
 		</>
 	)
