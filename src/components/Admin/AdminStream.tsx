@@ -77,7 +77,9 @@ export default function AdminStream(): ReactElement {
 							.doc('competitior')
 							.set(streamInfo)
 					}
-				/>
+				>
+					Update
+				</Button>
 			</Grid>
 		</Grid>
 	)
