@@ -44,9 +44,6 @@ export default function DrawScramble({
 					event={eventId === 'mirror' ? '333' : eventId}
 					scramble={scrambleParse}
 				/>
-				{eventId === 'pyram' && (
-					<Typography>Note: Pyraminx Orientation is incorrect. </Typography>
-				)}
 			</>
 		)
 	}
