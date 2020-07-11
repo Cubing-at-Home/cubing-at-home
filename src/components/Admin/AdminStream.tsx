@@ -74,7 +74,7 @@ export default function AdminStream(): ReactElement {
 						firebase
 							?.firestore()
 							.collection('stream')
-							.doc('competitior')
+							.doc('competitor')
 							.set(streamInfo)
 					}
 				>
