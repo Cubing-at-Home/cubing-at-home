@@ -31,7 +31,7 @@ export default function EventStart({ user, competitionId, round }) {
 						</li>
 						<li>
 							You will only be permitted to submit once per event. It is crucial
-							that you submit accurate times so please double check each sovle
+							that you submit accurate times so please double check each solve
 							before submitting.
 						</li>
 						{round.event !== '333fm' ?
