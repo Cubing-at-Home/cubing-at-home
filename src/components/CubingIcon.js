@@ -1,8 +1,8 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import classNames from 'classnames'
 import Grid from '@material-ui/core/Grid'
+import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
+import classNames from 'classnames'
+import React from 'react'
 import { activityKey } from '../logic/consts'
 
 const activityToIcon = {
@@ -33,6 +33,7 @@ const activityToIcon = {
 	'777bf': 'unofficial-777bf',
 	miniguild: 'unofficial-miniguild',
 	mirror: 'unofficial-mirror',
+	fto: 'unofficial-fto',
 }
 
 const useStyles = makeStyles((theme) => ({

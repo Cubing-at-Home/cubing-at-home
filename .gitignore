@@ -18,6 +18,7 @@
 .env.test.local
 .env.production.local
 .env.js
+.env
 
 .firebase
 
@@ -27,3 +28,6 @@ yarn-error.log*
 
 # Local Netlify folder
 .netlify
+
+# Please use yarn. We use certain yarn features that don't work with npm to deploy on production. You may have issues when you build/develop with npm
+package-lock.json
