@@ -188,23 +188,24 @@ export const activityKey = {
 }
 
 export const TIER_KEY = {
-	'222': 2,
+	'222': 1,
 	'333': 1,
-	'444': 2,
-	'555': 2,
-	'666': 3,
-	'777': 3,
-	pyram: 2,
-	'333oh': 2,
-	'333bf': 2,
-	'4bld': 3,
-	skewb: 2,
-	clock: 3,
-	'333ft': 3,
-	'333mbf': 3,
-	'333fm': 3,
-	sq1: 2,
-	minx: 2,
+	'444': 1,
+	'555': 1,
+	'666': 1,
+	'777': 1,
+	pyram: 1,
+	'333oh': 1,
+	'333bf': 1,
+	'4bld': 1,
+	skewb: 1,
+	clock: 1,
+	'333ft': 1,
+	'333mbf': 1,
+	'333fm': 1,
+	sq1: 1,
+	minx: 1,
+	redi: 1
 }
 
 export const LEADERBOARD_POINTS = {

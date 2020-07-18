@@ -128,7 +128,7 @@ export async function updateLeaderboard(firebase, competitionId, roundIds) {
 				.collection('Results')
 				.doc(competitionId)
 			userResultsRef = await transaction.get(userResultsRef)
-			let results = userResultsRef.data().results
+			let results = userResultsRef.data() ? userResultsRef.data().results : []
 			const points = {
 				ranking: 0,
 				podium: 0,
@@ -157,7 +157,7 @@ export async function updateLeaderboard(firebase, competitionId, roundIds) {
 					competitionId
 				)
 					? 's0'
-					: competitionId.slice(0, 2)
+					: 's1'
 				const oldResultRef = db
 					.collection('Leaderboards')
 					.doc(season)

@@ -9,7 +9,7 @@ import { LinearProgress, Typography } from '@material-ui/core'
 import { activityKey } from '../../../logic/consts'
 import { average, best } from '../../../logic/stats'
 import { parseActivityCode } from '../../../logic/attempts'
-import { getOpenRounds } from '../../../database/reads'
+// import { getOpenRounds } from '../../../database/reads'
 import { submitTime } from '../../../database/writes'
 
 export default function Compete({ competitionInfo }) {
@@ -61,17 +61,17 @@ export default function Compete({ competitionInfo }) {
 			if (!user.data.competitions.includes(competitionInfo.id)) {
 				setAuth(false)
 			} else {
-				const { roundsInformation, allRounds } = await getOpenRounds(
-					firebase,
-					competitionInfo.id,
-					user.wca.id.toString()
-				)
-				if (!roundsInformation) setError('Unable to find qualified rounds')
-				else {
-					setRounds(roundsInformation)
-					setAllRounds(allRounds)
-					setSelectedEvent(allRounds[0].id)
-				}
+				// const { roundsInformation, allRounds } = await getOpenRounds(
+				// 	firebase,
+				// 	competitionInfo.id,
+				// 	user.wca.id.toString()
+				// )
+				// if (!roundsInformation) setError('Unable to find qualified rounds')
+				// else {
+				// 	setRounds(roundsInformation)
+				// 	setAllRounds(allRounds)
+				// 	setSelectedEvent(allRounds[0].id)
+				// }
 			}
 		}
 		fetch()

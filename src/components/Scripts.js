@@ -7,10 +7,20 @@ import {
 } from '../database/scripts'
 import TextField from '@material-ui/core/TextField'
 import { buildCompetition } from '../database/builder'
+import { submitTime } from '../database/writes'
 
 export default function Scripts() {
 	const firebase = useContext(FirebaseContext)
 	useEffect(() => {
+		async function doLeaderboard() {
+			for(const info of leaderboard) {
+				let i = 1
+				for(const person of info.rankings) {
+					await submitTime(firebase, 'cah1.2',info.round, {personId: person, roundId: info.round, ranking: i })
+					i+=1
+				}
+			}
+		}
 		// 	async function getCompetition() {
 		// 		const roundList = [
 		// 			'333-r1',
@@ -60,29 +70,30 @@ export default function Scripts() {
 		// 		}
 		// 		buildCompetition(firebase, competition)
 		// 	}
-		function getInfo(competitionInfo) {
-			const competition = competitionInfo
-			const events = competition.events
-			events.forEach((event) => {
-				event.qualification = null
-				delete event.extensions
-				event.rounds.forEach((round) => {
-					delete round.extensions
-					round.results = []
-					round.cutoff = null
-					round.timeLimit = null
-					round.advancementCondition =
-						round.id === '333-r1'
-							? { type: 'percent', level: 50 }
-							: round.id === '333-r2'
-							? { type: 'ranking', level: 8 }
-							: null
-				})
-			})
-			competition.events = events
-			return competition
-		}
-		buildCompetition(firebase, getInfo(competition))
+		// function getInfo(competitionInfo) {
+		// 	const competition = competitionInfo
+		// 	const events = competition.events
+		// 	events.forEach((event) => {
+		// 		event.qualification = null
+		// 		delete event.extensions
+		// 		event.rounds.forEach((round) => {
+		// 			delete round.extensions
+		// 			round.results = []
+		// 			round.cutoff = null
+		// 			round.timeLimit = null
+		// 			round.advancementCondition =
+		// 				round.id === '333-r1'
+		// 					? { type: 'percent', level: 50 }
+		// 					: round.id === '333-r2'
+		// 					? { type: 'ranking', level: 8 }
+		// 					: null
+		// 		})
+		// 	})
+		// 	competition.events = events
+		// 	return competition
+		// }
+		// buildCompetition(firebase, getInfo(competition))
+		doLeaderboard()
 	}, [])
 	const [competitionId, setCompetitionId] = useState('')
 	const [roundId, setRoundId] = useState('')
@@ -585,3 +596,38 @@ const competition = {
 	],
 	competitorCount: -1,
 }
+
+
+const leaderboard = [{
+	round: '666-r1',
+	rankings: ['381','434','26954','23645','12294','57927','20743']
+},
+{
+	round: 'redi-r1',
+	rankings: ['30903','31326','31945','166702','54658','30211','6569','383','24542']
+},
+{
+	round: 'skewb-r1',
+	rankings: ['135258','117115','96758','123580','113444','24542','97535']
+},
+{
+	round: '444-r1',
+	rankings: ['62406','20743','40578','381','22128','14216','41048','8918','5568']
+},
+{
+	round: 'minx-r1',
+	rankings: ['10467','51069','117949','21736','8012','106981','43512','24152']
+},
+{
+	round: 'pyram-r1',
+	rankings: ['47704','20743','69967','53351','31945','6569','27300','10276']
+},
+{
+	round:'333-r3',
+	rankings: ['14216','36435','41048','40578','9743','8918','48181','381']
+},
+{
+	round: '333fm-r1',
+	rankings: ['1762','10111','1320','20930','8790','126479','70503','7826']
+}
+]
