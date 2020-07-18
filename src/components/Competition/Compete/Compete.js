@@ -1,15 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react'
+import { LinearProgress, Typography } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
-import EventList from '../../EventList'
-import ResultSubmission from './ResultSubmission'
+import moment from 'moment'
+import React, { useContext, useEffect, useState } from 'react'
+import { getOpenRounds } from '../../../database/reads'
+import { parseActivityCode } from '../../../logic/attempts'
+import { signIn } from '../../../logic/auth'
+import { activityKey } from '../../../logic/consts'
 import { UserContext } from '../../../utils/auth'
 import { FirebaseContext } from '../../../utils/firebase'
-import { signIn } from '../../../logic/auth'
-import { LinearProgress, Typography } from '@material-ui/core'
-import { activityKey } from '../../../logic/consts'
-import { parseActivityCode } from '../../../logic/attempts'
-import { getOpenRounds } from '../../../database/reads'
-import moment from 'moment'
+import EventList from '../../EventList'
+import ResultSubmission from './ResultSubmission'
 
 export default function Compete({ competitionInfo }) {
 	const [rounds, setRounds] = useState(null)
@@ -59,6 +59,11 @@ export default function Compete({ competitionInfo }) {
 		async function fetch() {
 			if (user === undefined) {
 				signIn()
+			}
+			if (user?.data?.banned === true) {
+				setError(
+					'You are unable to compete in C@H. If you think this was a mistake, please contact Results team at cubingathomeresultsteam@gmail.com'
+				)
 			}
 			if (!user.data.competitions.includes(competitionInfo.id)) {
 				setAuth(false)
