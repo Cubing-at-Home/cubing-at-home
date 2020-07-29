@@ -139,16 +139,20 @@ export async function updateLeaderboard(firebase, competitionId, roundIds) {
 			}
 			if (results.length > 0) {
 				points.competing = LEADERBOARD_POINTS.PARTICIPATION
-				results = results.filter((result) => roundIds.includes(result.roundId))
+				results = results.filter((result) => result.roundId && roundIds.includes(result.roundId))
+				const doneRounds = []
 				for (const result of results) {
-					const eventId = result.roundId.slice(0, result.roundId.indexOf('-'))
-					const tier = TIER_KEY[eventId] || 3
-					if (result.ranking === 1) {
-						points.win = points.win + LEADERBOARD_POINTS.WIN[tier]
-					} else if (result.ranking <= 3) {
-						points.podium = points.podium + LEADERBOARD_POINTS.PODIUM[tier]
-					} else if (result.ranking <= 8) {
-						points.ranking = points.ranking + LEADERBOARD_POINTS.RANKING[tier]
+					if (!doneRounds.includes(result.roundId) && !isNaN(result.ranking)) {
+						const eventId = result.roundId.slice(0, result.roundId.indexOf('-'))
+						const tier = TIER_KEY[eventId] || 3
+						if (result.ranking === 1) {
+							points.win = points.win + LEADERBOARD_POINTS.WIN[tier]
+						} else if (result.ranking <= 3) {
+							points.podium = points.podium + LEADERBOARD_POINTS.PODIUM[tier]
+						} else if (result.ranking <= 8) {
+							points.ranking = points.ranking + LEADERBOARD_POINTS.RANKING[tier]
+						}
+						doneRounds.push(result.roundId)
 					}
 				}
 				const total = sum(points)

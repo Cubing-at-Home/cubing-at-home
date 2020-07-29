@@ -131,23 +131,31 @@ export const submitTime = async (firebase, competitionId, roundId, results) => {
 		.collection('competitions')
 		.doc(competitionId)
 		.collection('Flagged_Results')
-		.doc(results.personId)
+		.doc(`${results.personId}-${roundId}`)
 	let prevFlaggedResult = await prevFlaggedResultRef.get()
-	let userResults = {
-		competitionId,
-		results: [],
-	}
-	if (userPrevResultRef.exists) {
-		userResults = userPrevResultRef.data()
-	}
-	userResults.results[roundId] = {
-		roundId,
-		average: results.average,
-		attempts: results.attempts,
-		best: results.best,
-		lastUpdated: results.lastUpdated,
-	}
 	const batch = db.batch()
+	if (results.isSubmitted) {
+		let userResults = {
+			competitionId,
+			results: [],
+		}
+		if (userPrevResultRef.exists) {
+			userResults = userPrevResultRef.data()
+		}
+		if (userResults.results.some(result => result.roundId === roundId)) {
+			let res = userResults.results.find(result => result.roundId === roundId)
+			res = { ...res, ...results }
+			userResults.results = [...userResults.results.filter(r => r.roundId !==roundId), res]
+		}
+		else {
+			userResults.results.push({
+				roundId,
+				...results
+			})
+		}
+
+		batch.set(userResultRef, userResults, { merge: true })
+	}
 	const competitionResultRef = db
 		.collection('competitions')
 		.doc(competitionId)
@@ -158,13 +166,12 @@ export const submitTime = async (firebase, competitionId, roundId, results) => {
 		.collection('Results')
 		.doc(result.personId)
 	batch.set(competitionResultRef, result, { merge: true })
-	batch.set(userResultRef, userResults, { merge: true })
 	if (results?.flagged?.isFlagged) {
 		const competitionFlaggedRef = db
 			.collection('competitions')
 			.doc(competitionId)
 			.collection('Flagged_Results')
-			.doc(results.personId)
+			.doc(`${results.personId}-${roundId}`)
 		const { flagged, lastUpdated, ...other } = results
 		batch.set(
 			competitionFlaggedRef,
