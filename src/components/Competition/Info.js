@@ -1,12 +1,14 @@
-import React, { useContext } from 'react'
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
 import { Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import EventList from '../EventList'
 import Link from '@material-ui/core/Link'
+import Paper from '@material-ui/core/Paper'
+import { makeStyles } from '@material-ui/styles'
+import React, { useContext } from 'react'
+import { CONTACT_EMAILS } from '../../logic/consts'
 import { UserContext } from '../../utils/auth'
+import EventList from '../EventList'
+
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -61,7 +63,7 @@ export default function Info({ history, match, competitionInfo }) {
 							selected={competitionInfo.eventList}
 							events={competitionInfo.eventList}
 							showName
-							onClick={() => {}}
+							onClick={() => { }}
 							small={true}
 						/>
 					</Grid>
@@ -168,7 +170,7 @@ export default function Info({ history, match, competitionInfo }) {
 									color='primary'
 									target='_blank'
 									rel='noopener noreferrer'
-									href='mailto:sgrover@worldcubeassociation.org,cnielson@worldcubeassociation.org,bsampson@worldcubeassociation.org,sbaird@worldcubeassociation.org'
+									href={CONTACT_EMAILS}
 								>
 									Contact Us
 								</Link>

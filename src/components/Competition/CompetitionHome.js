@@ -1,22 +1,19 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Link from '@material-ui/core/Link'
-import AppBar from '@material-ui/core/AppBar'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
 import { LinearProgress } from '@material-ui/core'
-import { FirebaseContext } from '../../utils/firebase'
+import AppBar from '@material-ui/core/AppBar'
+import Link from '@material-ui/core/Link'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
+import Tab from '@material-ui/core/Tab'
+import Tabs from '@material-ui/core/Tabs'
+import Typography from '@material-ui/core/Typography'
+import React from 'react'
 import Faq from 'react-faq-component'
+import { CONTACT_EMAILS, faq } from '../../logic/consts'
+import { FirebaseContext } from '../../utils/firebase'
+import TabPanel from '../TabPanel'
+import Compete from './Compete/Compete'
+import Competitors from './Competitors'
 import Info from './Info'
 import Schedule from './Schedule'
-import Competitors from './Competitors'
-import { faq } from '../../logic/consts'
-import Compete from './Compete/Compete'
-import Results from './Results'
-import { useTheme } from '@material-ui/core/styles'
-import TabPanel from '../TabPanel'
 
 function a11yProps(index) {
 	return {
@@ -71,83 +68,83 @@ export default function CompetitionHome({ history, match }) {
 			{!competitionInfo ? (
 				<LinearProgress />
 			) : (
-				<>
-					<AppBar color='inherit' position='static'>
-						<Tabs
-							scrollButtons='on'
-							variant='scrollable'
-							value={tabs[value]}
-							onChange={handleChange}
-							aria-label='simple tabs example'
-						>
-							<Tab label='Information' {...a11yProps(0)} />
-							<Tab label='Schedule' {...a11yProps(1)} />
-							<Tab label='Competitors' {...a11yProps(2)} />
-							<Tab label='Compete' {...a11yProps(3)} />
-							<Tab label='Results' {...a11yProps(4)} />
-							<Tab label='FAQ' {...a11yProps(5)} />
-							<Tab label='Discord' {...a11yProps(6)} />
-						</Tabs>
-					</AppBar>
-					<TabPanel value={tabs[value]} index={0}>
-						<Info
-							history={history}
-							match={match}
-							competitionInfo={competitionInfo}
-						/>
-					</TabPanel>
-					<TabPanel value={tabs[value]} index={1}>
-						<Schedule competitionInfo={competitionInfo} />
-					</TabPanel>
-					<TabPanel value={tabs[value]} index={2}>
-						<Competitors competitionInfo={competitionInfo} history={history} />
-					</TabPanel>
-					<TabPanel value={tabs[value]} index={3}>
-						<Compete competitionInfo={competitionInfo} />
-					</TabPanel>
-					<TabPanel value={tabs[value]} index={4}>
-						{() =>
-							window.location.replace(
-								`https://results.cubingathome.com/${match.params.id}`
-							)
-						}
-					</TabPanel>
-					<TabPanel value={tabs[value]} index={5}>
-						<div>
-							<Faq
-								data={faq}
-								styles={{
-									bgColor: theme.palette.background.paper,
-									titleTextColor: theme.palette.primary.main,
-									rowTextColor: theme.palette.primary.main,
-									rowTitleColor: theme.palette.text.primary,
-									rowContentColor: theme.palette.text.primary,
-								}}
+					<>
+						<AppBar color='inherit' position='static'>
+							<Tabs
+								scrollButtons='on'
+								variant='scrollable'
+								value={tabs[value]}
+								onChange={handleChange}
+								aria-label='simple tabs example'
+							>
+								<Tab label='Information' {...a11yProps(0)} />
+								<Tab label='Schedule' {...a11yProps(1)} />
+								<Tab label='Competitors' {...a11yProps(2)} />
+								<Tab label='Compete' {...a11yProps(3)} />
+								<Tab label='Results' {...a11yProps(4)} />
+								<Tab label='FAQ' {...a11yProps(5)} />
+								<Tab label='Discord' {...a11yProps(6)} />
+							</Tabs>
+						</AppBar>
+						<TabPanel value={tabs[value]} index={0}>
+							<Info
+								history={history}
+								match={match}
+								competitionInfo={competitionInfo}
 							/>
-							<Typography color='primary' align='center' variant='h6'>
-								<Link
-									color='inherit'
-									target='_blank'
-									rel='noopener noreferrer'
-									href='mailto:sgrover@worldcubeassociation.org,cnielson@worldcubeassociation.org,bsampson@worldcubeassociation.org,sbaird@worldcubeassociation.org'
-								>
-									Contact Us
+						</TabPanel>
+						<TabPanel value={tabs[value]} index={1}>
+							<Schedule competitionInfo={competitionInfo} />
+						</TabPanel>
+						<TabPanel value={tabs[value]} index={2}>
+							<Competitors competitionInfo={competitionInfo} history={history} />
+						</TabPanel>
+						<TabPanel value={tabs[value]} index={3}>
+							<Compete competitionInfo={competitionInfo} />
+						</TabPanel>
+						<TabPanel value={tabs[value]} index={4}>
+							{() =>
+								window.location.replace(
+									`https://results.cubingathome.com/${match.params.id}`
+								)
+							}
+						</TabPanel>
+						<TabPanel value={tabs[value]} index={5}>
+							<div>
+								<Faq
+									data={faq}
+									styles={{
+										bgColor: theme.palette.background.paper,
+										titleTextColor: theme.palette.primary.main,
+										rowTextColor: theme.palette.primary.main,
+										rowTitleColor: theme.palette.text.primary,
+										rowContentColor: theme.palette.text.primary,
+									}}
+								/>
+								<Typography color='primary' align='center' variant='h6'>
+									<Link
+										color='inherit'
+										target='_blank'
+										rel='noopener noreferrer'
+										href={CONTACT_EMAILS}
+									>
+										Contact Us
 								</Link>
-							</Typography>
-						</div>
-					</TabPanel>
-					<TabPanel value={tabs[value]} index={6}>
-						<iframe
-							title='discord'
-							src='https://discordapp.com/widget?id=690084292323311720&theme=dark'
-							width='1000vw'
-							height='500vh'
-							allowtransparency='true'
-							frameborder='0'
-						></iframe>
-					</TabPanel>
-				</>
-			)}
+								</Typography>
+							</div>
+						</TabPanel>
+						<TabPanel value={tabs[value]} index={6}>
+							<iframe
+								title='discord'
+								src='https://discordapp.com/widget?id=690084292323311720&theme=dark'
+								width='1000vw'
+								height='500vh'
+								allowtransparency='true'
+								frameborder='0'
+							></iframe>
+						</TabPanel>
+					</>
+				)}
 		</div>
 	)
 }

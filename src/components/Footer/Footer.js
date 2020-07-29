@@ -1,14 +1,16 @@
-import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link'
+import { makeStyles } from '@material-ui/core/styles'
+import Tooltip from '@material-ui/core/Tooltip'
 // import Typography from '@material-ui/core/Typography';
 import ContactMailIcon from '@material-ui/icons/ContactMail'
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects'
-import { makeStyles } from '@material-ui/core/styles'
-import Tooltip from '@material-ui/core/Tooltip'
 import Facebook from 'mdi-material-ui/Facebook'
 import Instagram from 'mdi-material-ui/Instagram'
 import Twitch from 'mdi-material-ui/Twitch'
+import React from 'react'
+import { CONTACT_EMAILS } from '../../logic/consts'
+
 
 const socialMedias = [
 	{
@@ -86,7 +88,7 @@ const Footer = ({ currTheme, onThemeChange, isAuthenticated }) => {
 									className={classes.link}
 									variant='body2'
 									href={
-										'mailto:sgrover@worldcubeassociation.org,cnielson@worldcubeassociation.org,bsampson@worldcubeassociation.org,sbaird@worldcubeassociation.org'
+										CONTACT_EMAILS
 									}
 								>
 									<ContactMailIcon />

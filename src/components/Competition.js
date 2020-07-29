@@ -1,25 +1,25 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
-import Link from '@material-ui/core/Link'
-import AppBar from '@material-ui/core/AppBar'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
 import { LinearProgress } from '@material-ui/core'
-import { FirebaseContext } from '../utils/firebase'
-import Faq from 'react-faq-component'
-import Info from './Info'
-import Schedule from './Schedule'
-import Competitors from './Competitors'
-import { faq } from '../logic/consts'
+import AppBar from '@material-ui/core/AppBar'
+import Box from '@material-ui/core/Box'
 import blue from '@material-ui/core/colors/blue'
 import blueGrey from '@material-ui/core/colors/blueGrey'
+import Link from '@material-ui/core/Link'
+import { makeStyles } from '@material-ui/core/styles'
+import Tab from '@material-ui/core/Tab'
+import Tabs from '@material-ui/core/Tabs'
+import Typography from '@material-ui/core/Typography'
+import PropTypes from 'prop-types'
+import React from 'react'
+import Faq from 'react-faq-component'
+import { isSignedIn } from '../logic/auth'
+import { CONTACT_EMAILS, faq } from '../logic/consts'
+import { getMe } from '../logic/wca-api'
+import { FirebaseContext } from '../utils/firebase'
+import Competitors from './Competitors'
+import Info from './Info'
 // import Scrambles from './Scrambles'
 import Results from './Results'
-import { isSignedIn } from '../logic/auth'
-import { getMe } from '../logic/wca-api'
+import Schedule from './Schedule'
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props
@@ -131,76 +131,76 @@ export default function Competition({ history, match }) {
 			{!competitors || loading ? (
 				<LinearProgress />
 			) : (
-				<>
-					<AppBar color='inherit' position='static'>
-						<Tabs
-							scrollButtons='on'
-							variant='scrollable'
-							value={tabs[value]}
-							onChange={handleChange}
-							aria-label='simple tabs example'
-						>
-							<Tab label='Information' {...a11yProps(0)} />
-							<Tab label='Schedule' {...a11yProps(1)} />
-							<Tab label='Competitors' {...a11yProps(2)} />
-							<Tab label='Results' {...a11yProps(4)} />
-							<Tab label='FAQ' {...a11yProps(5)} />
-							<Tab label='Discord' {...a11yProps(6)} />
-						</Tabs>
-					</AppBar>
-					<TabPanel value={tabs[value]} index={0}>
-						<Info history={history} />
-					</TabPanel>
-					<TabPanel value={tabs[value]} index={1}>
-						<Schedule />
-					</TabPanel>
-					<TabPanel value={tabs[value]} index={2}>
-						<Competitors
-							history={history}
-							competitors={competitors}
-							registered={registered}
-						/>
-					</TabPanel>
-					<TabPanel value={tabs[value]} index={4}>
-						<Results />
-					</TabPanel>
-					<TabPanel value={tabs[value]} index={5}>
-						<div>
-							<Faq
-								data={faq}
-								styles={{
-									titleTextColor: blue[500],
-									rowTitleColor: blue[500],
-									rowTextColor: blueGrey[500],
-								}}
-							/>
-							<Typography
-								color='primary'
-								align='center'
-								variant='h6'
+					<>
+						<AppBar color='inherit' position='static'>
+							<Tabs
+								scrollButtons='on'
+								variant='scrollable'
+								value={tabs[value]}
+								onChange={handleChange}
+								aria-label='simple tabs example'
 							>
-								<Link
-									target='_blank'
-									rel='noopener noreferrer'
-									href='mailto:sgrover@worldcubeassociation.org,cnielson@worldcubeassociation.org,bsampson@worldcubeassociation.org,sbaird@worldcubeassociation.org'
+								<Tab label='Information' {...a11yProps(0)} />
+								<Tab label='Schedule' {...a11yProps(1)} />
+								<Tab label='Competitors' {...a11yProps(2)} />
+								<Tab label='Results' {...a11yProps(4)} />
+								<Tab label='FAQ' {...a11yProps(5)} />
+								<Tab label='Discord' {...a11yProps(6)} />
+							</Tabs>
+						</AppBar>
+						<TabPanel value={tabs[value]} index={0}>
+							<Info history={history} />
+						</TabPanel>
+						<TabPanel value={tabs[value]} index={1}>
+							<Schedule />
+						</TabPanel>
+						<TabPanel value={tabs[value]} index={2}>
+							<Competitors
+								history={history}
+								competitors={competitors}
+								registered={registered}
+							/>
+						</TabPanel>
+						<TabPanel value={tabs[value]} index={4}>
+							<Results />
+						</TabPanel>
+						<TabPanel value={tabs[value]} index={5}>
+							<div>
+								<Faq
+									data={faq}
+									styles={{
+										titleTextColor: blue[500],
+										rowTitleColor: blue[500],
+										rowTextColor: blueGrey[500],
+									}}
+								/>
+								<Typography
+									color='primary'
+									align='center'
+									variant='h6'
 								>
-									Contact Us
+									<Link
+										target='_blank'
+										rel='noopener noreferrer'
+										href={CONTACT_EMAILS}
+									>
+										Contact Us
 								</Link>
-							</Typography>
-						</div>
-					</TabPanel>
-					<TabPanel value={tabs[value]} index={6}>
-						<iframe
-							title='discord'
-							src='https://discordapp.com/widget?id=690084292323311720&theme=dark'
-							width='1000vw'
-							height='500vh'
-							allowtransparency='true'
-							frameborder='0'
-						></iframe>
-					</TabPanel>
-				</>
-			)}
+								</Typography>
+							</div>
+						</TabPanel>
+						<TabPanel value={tabs[value]} index={6}>
+							<iframe
+								title='discord'
+								src='https://discordapp.com/widget?id=690084292323311720&theme=dark'
+								width='1000vw'
+								height='500vh'
+								allowtransparency='true'
+								frameborder='0'
+							></iframe>
+						</TabPanel>
+					</>
+				)}
 		</div>
 	)
 }
