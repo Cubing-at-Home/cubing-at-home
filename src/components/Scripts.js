@@ -12,11 +12,12 @@ import { submitTime } from '../database/writes'
 export default function Scripts() {
 	const firebase = useContext(FirebaseContext)
 	useEffect(() => {
-		async function doLeaderboard() {
+		async function doLeaderboard(id) {
 			for(const info of leaderboard) {
 				let i = 1
 				for(const person of info.rankings) {
-					await submitTime(firebase, 'cah1.2',info.round, {personId: person, roundId: info.round, ranking: i, isSubmitted: true })
+					await submitTime(firebase,id,info.round, {personId: person, roundId: info.round, ranking: i, isSubmitted: true })
+					console.log({personId: person, roundId: info.round, ranking: i, isSubmitted: true })
 					i+=1
 				}
 			}
@@ -92,9 +93,9 @@ export default function Scripts() {
 			competition.events = events
 			return competition
 		}
-		buildCompetition(firebase, getInfo(competition))
-		// doLeaderboard()
-		// firebase.firestore().collection('Leaderboards').doc('s1').set({'cah1.2': cah12}, {merge: true})
+		// buildCompetition(firebase, getInfo(competition))
+		// doLeaderboard('cah1.3')
+		// firebase.firestore().collection('Leaderboards').doc('s1').set({'cah1.3': cah13}, {merge: true})
 
 	}, [])
 	const [competitionId, setCompetitionId] = useState('')
@@ -599,47 +600,47 @@ const competition = {
 
 
 const leaderboard = [{
-	round: '666-r1',
-	rankings: ['381','434','26954','23645','57927','20743']
+	round: '444bf-r1',
+	rankings: ['17182','19045','30470','15187', '18697','89610','56737']
 },
 {
-	round: 'redi-r1',
-	rankings: ['30903','31326','31945','54658','49728','30211','6569','383']
+	round: '555-r1',
+	rankings: ['381','20743','26954','41048','12294','23645','8918','57297']
 },
 {
 	round: 'skewb-r1',
-	rankings: ['135258','117115','96758','24542']
+	rankings: ['117115','28410','96185','31001','24542','34','92567','35320']
 },
 {
-	round: '444-r1',
-	rankings: ['62406','20743','40578','381','22128','14216','41048','8918','5568']
+	round: '222-r1',
+	rankings: ['9924','18697','117115','53351','5702','69967','7826','59895']
 },
 {
-	round: 'minx-r1',
-	rankings: ['10467','51069','117949','21736','8012','106981','43512','24152']
+	round: '333bf-r1',
+	rankings: ['147119','43067','30470','57567','17182','25553','31001','86276']
 },
 {
-	round: 'pyram-r1',
-	rankings: ['47704','20743','69967','53351','31945','6569','27300','10276']
+	round: 'fto-r1',
+	rankings: ['7713','49998','40000','54658','19372','1547','259','62']
+},
+{
+	round: '777-r1',
+	rankings:['381','434','23645','20743','26954','57927','12294','6755']
 },
 {
 	round:'333-r3',
-	rankings: ['14216','36435','41048','40578','9743','8918','48181','381']
+	rankings: ['20743','41048','36435','14216','7827','46232','23702','59895']
 },
-{
-	round: '333fm-r1',
-	rankings: ['1762','10111','1320','20930','8790','126479','70503','7826']
-}
 ]
 
-const cah12 = {
-		'333': ['41048'],
-		'333fm': ['1762'],
-		'666':['381'],
-		'444':['62406'],
-		'minx':['10467'],
-		'pyram':['47704'],
-		'skewb':['117115'],
-		'redi':['30903']
+const cah13 = {
+		'333': ['20743'],
+		'333bf': ['147119'],
+		'222':['1117115'],
+		'555':['381'],
+		'777':['381'],
+		'fto':['49998'],
+		'skewb':['24542'],
+		'444bf':[]
 
 }
