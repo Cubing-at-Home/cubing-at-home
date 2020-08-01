@@ -65,7 +65,7 @@ export default function Compete({ competitionInfo }) {
 					'You are unable to compete in C@H. If you think this was a mistake, please contact Results team at cubingathomeresultsteam@gmail.com'
 				)
 			}
-			if (!user.data.competitions.includes(competitionInfo.id)) {
+			if (!user.data.competitions.includes(competitionInfo.id) && !(user.data.seasons ?? []).includes('s1')) {
 				setAuth(false)
 			} else {
 				try {
@@ -119,7 +119,7 @@ export default function Compete({ competitionInfo }) {
 			<Grid item>
 				<Typography align='center'>{`${
 					activityKey[parseActivityCode(selectedEvent).eventId]
-				} Round ${parseActivityCode(selectedEvent).roundNumber}`}</Typography>
+					} Round ${parseActivityCode(selectedEvent).roundNumber}`}</Typography>
 			</Grid>
 			<Grid item style={{ height: '100%' }}>
 				<ResultSubmission
