@@ -1,25 +1,23 @@
-import React from 'react'
+import { LinearProgress, Typography } from '@material-ui/core'
+import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import { Link } from 'react-router-dom'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import AddCircleIcon from '@material-ui/icons/AddCircle'
-import Button from '@material-ui/core/Button'
-import ReactTwitchEmbedVideo from 'react-twitch-embed-video'
+import ListItemText from '@material-ui/core/ListItemText'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import Paper from '@material-ui/core/Paper'
+import AddCircleIcon from '@material-ui/icons/AddCircle'
+import NotRegisteredIcon from '@material-ui/icons/Cancel'
+import RegisteredIcon from '@material-ui/icons/CheckCircleOutline'
 import { makeStyles } from '@material-ui/styles'
-import { LinearProgress, Typography } from '@material-ui/core'
+import moment from 'moment-timezone'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import ReactTwitchEmbedVideo from 'react-twitch-embed-video'
 import { UserContext } from '../utils/auth'
 import { FirebaseContext } from '../utils/firebase'
-import moment from 'moment-timezone'
 import LandingCarousel from './LandingCarousel'
-import RegisteredIcon from '@material-ui/icons/CheckCircleOutline'
-import NotRegisteredIcon from '@material-ui/icons/Cancel'
-// eslint-disable-next-line no-unused-vars
-import { rounds } from '../logic/consts'
 
 const useStyles = makeStyles((theme) => ({
 	grid: {
@@ -114,15 +112,15 @@ export default function Home({ history }) {
 									justify: 'space-between',
 								}}
 							>
-								{user.data.seasons && user.data.seasons.includes('s1') ? (
+								{user.data.seasons && user.data.seasons.includes('s2') ? (
 									<RegisteredIcon color='primary' />
 								) : (
 									<NotRegisteredIcon color='error' />
 								)}
 								<Typography variant='h5'>
 									{`Hi ${user.wca.name.split(' ')[0]}, you are ${
-										user.data.seasons?.includes('s1') ? 'successfully' : 'not'
-									} registered for C@H Season 1`}
+										user.data.seasons?.includes('s2') ? 'successfully' : 'not'
+									} registered for C@H Season 2`}
 								</Typography>
 							</div>
 						</Grid>
@@ -133,7 +131,7 @@ export default function Home({ history }) {
 								className={classes.list}
 								style={{ overflow: 'auto' }}
 								subheader={
-									<ListSubheader disableSticky={true}>Season 1</ListSubheader>
+									<ListSubheader disableSticky={true}>Season 2</ListSubheader>
 								}
 							>
 								{competitions.filter((competition) =>
@@ -169,7 +167,7 @@ export default function Home({ history }) {
 													color='primary'
 													variant='contained'
 													startIcon={<AddCircleIcon />}
-													href={`/s1/register`}
+													href={`/s2/register`}
 												>
 													{user !== undefined &&
 													user.data.competitions.includes(competition.id)

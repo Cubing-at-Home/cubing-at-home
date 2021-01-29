@@ -42,7 +42,7 @@ export default function Info({ history, match, competitionInfo }) {
 
 					<Grid item>
 						<Button
-							onClick={() => history.push(`/s1/register`)}
+							onClick={() => history.push(`/s2/register`)}
 							variant='contained'
 							color='primary'
 						>
