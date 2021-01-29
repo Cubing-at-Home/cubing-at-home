@@ -1,31 +1,24 @@
-import React from 'react'
-import Carousel from 'react-material-ui-carousel'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
-import Button from '@material-ui/core/Button'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import { useHistory } from 'react-router-dom'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+import React from 'react'
+import Carousel from 'react-material-ui-carousel'
+import { useHistory } from 'react-router-dom'
 
 export default function LandingCarousel() {
 	const items = [
 		{
-			title: 'C@H Season 1 Events',
-			description: `The events and dates for Season 1! We'll be having all 17 WCA Events and 5 Non-WCA events!`,
-			image: `${process.env.PUBLIC_URL}/images/cah1events.png`,
-			buttonText: 'Register Now!',
-			href: '/s1/register',
-		},
-		{
-			title: 'Announcing C@H Season 1!',
-			description: `Join top speedcubers across the world to compete in 21 events across 5 competitions! See all the action live at twitch.tv/cubingusa`,
-			image: `${process.env.PUBLIC_URL}/images/season1.png`,
-			buttonText: 'Register FOR FREE NOW!',
-			href: '/s1/register',
+			title: 'C@H Season 2',
+			description: `Cubing at Home is BACK! Season 2 starts February 2021!`,
+			image: `${process.env.PUBLIC_URL}/images/s2-soon.png`,
+			buttonText: 'Registration Opens February 3rd!',
+			href: '/s2/register',
 		},
 	]
 	const classes = useStyles()

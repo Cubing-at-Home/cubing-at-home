@@ -106,4 +106,36 @@ export const activityKey = {
 	fto: 'Face Turning Octahedron'
 }
 
-export const CONTACT_EMAILS = 'mailto:sgrover@worldcubeassociation.org,cnielson@worldcubeassociation.org,bsampson@worldcubeassociation.org'
+export const CONTACT_EMAILS = 'cubingathome@cubingusa.org'
+
+
+export const s2 = {
+	name: 'Cubing at Home Season 2',
+	registrationStart: '2021-02-01',
+	registrationEnd: '2021-06-19',
+	competitions: [{
+		events: ['333', '222', 'skewb', '555', '333bf', 'minx'],
+		name: 'C@H 2.1',
+		start: "2021-02-27"
+	},
+	{
+		events: ['333', 'pyram', '333oh', '666', 'sq1', '222'],
+		name: 'C@H 2.2',
+		start: '2021-03-27'
+	},
+	{
+		events: ['333', 'skewb', '444', 'clock', 'minx', 'pyram'],
+		name: 'C@H 2.3',
+		start: '2021-04-24'
+	},
+	{
+		events: ['333', '222', '333oh', '777', '333bf', 'kilominx', '333bf'],
+		name: 'C@H 2.4',
+		start: '2021-05-29'
+	},
+	{
+		events: ['333', 'pyram', '444', '555', 'sq1', 'fto'],
+		name: 'C@H 2.5',
+		start: '2021-06-19'
+	}]
+}
