@@ -1,18 +1,18 @@
-import React, { useState, useContext } from 'react'
-import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField'
-import { defaultCompetition } from '../../database/builder'
-import { Typography, InputLabel, Button } from '@material-ui/core'
-import { createNewCompetition } from '../../database/writes'
-import { FirebaseContext } from '../../utils/firebase'
-import moment from 'moment-timezone'
-
+import { Button, InputLabel, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import moment from 'moment-timezone';
+import React, { useContext, useState } from 'react';
+import { defaultCompetition } from '../../database/builder';
+import { createNewCompetition } from '../../database/writes';
+import { FirebaseContext } from '../../utils/firebase';
 export default function NewCompetition({ history }) {
 	let fileReader
 	const firebase = useContext(FirebaseContext)
 	const [competition, setCompetition] = useState(defaultCompetition)
 	const [eventInfo, setEventInfo] = useState(null)
 	const [error, setError] = useState(null)
+	const [newSchedule, setNewSchedule] = useState({});
 	const truncateSpaces = (word) => {
 		let newWord = ''
 		for (const letter of word) {
@@ -56,6 +56,18 @@ export default function NewCompetition({ history }) {
 		fileReader = new FileReader()
 		fileReader.onloadend = handleFileRead
 		fileReader.readAsText(file)
+	}
+	const handleEventChange = (e) => {
+		setNewSchedule({...newSchedule,[e.target.name]:e.target.value});
+	}
+	const addEvent = (e) =>  {
+		setCompetition({...competition, schedule: [ ...competition.schedule, newSchedule]});
+	}
+	const removeEvent = (index) => {
+		console.log(competition);
+		const updated = competition.schedule.filter((_,i)=>i!==index);
+		setCompetition({...competition, schedule:updated});
+		console.log(competition);
 	}
 	return (
 		<Grid
@@ -149,7 +161,7 @@ export default function NewCompetition({ history }) {
 						})
 					}
 					label='Admins'
-					helperText='WCA IDs of admins seperated by commas'
+					helperText='WCA IDs of admins separated by commas'
 				/>
 			</Grid>
 			<Grid item>
@@ -162,6 +174,67 @@ export default function NewCompetition({ history }) {
 					accept='.json'
 					onChange={(e) => handleFileChosen(e.target.files[0])}
 				/>
+			</Grid>
+			
+			<Grid item>
+				<InputLabel>Add Events to Schedule</InputLabel>
+			</Grid>
+			<Grid item>
+					<TextField name="name" label="Event Name" onChange={handleEventChange} required></TextField>
+					<TextField name="id" label="Event ID" onChange={handleEventChange} required></TextField>
+					<TextField 
+						name="start"
+						label="Start Time"
+						type="time"
+						onChange={handleEventChange}
+						required
+						></TextField>
+					<TextField 
+					name="end"
+					label="End Time"
+					type="time"
+					onChange={handleEventChange}
+					required
+					></TextField>
+					<TextField 
+					defaultValue=""
+					name="qualification"
+					label="Qualification (optional)"
+					type="text"
+					onChange={handleEventChange}
+					></TextField>
+					<Button 
+						disabled = {Object.keys(newSchedule).length<4}
+						onClick={addEvent}>Add Event
+					</Button>
+			</Grid>
+			<Grid item></Grid>
+			<Grid item>
+				<Table>
+					<TableHead>
+						<TableRow>
+							<TableCell>Name</TableCell>
+							<TableCell>ID</TableCell>
+							<TableCell>Start</TableCell>
+							<TableCell>End</TableCell>
+							<TableCell>Qualification (optional)</TableCell>
+							<TableCell>Remove</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{competition.schedule.map((event,index) =>  {
+							return <TableRow key={index}>
+										<TableCell>{event?.name}</TableCell>
+										<TableCell>{event?.id}</TableCell>
+										<TableCell>{event?.start}</TableCell>
+										<TableCell>{event?.end}</TableCell>
+										<TableCell>{event?.qualification}</TableCell>
+										<TableCell><Button onClick={()=>removeEvent(index)}>❌</Button></TableCell>
+									</TableRow>
+						}		
+						)}
+				</TableBody>
+				</Table>
 			</Grid>
 			<Grid item>
 				<Button

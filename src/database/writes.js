@@ -53,6 +53,7 @@ export const createNewCompetition = async (
 						name: competition.name,
 						start: competition.start,
 						end: competition.end,
+						schedule: competition.schedule
 					})
 				})
 		})
