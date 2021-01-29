@@ -31,3 +31,4 @@ yarn-error.log*
 
 # Please use yarn. We use certain yarn features that don't work with npm to deploy on production. You may have issues when you build/develop with npm
 package-lock.json
+.vscode/
