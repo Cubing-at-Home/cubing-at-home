@@ -3,8 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import moment from 'moment-timezone';
 import React, { useContext, useState } from 'react';
-import { defaultCompetition } from '../../database/builder';
-import { createNewCompetition } from '../../database/writes';
+import { buildCompetition, defaultCompetition } from '../../database/builder';
 import { FirebaseContext } from '../../utils/firebase';
 export default function NewCompetition({ history }) {
 	let fileReader
@@ -37,20 +36,19 @@ export default function NewCompetition({ history }) {
 	const checkForErrors = () => {
 		return false
 	}
-	const handleConfirm = (event) => {
+	const handleConfirm = async (event) => {
 		const error = checkForErrors()
-		error !== false
-			? setError(error)
-			: createNewCompetition(firebase, competition, eventInfo).then(() =>
-					history.push(`/${competition.id}`)
-			  )
+		if (error) setError(error)
+		else {
+			await buildCompetition(firebase, { ...competition, start: moment(competition.start).format('YYYY-MM-DD'), end: moment(competition.end).format('YYYY-MM-DD'), registrationStart: competition.registrationStart.toISOString(), registrationEnd: competition.registrationEnd.toISOString() })
+			history.push(`/competitions/${competition.id}`)
+		}
 	}
 	const handleFileRead = (e) => {
 		const content = fileReader.result
-		const eventInfo = JSON.parse(content).wcif.events
-		const events = eventInfo.map((event) => event.id)
-		setEventInfo(eventInfo)
-		setCompetition({ ...competition, events: events })
+		const events = JSON.parse(content).wcif.events
+		const eventList = events.map((event) => event.id)
+		setCompetition({ ...competition, eventList, events })
 	}
 	const handleFileChosen = (file) => {
 		fileReader = new FileReader()
@@ -58,15 +56,15 @@ export default function NewCompetition({ history }) {
 		fileReader.readAsText(file)
 	}
 	const handleEventChange = (e) => {
-		setNewSchedule({...newSchedule,[e.target.name]:e.target.value});
+		setNewSchedule({ ...newSchedule, [e.target.name]: e.target.value });
 	}
-	const addEvent = (e) =>  {
-		setCompetition({...competition, schedule: [ ...competition.schedule, newSchedule]});
+	const addEvent = (e) => {
+		setCompetition({ ...competition, schedule: [...competition.schedule, newSchedule] });
 	}
 	const removeEvent = (index) => {
 		console.log(competition);
-		const updated = competition.schedule.filter((_,i)=>i!==index);
-		setCompetition({...competition, schedule:updated});
+		const updated = competition.schedule.filter((_, i) => i !== index);
+		setCompetition({ ...competition, schedule: updated });
 		console.log(competition);
 	}
 	return (
@@ -175,37 +173,37 @@ export default function NewCompetition({ history }) {
 					onChange={(e) => handleFileChosen(e.target.files[0])}
 				/>
 			</Grid>
-			
+
 			<Grid item>
 				<InputLabel>Add Events to Schedule</InputLabel>
 			</Grid>
 			<Grid item>
-					<TextField name="name" label="Event Name" onChange={handleEventChange} required></TextField>
-					<TextField name="id" label="Event ID" onChange={handleEventChange} required></TextField>
-					<TextField 
-						name="start"
-						label="Start Time"
-						type="time"
-						onChange={handleEventChange}
-						required
-						></TextField>
-					<TextField 
+				<TextField name="name" label="Event Name" onChange={handleEventChange} required></TextField>
+				<TextField name="id" label="Event ID" onChange={handleEventChange} required></TextField>
+				<TextField
+					name="start"
+					label="Start Time"
+					type="time"
+					onChange={handleEventChange}
+					required
+				></TextField>
+				<TextField
 					name="end"
 					label="End Time"
 					type="time"
 					onChange={handleEventChange}
 					required
-					></TextField>
-					<TextField 
+				></TextField>
+				<TextField
 					defaultValue=""
 					name="qualification"
 					label="Qualification (optional)"
 					type="text"
 					onChange={handleEventChange}
-					></TextField>
-					<Button 
-						disabled = {Object.keys(newSchedule).length<4}
-						onClick={addEvent}>Add Event
+				></TextField>
+				<Button
+					disabled={Object.keys(newSchedule).length < 4}
+					onClick={addEvent}>Add Event
 					</Button>
 			</Grid>
 			<Grid item></Grid>
@@ -222,23 +220,23 @@ export default function NewCompetition({ history }) {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{competition.schedule.map((event,index) =>  {
+						{competition.schedule.map((event, index) => {
 							return <TableRow key={index}>
-										<TableCell>{event?.name}</TableCell>
-										<TableCell>{event?.id}</TableCell>
-										<TableCell>{event?.start}</TableCell>
-										<TableCell>{event?.end}</TableCell>
-										<TableCell>{event?.qualification}</TableCell>
-										<TableCell><Button onClick={()=>removeEvent(index)}>❌</Button></TableCell>
-									</TableRow>
-						}		
+								<TableCell>{event?.name}</TableCell>
+								<TableCell>{event?.id}</TableCell>
+								<TableCell>{event?.start}</TableCell>
+								<TableCell>{event?.end}</TableCell>
+								<TableCell>{event?.qualification}</TableCell>
+								<TableCell><Button onClick={() => removeEvent(index)}>❌</Button></TableCell>
+							</TableRow>
+						}
 						)}
-				</TableBody>
+					</TableBody>
 				</Table>
 			</Grid>
 			<Grid item>
 				<Button
-					disabled={!eventInfo || competition.id === ''}
+					disabled={!competition.events || competition.id === ''}
 					varaint='contained'
 					onClick={handleConfirm}
 				>
