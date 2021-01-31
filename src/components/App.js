@@ -14,10 +14,10 @@ import NewCompetition from './Admin/NewCompetition'
 import AuthenticatedRoute from './AuthenticatedRoute'
 import CompetitionHome from './Competition/CompetitionHome'
 import Register from './Competition/Register'
+import Contact from "./Contact"
 import Footer from './Footer/Footer'
 import Header from './Header/Header'
 import Home from './Home'
-
 // typography
 const typography = {
 	fontFamily: [
@@ -87,6 +87,7 @@ export default function App() {
 									path='/cubing-at-home-I/:tab?'
 									component={Competition}
 								/> */}
+									<Route exact path="/contact" component={Contact}/>
 									<Route exact path='/:id/register' component={Register} />
 									<Route exact path='/:id/:tab?' component={CompetitionHome} />
 									<Route exact path='/' component={Home} />
