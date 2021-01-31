@@ -4,7 +4,6 @@ import Link from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography'
 import React, { useContext } from 'react'
 import { submitTime } from '../../../database/writes'
-import { CONTACT_EMAILS } from '../../../logic/consts'
 import { FirebaseContext } from '../../../utils/firebase'
 
 
@@ -68,9 +67,8 @@ export default function EventStart({ user, competitionId, round }) {
 							If you have any issues/questions, check the{' '}
 							<Link href={`/${competitionId}/faq`}>faq</Link>,{' or '}
 							<Link
-								target='_blank'
 								rel='noreferrer'
-								href={CONTACT_EMAILS}
+								href="/contact"
 							>
 								{' '}
 								contact us

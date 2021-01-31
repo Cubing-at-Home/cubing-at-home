@@ -7,7 +7,7 @@ import Tabs from '@material-ui/core/Tabs'
 import Typography from '@material-ui/core/Typography'
 import React from 'react'
 import Faq from 'react-faq-component'
-import { CONTACT_EMAILS, faq } from '../../logic/consts'
+import { faq } from '../../logic/consts'
 import { FirebaseContext } from '../../utils/firebase'
 import TabPanel from '../TabPanel'
 import Compete from './Compete/Compete'
@@ -124,9 +124,8 @@ export default function CompetitionHome({ history, match }) {
 								<Typography color='primary' align='center' variant='h6'>
 									<Link
 										color='inherit'
-										target='_blank'
 										rel='noopener noreferrer'
-										href={CONTACT_EMAILS}
+										href="/contact"
 									>
 										Contact Us
 								</Link>

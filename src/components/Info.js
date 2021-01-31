@@ -5,7 +5,6 @@ import Link from '@material-ui/core/Link'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
-import { CONTACT_EMAILS } from '../logic/consts'
 import EventList from './EventList'
 
 
@@ -181,9 +180,8 @@ export default function Info({ history }) {
 							<Typography align='center' variant='h6'>
 								<Link
 									color='primary'
-									target='_blank'
 									rel='noopener noreferrer'
-									href={CONTACT_EMAILS}
+									href="/contact"
 								>
 									Contact Us
 								</Link>
