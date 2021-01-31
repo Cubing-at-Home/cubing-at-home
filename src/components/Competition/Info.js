@@ -5,7 +5,6 @@ import Link from '@material-ui/core/Link'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/styles'
 import React, { useContext } from 'react'
-import { CONTACT_EMAILS } from '../../logic/consts'
 import { UserContext } from '../../utils/auth'
 import EventList from '../EventList'
 
@@ -162,15 +161,14 @@ export default function Info({ history, match, competitionInfo }) {
 							>
 								<b>Note: </b> By signing up, you allow CubingUSA and/or The
 								Cubicle to edit and repost any videos you submit and content you
-								particiapte in for this event without any additional
+								participate in for this event without any additional
 								compensation
 							</Typography>
 							<Typography align='center' variant='h6'>
 								<Link
 									color='primary'
-									target='_blank'
 									rel='noopener noreferrer'
-									href={CONTACT_EMAILS}
+									href="/contact"
 								>
 									Contact Us
 								</Link>

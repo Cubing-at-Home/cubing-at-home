@@ -173,7 +173,6 @@ export default function NewCompetition({ history }) {
 					onChange={(e) => handleFileChosen(e.target.files[0])}
 				/>
 			</Grid>
-
 			<Grid item>
 				<InputLabel>Add Events to Schedule</InputLabel>
 			</Grid>

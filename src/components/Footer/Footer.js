@@ -9,7 +9,6 @@ import Facebook from 'mdi-material-ui/Facebook'
 import Instagram from 'mdi-material-ui/Instagram'
 import Twitch from 'mdi-material-ui/Twitch'
 import React from 'react'
-import { CONTACT_EMAILS } from '../../logic/consts'
 
 
 const socialMedias = [
@@ -87,9 +86,7 @@ const Footer = ({ currTheme, onThemeChange, isAuthenticated }) => {
 								<Link
 									className={classes.link}
 									variant='body2'
-									href={
-										CONTACT_EMAILS
-									}
+									href="/contact"
 								>
 									<ContactMailIcon />
 								</Link>

@@ -12,7 +12,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import Faq from 'react-faq-component'
 import { isSignedIn } from '../logic/auth'
-import { CONTACT_EMAILS, faq } from '../logic/consts'
+import { faq } from '../logic/consts'
 import { getMe } from '../logic/wca-api'
 import { FirebaseContext } from '../utils/firebase'
 import Competitors from './Competitors'
@@ -180,9 +180,8 @@ export default function Competition({ history, match }) {
 									variant='h6'
 								>
 									<Link
-										target='_blank'
 										rel='noopener noreferrer'
-										href={CONTACT_EMAILS}
+										href="/contact"
 									>
 										Contact Us
 								</Link>
