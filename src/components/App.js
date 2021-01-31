@@ -18,6 +18,7 @@ import Contact from "./Contact"
 import Footer from './Footer/Footer'
 import Header from './Header/Header'
 import Home from './Home'
+
 // typography
 const typography = {
 	fontFamily: [
