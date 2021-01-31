@@ -106,7 +106,10 @@ export const activityKey = {
 	fto: 'Face Turning Octahedron'
 }
 
-export const CONTACT_EMAILS = 'cubingathome@cubingusa.org'
+export const CONTACT_EMAILS = [
+	{ href: 'cubingathome@cubingusa.org', description: "For general questions"},
+	{ href: 'cubingathomeresultsteam@gmail.com', description: "For results-related questions"}
+]
 
 
 export const s2 = {
