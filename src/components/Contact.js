@@ -53,9 +53,9 @@ export default function Contact () {
                 })}
                     <div style={{marginTop:"2.5vh",marginBottom:"2.5vh"}}>
                         <Grid item>
-                            <Link href="https://discord.gg/BvFu3v8H" target="_blank">
+                            <Link href="https://discord.gg/PYReUUr54w" target="_blank">
                                 <Typography variant="h6">
-                                    <Discord style={{verticalAlign:"middle"}}></Discord> https://discord.gg/BvFu3v8H
+                                    <Discord style={{verticalAlign:"middle"}}></Discord> https://discord.gg/PYReUUr54w
                                 </Typography>
                             </Link>
                         </Grid>
