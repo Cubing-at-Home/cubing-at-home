@@ -16,8 +16,8 @@ export default function LandingCarousel() {
 		{
 			title: 'C@H Season 2',
 			description: `Cubing at Home is BACK! Season 2 starts February 2021!`,
-			image: `${process.env.PUBLIC_URL}/images/s2-soon.png`,
-			buttonText: 'Registration Opens February 3rd!',
+			image: `${process.env.PUBLIC_URL}/images/cahs2.png`,
+			buttonText: 'Register NOW!',
 			href: '/s2/register',
 		},
 	]

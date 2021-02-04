@@ -17,7 +17,6 @@ export const defaultCompetition = {
 }
 
 export const buildCompetition = async (firebase, competition) => {
-	console.log(competition)
 	const {
 		id,
 		name,
