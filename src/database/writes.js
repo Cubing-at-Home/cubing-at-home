@@ -33,6 +33,39 @@ export const createNewUser = async (firebase, user) => {
 	})
 }
 
+export const updateEmail = async (firebase, user) => {
+	let user_results = null
+	if (user.wca_id !== null && user.wca_id !== undefined) {
+		user_results = await getUserResults(user)
+	}
+	const db = firebase.firestore()
+	return new Promise((resolve, reject) => {
+		const  updatedData = {
+			wca: {
+				avatar: user.avatar,
+				country_iso2: user.country_iso2,
+				email: user.email,
+				gender: user.gender,
+				id: user.id,
+				name: user.name,
+				wca_id: user.wca_id ? user.wca_id : null,
+				last_updated: new Date(),
+				personal_records: user_results ? user_results.personal_records : {},
+				isDelegate: user_results && user_results.delegate_status ? true : false,
+				},
+				data: {
+					competitions: [],
+					results: [],
+				},
+			}
+		db.collection("Users")
+			.doc(user.id.toString())
+			.update({ "wca.email": user.email })
+			.then(resolve(updatedData))
+			.catch((err)=>reject(err))
+	})
+}
+
 export const createNewCompetition = async (
 	firebase,
 	competition,
