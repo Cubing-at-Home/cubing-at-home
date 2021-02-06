@@ -1,13 +1,9 @@
 import { LinearProgress } from '@material-ui/core'
 import AppBar from '@material-ui/core/AppBar'
-import Link from '@material-ui/core/Link'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
-import Typography from '@material-ui/core/Typography'
 import React from 'react'
-import Faq from 'react-faq-component'
-import { faq } from '../../logic/consts'
 import { FirebaseContext } from '../../utils/firebase'
 import TabPanel from '../TabPanel'
 import Compete from './Compete/Compete'
@@ -110,27 +106,6 @@ export default function CompetitionHome({ history, match }) {
 							}
 						</TabPanel>
 						<TabPanel value={tabs[value]} index={5}>
-							<div>
-								<Faq
-									data={faq}
-									styles={{
-										bgColor: theme.palette.background.paper,
-										titleTextColor: theme.palette.primary.main,
-										rowTextColor: theme.palette.primary.main,
-										rowTitleColor: theme.palette.text.primary,
-										rowContentColor: theme.palette.text.primary,
-									}}
-								/>
-								<Typography color='primary' align='center' variant='h6'>
-									<Link
-										color='inherit'
-										rel='noopener noreferrer'
-										href="/contact"
-									>
-										Contact Us
-								</Link>
-								</Typography>
-							</div>
 						</TabPanel>
 						<TabPanel value={tabs[value]} index={6}>
 							<iframe

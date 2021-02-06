@@ -5,11 +5,11 @@ import Tooltip from '@material-ui/core/Tooltip'
 // import Typography from '@material-ui/core/Typography';
 import ContactMailIcon from '@material-ui/icons/ContactMail'
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects'
+import HelpIcon from '@material-ui/icons/Help'
 import Facebook from 'mdi-material-ui/Facebook'
 import Instagram from 'mdi-material-ui/Instagram'
 import Twitch from 'mdi-material-ui/Twitch'
 import React from 'react'
-
 
 const socialMedias = [
 	{
@@ -68,6 +68,17 @@ const Footer = ({ currTheme, onThemeChange, isAuthenticated }) => {
 								</Link>
 							</Grid>
 						)}
+						<Tooltip key={"FAQ"} title={"FAQ"}>
+								<Grid item key={"FAQ"}>
+									<Link
+										className={classes.link}
+										variant='body2'
+										href={"/faq"}
+									>
+										<HelpIcon></HelpIcon>
+									</Link>
+								</Grid>
+							</Tooltip>
 						{socialMedias.map((social) => (
 							<Tooltip key={social.name} title={social.name}>
 								<Grid item key={social.name}>
