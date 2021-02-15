@@ -2,6 +2,7 @@ import { TextField } from '@material-ui/core'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
+import Container from '@material-ui/core/Container'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Grid from '@material-ui/core/Grid'
 import LinearProgress from '@material-ui/core/LinearProgress'
@@ -15,6 +16,7 @@ import { signIn } from '../../logic/auth'
 import { WCA_ORIGIN } from '../../logic/wca-env'
 import { UserContext } from '../../utils/auth'
 import { FirebaseContext } from '../../utils/firebase'
+
 
 const useStyles = makeStyles((theme) => ({
 	grid: {
@@ -84,6 +86,7 @@ export default function Register({ history, match }) {
 					{error}
 				</Typography>
 			) : (
+				<Container maxWidth='md'>
 						<Grid
 							container
 							alignItems='center'
@@ -233,6 +236,7 @@ export default function Register({ history, match }) {
 											</>
 										)}
 						</Grid>
+						</Container>
 					)}
 		</>
 	)

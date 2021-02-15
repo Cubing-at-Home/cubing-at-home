@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 		position: 'absolute',
 		bottom: 0,
 		width: '100%',
+		maxHeight: '8vh',
 		overflow: 'hidden',
 		padding: theme.spacing(2),
 	},
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	footerPadding: {
 		width: '100%',
-		height: '8vh',
+		height: '12vh',
 	},
 }))
 
