@@ -196,6 +196,8 @@ export default function NewCompetition({ history }) {
 					{Object.keys(activityKey).map(key =>
 						<MenuItem key={key} value={key}>{activityKey[key]}</MenuItem>)
 					}
+					<MenuItem value={'twitch'}>Twitch</MenuItem>
+					<MenuItem value={''}>Other</MenuItem>
 				</Select>
 				<TextField
 					name="start"
