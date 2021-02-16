@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import { Tooltip } from '@material-ui/core'
+import Grid from '@material-ui/core/Grid'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -6,16 +9,13 @@ import TableCell from '@material-ui/core/TableCell'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-import Paper from '@material-ui/core/Paper'
-import CubingIcon from '../CubingIcon'
 import Typography from '@material-ui/core/Typography'
-import InfoIcon from '@material-ui/icons/Info'
-import Grid from '@material-ui/core/Grid'
-import jstz from 'jstimezonedetect'
-import { Tooltip } from '@material-ui/core'
-import moment from 'moment-timezone'
-import LinearProgress from '@material-ui/core/LinearProgress'
 import HelpOutlinedIcon from '@material-ui/icons/HelpOutlined'
+import InfoIcon from '@material-ui/icons/Info'
+import jstz from 'jstimezonedetect'
+import moment from 'moment-timezone'
+import React, { useEffect, useState } from 'react'
+import CubingIcon from '../CubingIcon'
 
 const useStyles = makeStyles({
 	table: {
@@ -46,7 +46,7 @@ export default function Schedule({ competitionInfo }) {
 				>
 					<Grid item>
 						<Typography align='center' variant='h4'>
-							{moment(`${date.format('YYYY-MM-DDThh:mm')}-04:00`)
+							{moment(`${date.format('YYYY-MM-DDThh:mm')}${competitionInfo.mainTimezone ?? `-05:00`}`)
 								.local()
 								.format('ll')}
 						</Typography>
@@ -90,12 +90,12 @@ export default function Schedule({ competitionInfo }) {
 											<Typography variant='h6'>{row.name}</Typography>
 										</TableCell>
 										<TableCell align='right'>
-											{moment(`${date.format('YYYY-MM-DD')}T${row.start}-04:00`)
+											{moment(`${date.format('YYYY-MM-DD')}T${row.start}${competitionInfo.mainTimezone ?? `-05:00`}`)
 												.local()
 												.format('hh:mm A')}
 										</TableCell>
 										<TableCell align='right'>
-											{moment(`${date.format('YYYY-MM-DD')}T${row.end}-04:00`)
+											{moment(`${date.format('YYYY-MM-DD')}T${row.end}${competitionInfo.mainTimezone ?? `-05:00`}`)
 												.local()
 												.format('hh:mm A')}
 										</TableCell>

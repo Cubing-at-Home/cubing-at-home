@@ -1,4 +1,5 @@
 export const defaultCompetition = {
+	mainTimezone: '-05:00',
 	competitorCount: -1,
 	end: '',
 	start: '',
@@ -68,7 +69,6 @@ export const buildCompetition = async (firebase, competition) => {
 				.set(other)
 			for (const round of rounds) {
 				const { results, ...other } = round
-				console.log(results)
 				await firebase
 					.firestore()
 					.collection('competitions')
@@ -78,7 +78,8 @@ export const buildCompetition = async (firebase, competition) => {
 					.collection('Rounds')
 					.doc(round.id)
 					.set(other)
-				for (const result of results) {
+				
+				for (const result of (results || [])) {
 					await firebase
 						.firestore()
 						.collection('competitions')
@@ -94,6 +95,6 @@ export const buildCompetition = async (firebase, competition) => {
 			}
 		}
 	} catch (error) {
-		console.log(error)
+		console.error(error)
 	}
 }

@@ -1,14 +1,21 @@
 import { Button, InputLabel, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import moment from 'moment-timezone';
 import React, { useContext, useState } from 'react';
 import { buildCompetition, defaultCompetition } from '../../database/builder';
+import useFocus from '../../hooks/useFocus';
+import { activityKey } from '../../logic/consts';
 import { FirebaseContext } from '../../utils/firebase';
+
+
 export default function NewCompetition({ history }) {
 	let fileReader
 	const firebase = useContext(FirebaseContext)
 	const [competition, setCompetition] = useState(defaultCompetition)
+	const [inputRef, setFocus] = useFocus()
 	const [eventInfo, setEventInfo] = useState(null)
 	const [error, setError] = useState(null)
 	const [newSchedule, setNewSchedule] = useState({});
@@ -47,8 +54,13 @@ export default function NewCompetition({ history }) {
 	const handleFileRead = (e) => {
 		const content = fileReader.result
 		const events = JSON.parse(content).wcif.events
-		const eventList = events.map((event) => event.id)
-		setCompetition({ ...competition, eventList, events })
+		const eventList = []
+		const rounds = []
+		for (const event of events) {
+			eventList.push(event.id)
+			for (const round of event.rounds) rounds.push({ id: round.id, isOpen: false })
+		}
+		setCompetition({ ...competition, eventList, events, rounds })
 	}
 	const handleFileChosen = (file) => {
 		fileReader = new FileReader()
@@ -60,6 +72,7 @@ export default function NewCompetition({ history }) {
 	}
 	const addEvent = (e) => {
 		setCompetition({ ...competition, schedule: [...competition.schedule, newSchedule] });
+		setFocus()
 	}
 	const removeEvent = (index) => {
 		console.log(competition);
@@ -177,8 +190,13 @@ export default function NewCompetition({ history }) {
 				<InputLabel>Add Events to Schedule</InputLabel>
 			</Grid>
 			<Grid item>
-				<TextField name="name" label="Event Name" onChange={handleEventChange} required></TextField>
-				<TextField name="id" label="Event ID" onChange={handleEventChange} required></TextField>
+				<TextField inputRef={inputRef} name="name" label="Event Name" onChange={handleEventChange} required></TextField>
+				<InputLabel id='eventId'>Event ID</InputLabel>
+				<Select name='id' labelId='eventId' onChange={handleEventChange} >
+					{Object.keys(activityKey).map(key =>
+						<MenuItem key={key} value={key}>{activityKey[key]}</MenuItem>)
+					}
+				</Select>
 				<TextField
 					name="start"
 					label="Start Time"
