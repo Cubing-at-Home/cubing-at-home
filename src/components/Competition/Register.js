@@ -13,7 +13,7 @@ import moment from 'moment'
 import React, { useContext, useState } from 'react'
 import { cancelCompetitor, registerCompetitor } from '../../database/writes'
 import { signIn } from '../../logic/auth'
-import { WCA_ORIGIN } from '../../logic/wca-env'
+import { WCA_ORIGIN } from '../../logic/env'
 import { UserContext } from '../../utils/auth'
 import { FirebaseContext } from '../../utils/firebase'
 

@@ -11,6 +11,7 @@ import { UserContext } from '../utils/auth'
 import AdminHome from './Admin/AdminHome'
 import CompetitionAdmin from './Admin/CompetitionAdmin'
 import NewCompetition from './Admin/NewCompetition'
+import SetupBracket from './Admin/SetupBracket'
 import AuthenticatedRoute from './AuthenticatedRoute'
 import CompetitionHome from './Competition/CompetitionHome'
 import Register from './Competition/Register'
@@ -70,6 +71,12 @@ export default function App() {
 										exact
 										path='/admin/new'
 										component={NewCompetition}
+										appProps={{ isAuthenticated }}
+									/>
+									<AuthenticatedRoute
+										exact
+										path='/admin/bracket'
+										component={SetupBracket}
 										appProps={{ isAuthenticated }}
 									/>
 									<AuthenticatedRoute

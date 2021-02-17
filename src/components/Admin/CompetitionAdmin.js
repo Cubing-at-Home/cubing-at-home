@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import SelectEvent from './SelectEvent'
-import AdminResults from './AdminResults'
-import Tabs from '@material-ui/core/Tabs'
 import AppBar from '@material-ui/core/AppBar'
 import Tab from '@material-ui/core/Tab'
+import Tabs from '@material-ui/core/Tabs'
+import React, { useState } from 'react'
 import TabPanel from '../TabPanel'
+import AdminResults from './AdminResults'
 import AdminStream from './AdminStream'
+import SelectEvent from './SelectEvent'
+import SetupBracket from './SetupBracket'
 
 export default function CompetitionAdmin({ match }) {
 	const [value, setValue] = useState('events')
@@ -19,6 +20,7 @@ export default function CompetitionAdmin({ match }) {
 					<Tab label='Events' value={'events'} />
 					<Tab label='Results' value={'results'} />
 					<Tab label='Stream' value={'stream'} />
+					<Tab label='Bracket' value={'bracket'} />
 				</Tabs>
 			</AppBar>
 			<TabPanel value={value} index={'events'}>
@@ -29,6 +31,9 @@ export default function CompetitionAdmin({ match }) {
 			</TabPanel>
 			<TabPanel value={value} index='stream'>
 				<AdminStream competitionId={match.params.competitionId} />
+			</TabPanel>
+			<TabPanel value={value} index='bracket'>
+				<SetupBracket competitionId={match.params.competitionId} />
 			</TabPanel>
 		</>
 	)

@@ -292,3 +292,44 @@ export const banCompetitor = async (firebase, personId) => {
 		.doc(personId)
 		.set({ data: { banned: true } }, { merge: true })
 }
+
+export const createTimerRoom = async (firebase, player1, player2) => {
+	let roomId = `${player1.wca.id}-${player2.wca.id}`
+
+	const docData = {
+		name: `${player1.wca.name} (${player1.wca.wca_id}) vs ${player2.wca.name} (${player2.wca.wca_id})`,
+		wcaId: `${player1.wca.wca_id}-${player2.wca.wca_id}`,
+	}
+	await firebase.firestore()
+		.collection('timer-rooms')
+		.doc(roomId)
+		.set(docData)
+
+	let playerData = {
+		attempts: [],
+		'current-time': 0,
+		id: player1.wca.id,
+		name: player1.wca.name,
+		ready: false,
+		state: 'waiting',
+		'time-started': 0,
+		'timer-started': false,
+		'timer-state': -1,
+	}
+	await firebase.firestore()
+		.collection('timer-rooms')
+		.doc(roomId)
+		.collection('runners')
+		.doc('runner1')
+		.set(playerData)
+
+	playerData.id = player2.wca.id
+	await firebase.firestore()
+		.collection('timer-rooms')
+		.doc(roomId)
+		.collection('runners')
+		.doc('runner2')
+		.set(playerData)
+	
+	return roomId
+}
