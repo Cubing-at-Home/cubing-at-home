@@ -129,7 +129,7 @@ function Matchup(match, key, roomId, handleRoomCreation) {
 		<b>Round {`${match?.round}`}</b><br/>
 		{`${match?.player1?.name} (${match?.player1?.wcaId}) vs ${match?.player2?.name} (${match?.player2?.wcaId})`}<br/>
 		<Button variant='contained' disabled={completed} onClick={() => handleRoomCreation(match.player1, match.player2)}>Create Room</Button>
-		{roomId && <Link href={`https://cubingathometimer.com/${roomId}`}>Go to timer</Link>}
+		{roomId && <Link target='_blank' href={`https://cubingathometimer.com/${roomId}`}>Go to timer</Link>}
 		<hr/>
 	</div>
 }
