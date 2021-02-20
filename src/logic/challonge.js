@@ -1,8 +1,11 @@
-import { CHALLONGE_API_KEY, CHALLONGE_ORIGIN } from './env'
+
+import { API_ORIGIN } from './env'
 
 export async function getTournament(id) {
+  const CHALLONGE_API_KEY = process.env.REACT_APP_CHALLONGE_API_KEY
+  const CHALLONGE_ORIGIN = process.env.REACT_APP_CHALLONGE_ORIGIN
   // get all matches for this tournament
-	let tournament = await challongeApiFetch(`/tournaments/${id}/matches.json`)
+  let tournament = await challongeApiFetch(`/tournaments/${id}/matches.json`)
   let participants = await challongeApiFetch(`/tournaments/${id}/participants.json`)
 
   // get participants list and get the emails
@@ -10,13 +13,7 @@ export async function getTournament(id) {
     if (!v.participant) return m
 
     v = v.participant
-    let matches = v.display_name_with_invitation_email_address.match(/.*<(([^@]*)@.*)>/)
-    let wcaId = null, email = null
-    if (matches) {
-      email = matches[1]
-      wcaId = matches[2] // TODO: Support getting wcaId from misc details.
-    }
-    m[v.id] = {name: v.name, email: email, wcaId: wcaId}
+    m[v.id] = { name: v.name, wcaId: v.misc }
     return m
   }, {})
 
@@ -38,14 +35,53 @@ export async function getTournament(id) {
   return matches
 }
 
+export async function createTournament(opts) {
+  try {
+    const tournament = await apiPost('createTournament', opts)
+    return tournament
+  }
+  catch (err) {
+    console.log(err)
+    throw err
+  }
+}
+
+export async function addParticpant(opts) {
+  try {
+    const participant = await apiPost('addParticipant', opts)
+    return participant
+  }
+  catch (err) {
+    console.log(err)
+    throw err
+  }
+}
+
 // Supports challonge GET API endpoints
 const challongeApiFetch = (path) => {
-	const baseApiUrl = `${CHALLONGE_ORIGIN}`
+  const CHALLONGE_API_KEY = process.env.REACT_APP_CHALLONGE_API_KEY
+  const CHALLONGE_ORIGIN = process.env.REACT_APP_CHALLONGE_API_ORIGIN
+  const baseApiUrl = `${CHALLONGE_ORIGIN}`
 
-	return fetch(`${baseApiUrl}${path}?api_key=${CHALLONGE_API_KEY}`)
-		.then(response => {
-			if (!response.ok) throw new Error(response.statusText)
-			return response
-		})
-		.then(response => response.json())
+  return fetch(`${baseApiUrl}${path}?api_key=${CHALLONGE_API_KEY}`)
+    .then(response => {
+      if (!response.ok) throw new Error(response.statusText)
+      return response
+    })
+    .then(response => response.json())
+}
+
+const apiPost = (path, data = {}, opts = {}) => {
+  return fetch(`${API_ORIGIN}${path}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ ...data }), // body data type must match "Content-Type" header,
+    ...opts
+  }).then(response => {
+    console.log(response)
+    return response
+  })
+    .then(response => response.json())
 }

@@ -29,7 +29,7 @@ export default function SetupBracket({ history }) {
 			}
 			fetchRooms()
 		}
-	})
+	},[])
 
 	const handleConfirm = async (event) => {
 		let challongeId = challonge.match(/https:\/\/challonge.com\/([^/]*)/)
