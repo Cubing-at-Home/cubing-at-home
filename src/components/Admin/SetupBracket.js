@@ -1,16 +1,23 @@
 import { Button, Link, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import React, { useContext, useEffect, useState } from 'react';
 import { createTimerRoom } from '../../database/writes';
 import { getTournament } from '../../logic/challonge';
+import { activityKey } from '../../logic/consts';
 import { FirebaseContext } from '../../utils/firebase';
+
+
 export default function SetupBracket({ history }) {
 	const firebase = useContext(FirebaseContext)
 	const [challonge, setChallonge] = useState("")
 	const [matches, setMatches] = useState(null)
 	const [rooms, setRooms] = useState([])
 	const [error, setError] = useState(null)
+	const [event, setEvent] = useState('333')
 
 	useEffect(() => {
 		if (rooms.length === 0) {
@@ -52,10 +59,10 @@ export default function SetupBracket({ history }) {
 		})
 		return doc
 	}
-	const handleRoomCreation = async (player1, player2) => {
+	const handleRoomCreation = async (player1, player2, round) => {
 		let player1Doc = await getWcaUser(player1.wcaId)
 		let player2Doc = await getWcaUser(player2.wcaId)
-		let roomId = await createTimerRoom(firebase, player1Doc, player2Doc) // player1Doc.wca.id == the user id used in the timer room
+		let roomId = await createTimerRoom(firebase, player1Doc, player2Doc, event, round) // player1Doc.wca.id == the user id used in the timer room
 		let newRooms = rooms.concat({
 			id: roomId,
 			wcaId: `${player1.wcaId}-${player2.wcaId}`,
@@ -84,6 +91,14 @@ export default function SetupBracket({ history }) {
 					onChange={e => setChallonge(e.target.value)}
 					helperText='This is the challonge tournament link'
 				/>
+			</Grid>
+			<Grid item>
+				<InputLabel id='eventId'>Event ID</InputLabel>
+				<Select name='id' labelId='eventId' onChange={(e) => setEvent(e.target.value)} >
+					{Object.keys(activityKey).map(key =>
+						<MenuItem key={key} value={key}>{activityKey[key]}</MenuItem>)
+					}
+				</Select>
 			</Grid>
 			<Grid item>
 				<Button
@@ -127,7 +142,7 @@ function Matchup(match, key, roomId, handleRoomCreation) {
 	return <div style={{backgroundColor: ((completed && 'green') || (roomId && 'yellow'))}} key={match?.player1?.name + match?.player2?.name}>
 		<b>Round {`${match?.round}`}</b><br/>
 		{`${match?.player1?.name} (${match?.player1?.wcaId}) vs ${match?.player2?.name} (${match?.player2?.wcaId})`}<br/>
-		<Button variant='contained' disabled={completed} onClick={() => handleRoomCreation(match.player1, match.player2)}>Create Room</Button>
+		<Button variant='contained' disabled={completed} onClick={() => handleRoomCreation(match.player1, match.player2, match.round)}>Create Room</Button>
 		{roomId && <Link target='_blank' href={`https://timer.cubingathome.com/room/${roomId}`}>Go to timer</Link>}
 		<hr/>
 	</div>

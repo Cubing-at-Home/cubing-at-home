@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import TabPanel from '../TabPanel'
 import AdminResults from './AdminResults'
 import AdminStream from './AdminStream'
+import JudgeFinals from './JudgeFinals'
 import NewBracket from './NewBracket'
 import SelectEvent from './SelectEvent'
 import SetupBracket from './SetupBracket'
@@ -23,6 +24,7 @@ export default function CompetitionAdmin({ match }) {
 					<Tab label='Stream' value={'stream'} />
 					<Tab label='Manage Bracket' value={'bracket'} />
 					<Tab label='New Bracket' value={'newBracket'} />
+					<Tab label='Judge Finals' value={'judge'}/>
 				</Tabs>
 			</AppBar>
 			<TabPanel value={value} index={'events'}>
@@ -39,6 +41,9 @@ export default function CompetitionAdmin({ match }) {
 			</TabPanel>
 			<TabPanel value={value} index='newBracket'>
 				<NewBracket competitionId={match.params.competitionId}/>
+			</TabPanel>
+			<TabPanel value={value} index='judge'>
+				<JudgeFinals competitionId={match.params.competitionId} />
 			</TabPanel>
 		</>
 	)
