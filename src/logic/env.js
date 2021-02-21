@@ -1,4 +1,4 @@
-export const PRODUCTION = process.env.NODE_ENV === 'production'
+export const PRODUCTION = process.env.NODE_ENV !== 'production'
 
 export const WCA_ORIGIN = PRODUCTION
 	? 'https://www.worldcubeassociation.org'
@@ -10,4 +10,4 @@ export const WCA_ORIGIN = PRODUCTION
 	
 	export const CHALLONGE_ORIGIN = 'https://api.challonge.com/v1'
 
-export const API_ORIGIN = !PRODUCTION ? 'https://us-central1-cubing-at-home.cloudfunctions.net/' : 'http://localhost:5001/cubing-at-home/us-central1/' 
+export const API_ORIGIN =  'https://us-central1-cubing-at-home.cloudfunctions.net/' 
