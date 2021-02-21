@@ -90,7 +90,7 @@ export function JudgeCompetitor({ competitor, setCompetitor, room, changeScrambl
     const setReady = async () => {
         if(!room.matchScramblePresent) {
             const gen = new Scrambow()
-            const scramble = gen.setType(eventId).get()[0].scramble_string
+            const scramble = gen.setType(room.event).get()[0].scramble_string
             await changeScramble(scramble, true)
         }
         setCompetitor({ 'ready': true, 'timer-state': 0, state: 'ready' })

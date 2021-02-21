@@ -1,5 +1,5 @@
 const firebaseConfig =
-	process.env.NODE_ENV === 'production'
+	process.env.NODE_ENV !== 'production'
 		? {
 			apiKey: process.env.FIREBASE_API,
 			authDomain: 'cubing-at-home.firebaseapp.com',
