@@ -1,3 +1,4 @@
+import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -50,11 +51,18 @@ export default function NewBracket() {
             xs={12}
             style={{ padding: '5vw' }}
         >
-            <Grid item>
+            <Grid item
+            container
+            direction='column'
+            alignContent='center'
+            justify='center'>
                 <TextField value={newBracketInfo.name} name='name' label='Name' onChange={handleChange} />
-                <TextField value={newBracketInfo.url} name='url' label='URL (link for the bracket, no spaces!)' onChange={handleChange} />
+                <br/>
+                <TextField value={newBracketInfo.url} name='url' label='id used as URL' onChange={handleChange} />
+                <Typography style={{color: '#f33'}}>link for the bracket, no spaces!</Typography>
+                <br/><br/>
                 <Button onClick={handleTournamentCreate} disabled={!newBracketInfo.name || !newBracketInfo.url || bracket || loading}>Create tournament</Button>
-                {err && <p style={{ color: 'red' }}>{err}</p>}
+                {err && <p style={{ color: '#f33' }}>{err}</p>}
             </Grid>
             {bracket && competitors.map((competitor, i) =>
                 <Grid item key={i}>
