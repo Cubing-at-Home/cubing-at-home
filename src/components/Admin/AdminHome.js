@@ -78,6 +78,7 @@ export default function AdminHome({ history }) {
 					</List>
 				</Paper>
 			</Grid>
+			<br/>
 			<Grid item>
 				<Button
 					variant='contained'

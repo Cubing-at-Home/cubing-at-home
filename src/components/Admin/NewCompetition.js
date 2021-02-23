@@ -176,7 +176,7 @@ export default function NewCompetition({ history }) {
 			<Grid item>
 				<InputLabel>Add Events to Schedule</InputLabel>
 			</Grid>
-			<Grid item>
+			<Grid item container direction='column' style={{width: '25%'}}>
 				<TextField name="name" label="Event Name" onChange={handleEventChange} required></TextField>
 				<TextField name="id" label="Event ID" onChange={handleEventChange} required></TextField>
 				<TextField
@@ -200,6 +200,7 @@ export default function NewCompetition({ history }) {
 					type="text"
 					onChange={handleEventChange}
 				></TextField>
+        <br/>
 				<Button
 					disabled={Object.keys(newSchedule).length < 4}
 					onClick={addEvent}>Add Event

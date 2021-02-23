@@ -65,12 +65,12 @@ export default function JudgeFinals() {
 
     const handleReset = () => {
         if (competitorOne['timer-state'] > -1 || competitorTwo['timer-state'] > -1) { // Don't reset only if both competitors are on timer-state -1
-            let newAttempts1 = competitorOne.attempts.map(attempt => attempt);
-            let newAttempts2 = competitorTwo.attempts.map(attempt => attempt);
+            let newAttempts1 = competitorOne?.attempts?.map(attempt => attempt);
+            let newAttempts2 = competitorTwo?.attempts?.map(attempt => attempt);
 
             if ((competitorOne['timer-state'] === 5 || competitorOne['timer-state'] === -1) && (competitorTwo['timer-state'] === 5 || competitorTwo['timer-state'] === -1)) {
-                newAttempts1 = newAttempts1.slice(0,-1);
-                newAttempts2 = newAttempts2.slice(0,-1);
+                newAttempts1 = newAttempts1?.slice(0,-1);
+                newAttempts2 = newAttempts2?.slice(0,-1);
             }
 
             resetStates(newAttempts1, newAttempts2);

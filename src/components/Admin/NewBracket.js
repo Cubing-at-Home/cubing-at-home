@@ -61,7 +61,7 @@ export default function NewBracket() {
                 <TextField value={newBracketInfo.url} name='url' label='id used as URL' onChange={handleChange} />
                 <Typography style={{color: '#f33'}}>link for the bracket, no spaces!</Typography>
                 <br/><br/>
-                <Button onClick={handleTournamentCreate} disabled={!newBracketInfo.name || !newBracketInfo.url || bracket || loading}>Create tournament</Button>
+                <Button onClick={handleTournamentCreate} variant='contained' disabled={!newBracketInfo.name || !newBracketInfo.url || bracket || loading}>Create tournament</Button>
                 {err && <p style={{ color: '#f33' }}>{err}</p>}
             </Grid>
             {bracket && competitors.map((competitor, i) =>
@@ -69,7 +69,7 @@ export default function NewBracket() {
                     <h1>{`${competitor.confirmed ? `✔ ` : ''}Seed ${i + 1}`}</h1>
                     <TextField value={competitors[i].name} name='name' label='Name' onChange={(e) => handleCompetitorChange(e, i)} disabled={competitor.confirmed} />
                     <TextField value={competitors[i].wcaId} name='wcaId' label='WCA ID' onChange={(e) => handleCompetitorChange(e, i)} disabled={competitor.confirmed} />
-                    <Button onClick={() => handleParticipantAdd(i)} disabled={competitor.confirmed || loading || !competitor.wcaId || !competitor.name}>Add Competitor</Button>
+                    <Button variant='contained' onClick={() => handleParticipantAdd(i)} disabled={competitor.confirmed || loading || !competitor.wcaId || !competitor.name}>Add Competitor</Button>
                 </Grid>
             )}
         </Grid>

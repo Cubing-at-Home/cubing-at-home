@@ -69,20 +69,20 @@ const Footer = ({ currTheme, onThemeChange, isAuthenticated }) => {
 								</Link>
 							</Grid>
 						)}
-						<Tooltip key={"FAQ"} title={"FAQ"}>
-								<Grid item key={"FAQ"}>
-									<Link
-										className={classes.link}
-										variant='body2'
-										href={"/faq"}
-									>
-										<HelpIcon></HelpIcon>
-									</Link>
-								</Grid>
-							</Tooltip>
+            <Grid item key={"FAQ"}>
+              <Tooltip key={"FAQ"} title={"FAQ"}>
+                <Link
+                  className={classes.link}
+                  variant='body2'
+                  href={"/faq"}
+                >
+                  <HelpIcon></HelpIcon>
+                </Link>
+              </Tooltip>
+            </Grid>
 						{socialMedias.map((social) => (
-							<Tooltip key={social.name} title={social.name}>
-								<Grid item key={social.name}>
+              <Grid item key={social.name}>
+							  <Tooltip key={social.name} title={social.name}>
 									<Link
 										className={classes.link}
 										variant='body2'
@@ -90,11 +90,11 @@ const Footer = ({ currTheme, onThemeChange, isAuthenticated }) => {
 									>
 										{social.icon}
 									</Link>
-								</Grid>
-							</Tooltip>
+							  </Tooltip>
+              </Grid>
 						))}
-						<Tooltip title={'Contact'}>
-							<Grid item key='Contact'>
+            <Grid item key='Contact'>
+						  <Tooltip title={'Contact'}>
 								<Link
 									className={classes.link}
 									variant='body2'
@@ -102,14 +102,14 @@ const Footer = ({ currTheme, onThemeChange, isAuthenticated }) => {
 								>
 									<ContactMailIcon />
 								</Link>
-							</Grid>
-						</Tooltip>
-						<Tooltip
-							title={
-								currTheme === 'light' ? 'Switch to Dark' : 'Switch to Light'
-							}
-						>
-							<Grid item key='Theme'>
+						  </Tooltip>
+            </Grid>
+            <Grid item key='Theme'>
+              <Tooltip
+                title={
+                  currTheme === 'light' ? 'Switch to Dark' : 'Switch to Light'
+                }
+              >
 								<Link
 									className={classes.link}
 									variant='body2'
@@ -117,8 +117,8 @@ const Footer = ({ currTheme, onThemeChange, isAuthenticated }) => {
 								>
 									<EmojiObjectsIcon />
 								</Link>
-							</Grid>
-						</Tooltip>
+						  </Tooltip>
+            </Grid>
 						{/* <Tooltip title={'About'}>
 							<Grid item key='Info'>
 								<Link

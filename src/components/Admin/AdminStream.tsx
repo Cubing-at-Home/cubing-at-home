@@ -40,7 +40,7 @@ export default function AdminStream(): ReactElement {
 		>
 			<Grid item>
 				<TextField
-					value={streamInfo.round}
+					value={streamInfo?.round}
 					onChange={({ target: { value } }) =>
 						setStreamInfo({ ...streamInfo, round: value })
 					}
@@ -57,7 +57,7 @@ export default function AdminStream(): ReactElement {
 			</Grid>
 			<Grid item>
 				<TextField
-					value={streamInfo.wcaIds.join(',')}
+					value={streamInfo?.wcaIds.join(',')}
 					onChange={(e) =>
 						setStreamInfo({
 							...streamInfo,
@@ -68,8 +68,10 @@ export default function AdminStream(): ReactElement {
 					label={'WCA IDs'}
 				/>
 			</Grid>
-			<Grid item>
+			<Grid item style={{display: 'block', margin: '0 auto'}}>
 				<Button
+					variant='contained'
+					color='primary'
 					onClick={() =>
 						firebase
 							?.firestore()
