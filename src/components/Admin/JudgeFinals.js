@@ -12,8 +12,14 @@ export default function JudgeFinals() {
     const [rooms, setRooms] = React.useState([])
     const [currRoom, setCurrRoom] = React.useState()
 
+     const completeRoom = () => {
+         const oldRoom = currRoom
+         setCurrRoom()
+        firebase.firestore().collection('timer-rooms').doc(oldRoom).set({completed: true}, { merge: true })
+    }
+
     React.useEffect(() => {
-        const unsub = firebase.firestore().collection('timer-rooms').onSnapshot(querySnapshot => {
+        const unsub = firebase.firestore().collection('timer-rooms').where('completed','!=',true).onSnapshot(querySnapshot => {
             let fRooms = []
             querySnapshot.forEach(doc => {
                 fRooms.push({...doc.data(), id: doc.id})
@@ -47,7 +53,7 @@ export default function JudgeFinals() {
                         </Select>
                     </Grid>
                     <Grid item>
-                        <JudgeRoom room={rooms.find(r => r.id === currRoom)} />
+                        <JudgeRoom completeRoom={completeRoom} room={rooms.find(r => r.id === currRoom)} />
                     </Grid>
                 </Grid>
                 :

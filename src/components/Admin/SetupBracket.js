@@ -11,7 +11,7 @@ import { activityKey } from '../../logic/consts';
 import { FirebaseContext } from '../../utils/firebase';
 
 
-export default function SetupBracket({ history }) {
+export default function SetupBracket({ history, competitionId }) {
 	const firebase = useContext(FirebaseContext)
 	const [challonge, setChallonge] = useState("")
 	const [matches, setMatches] = useState(null)
@@ -62,7 +62,7 @@ export default function SetupBracket({ history }) {
 	const handleRoomCreation = async (player1, player2, round) => {
 		let player1Doc = await getWcaUser(player1.wcaId)
 		let player2Doc = await getWcaUser(player2.wcaId)
-		let roomId = await createTimerRoom(firebase, player1Doc, player2Doc, event, round) // player1Doc.wca.id == the user id used in the timer room
+		let roomId = await createTimerRoom(firebase, player1Doc, player2Doc, event, round, competitionId) // player1Doc.wca.id == the user id used in the timer room
 		let newRooms = rooms.concat({
 			id: roomId,
 			wcaId: `${player1.wcaId}-${player2.wcaId}`,

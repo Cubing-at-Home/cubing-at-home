@@ -1,4 +1,4 @@
-export const PRODUCTION = process.env.NODE_ENV !== 'production'
+export const PRODUCTION = process.env.NODE_ENV === 'production'
 
 export const WCA_ORIGIN = PRODUCTION
 	? 'https://www.worldcubeassociation.org'

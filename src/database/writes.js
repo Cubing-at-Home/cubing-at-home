@@ -40,7 +40,7 @@ export const updateEmail = async (firebase, user) => {
 	}
 	const db = firebase.firestore()
 	return new Promise((resolve, reject) => {
-		const  updatedData = {
+		const updatedData = {
 			wca: {
 				avatar: user.avatar,
 				country_iso2: user.country_iso2,
@@ -52,17 +52,17 @@ export const updateEmail = async (firebase, user) => {
 				last_updated: new Date(),
 				personal_records: user_results ? user_results.personal_records : {},
 				isDelegate: user_results && user_results.delegate_status ? true : false,
-				},
-				data: {
-					competitions: [],
-					results: [],
-				},
-			}
+			},
+			data: {
+				competitions: [],
+				results: [],
+			},
+		}
 		db.collection("Users")
 			.doc(user.id.toString())
 			.update({ "wca.email": user.email })
 			.then(resolve(updatedData))
-			.catch((err)=>reject(err))
+			.catch((err) => reject(err))
 	})
 }
 
@@ -293,20 +293,22 @@ export const banCompetitor = async (firebase, personId) => {
 		.set({ data: { banned: true } }, { merge: true })
 }
 
-export const createTimerRoom = async (firebase, player1, player2, event, round) => {
+export const createTimerRoom = async (firebase, player1, player2, event, round, competitionId) => {
 	let roomId = `${event}-${player1.wca.id}-${player2.wca.id}`
 
 	const docData = {
+		completed: false,
+		competitionId: competitionId,
 		name: `${player1.wca.name} vs ${player2.wca.name}`,
 		competitorOne: {
 			id: player1.wca.id,
 			wcaId: player1.wca.wca_id,
-			name: player1.wca.name	
+			name: player1.wca.name
 		},
 		competitorTwo: {
 			id: player2.wca.id,
 			wcaId: player2.wca.wca_id,
-			name: player2.wca.name	
+			name: player2.wca.name
 		},
 		event: event,
 		neededToWin: round < 3 ? 3 : 5
@@ -317,6 +319,7 @@ export const createTimerRoom = async (firebase, player1, player2, event, round) 
 		.set(docData)
 
 	let playerData = {
+		wins: 0,
 		attempts: [],
 		'current-time': 0,
 		id: player1.wca.id,
@@ -326,13 +329,14 @@ export const createTimerRoom = async (firebase, player1, player2, event, round) 
 		'time-started': 0,
 		'timer-started': false,
 		'timer-state': -1,
+
 	}
 	await firebase.firestore()
 		.collection('timer-rooms')
 		.doc(roomId)
 		.collection('runners')
 		.doc('runner1')
-		.set({...playerData, ...docData.competitorOne})
+		.set({ ...playerData, ...docData.competitorOne })
 
 	playerData.id = player2.wca.id
 	await firebase.firestore()
@@ -340,7 +344,7 @@ export const createTimerRoom = async (firebase, player1, player2, event, round) 
 		.doc(roomId)
 		.collection('runners')
 		.doc('runner2')
-		.set({...playerData, ...docData.competitorTwo})
-	
+		.set({ ...playerData, ...docData.competitorTwo })
+
 	return roomId
 }
