@@ -1,6 +1,6 @@
-import { WCA_ORIGIN, WCA_OAUTH_CLIENT_ID } from './wca-env'
-import history from './history'
 import { admins } from './consts'
+import { WCA_OAUTH_CLIENT_ID, WCA_ORIGIN } from './env'
+import history from './history'
 
 /* Use separate set of keys for each OAuth client (e.g. for WCA production and staging). */
 const localStorageKey = (key) => `WCA-Real-Time.${WCA_OAUTH_CLIENT_ID}.${key}`

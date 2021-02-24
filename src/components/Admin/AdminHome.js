@@ -1,16 +1,16 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { FirebaseContext } from '../../utils/firebase'
-import { UserContext } from '../../utils/auth'
+import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
-import { Link } from 'react-router-dom'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/styles'
 import moment from 'moment'
+import React, { useContext, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { UserContext } from '../../utils/auth'
+import { FirebaseContext } from '../../utils/firebase'
 
 const useStyles = makeStyles((theme) => ({
 	grid: {
@@ -51,6 +51,7 @@ export default function AdminHome({ history }) {
 			alignItems='center'
 			alignContent='center'
 		>
+			
 			<Grid item>
 				<Paper className={classes.paper}>
 					<List
@@ -85,6 +86,13 @@ export default function AdminHome({ history }) {
 					onClick={() => history.push('/admin/new')}
 				>
 					New Competition
+				</Button>
+				<Button
+					variant='contained'
+					color='primary'
+					onClick={() => history.push('/admin/judge')}
+				>
+					Judge Finals
 				</Button>
 			</Grid>
 		</Grid>

@@ -10,7 +10,9 @@ import history from '../logic/history'
 import { UserContext } from '../utils/auth'
 import AdminHome from './Admin/AdminHome'
 import CompetitionAdmin from './Admin/CompetitionAdmin'
+import JudgeFinals from './Admin/JudgeFinals'
 import NewCompetition from './Admin/NewCompetition'
+import SetupBracket from './Admin/SetupBracket'
 import AuthenticatedRoute from './AuthenticatedRoute'
 import CompetitionHome from './Competition/CompetitionHome'
 import Register from './Competition/Register'
@@ -74,10 +76,23 @@ export default function App() {
 									/>
 									<AuthenticatedRoute
 										exact
+										path='/admin/bracket'
+										component={SetupBracket}
+										appProps={{ isAuthenticated }}
+									/>
+									<AuthenticatedRoute
+										exact
+										path='/admin/judge'
+										component={JudgeFinals}
+										appProps={{ isAuthenticated }}
+									/>
+									<AuthenticatedRoute
+										exact
 										path='/admin/:competitionId'
 										component={CompetitionAdmin}
 										appProps={{ isAuthenticated }}
 									/>
+									
 									{/* <Route
 									exact
 									path='/cubing-at-home-I/register'
@@ -88,8 +103,8 @@ export default function App() {
 									path='/cubing-at-home-I/:tab?'
 									component={Competition}
 								/> */}
-									<Route exact path="/faq" component={FaqPage}/>
-									<Route exact path="/contact" component={Contact}/>
+									<Route exact path="/faq" component={FaqPage} />
+									<Route exact path="/contact" component={Contact} />
 									<Route exact path='/:id/faq'>
 										<Redirect to="/faq" />
 									</Route>

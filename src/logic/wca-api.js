@@ -1,5 +1,5 @@
-import { WCA_ORIGIN } from './wca-env'
 import { wcaAccessToken } from './auth'
+import { WCA_ORIGIN } from './env'
 import { pick } from './tools'
 
 export const getMe = () => wcaApiFetch(`/me`)

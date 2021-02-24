@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react'
-import CompetitorList from './CompetitorList'
 import { LinearProgress, Typography } from '@material-ui/core'
-import { WCA_ORIGIN } from '../../logic/wca-env'
-import { FirebaseContext } from '../../utils/firebase'
-import { UserContext } from '../../utils/auth'
-
-import EventList from '../EventList'
 import Link from '@material-ui/core/Link'
+import React, { useContext, useEffect, useState } from 'react'
+import { WCA_ORIGIN } from '../../logic/env'
+import { UserContext } from '../../utils/auth'
+import { FirebaseContext } from '../../utils/firebase'
+import EventList from '../EventList'
+import CompetitorList from './CompetitorList'
+
 
 export default function Competitors({ history, competitionInfo, registered }) {
 	const [competitors, setCompetitors] = useState(null)

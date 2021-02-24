@@ -29,7 +29,8 @@
 		"react-router-dom": "^5.1.2",
 		"react-scripts": "3.4.0",
 		"react-twitch-embed-video": "^2.0.2",
-		"scramble-display": "^0.1.1"
+		"scramble-display": "^0.1.1",
+		"scrambow": "^1.6.0"
 	},
 	"resolutions": {
 		"moment": "2.24.0"
