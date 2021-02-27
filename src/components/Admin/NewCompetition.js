@@ -220,7 +220,8 @@ export default function NewCompetition({ history }) {
 					type="text"
 					onChange={handleEventChange}
 				></TextField>
-				<Button
+        <br/>
+				<Button variant='contained'
 					disabled={Object.keys(newSchedule).length < 4}
 					onClick={addEvent}>Add Event
 					</Button>

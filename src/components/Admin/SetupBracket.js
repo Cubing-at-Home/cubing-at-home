@@ -94,13 +94,13 @@ export default function SetupBracket({ history, competitionId }) {
 			</Grid>
 			<Grid item>
 				<InputLabel id='eventId'>Event ID</InputLabel>
-				<Select name='id' labelId='eventId' onChange={(e) => setEvent(e.target.value)} >
+				<Select name='id' labelId='eventId' fullWidth onChange={(e) => setEvent(e.target.value)} >
 					{Object.keys(activityKey).map(key =>
 						<MenuItem key={key} value={key}>{activityKey[key]}</MenuItem>)
 					}
 				</Select>
 			</Grid>
-			<Grid item>
+			<Grid item style={{display: 'block', margin: '0 auto'}}>
 				<Button
 					disabled={challonge === ''}
 					variant='contained'

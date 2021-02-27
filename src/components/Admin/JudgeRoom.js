@@ -14,6 +14,7 @@ import AttemptField from '../Competition/AttemptField/AttemptField'
 import DrawScramble from '../Competition/Compete/DrawScramble'
 
 
+
 const useStyles = makeStyles({
     paper: {
         width: '80vw'
@@ -35,20 +36,23 @@ export default function JudgeRoom({ room, completeRoom }) {
     const setCompetitor = (doc, newCompetitor) => {
         firebase.firestore().collection('timer-rooms').doc(room.id).collection('runners').doc(doc).set(newCompetitor, { merge: true })
     }
-    React.useEffect(() => {
-        const unsub1 = firebase.firestore().collection('timer-rooms').doc(room.id).collection('runners').doc('runner1').onSnapshot(doc => setCompetitorOne({ ...doc.data(), id: doc.id }))
-        const unsub2 = firebase.firestore().collection('timer-rooms').doc(room.id).collection('runners').doc('runner2').onSnapshot(doc => setCompetitorTwo({ ...doc.data(), id: doc.id }))
 
-        return () => {
-            unsub1()
-            unsub2()
+    React.useEffect(() => {
+        if (room) {
+            const unsub1 = firebase.firestore().collection('timer-rooms').doc(room.id).collection('runners').doc('runner1').onSnapshot(doc => setCompetitorOne({ ...doc.data(), id: doc.id }))
+            const unsub2 = firebase.firestore().collection('timer-rooms').doc(room.id).collection('runners').doc('runner2').onSnapshot(doc => setCompetitorTwo({ ...doc.data(), id: doc.id }))
+
+            return () => {
+                unsub1()
+                unsub2()
+            }
         }
     }, [room])
 
     if (!competitorOne || !competitorTwo || !room) return <LinearProgress />
     return (
         <Grid container spacing={3} justifyContent='center' alignItems='center' direction='column'>
-            {competitorOne.wins >= room.neededToWin || competitorTwo.wins >= room.neededToWin ?
+            {(competitorOne.wins >= room.neededToWin && competitorTwo['timer-state'] === -1) || (competitorTwo.wins >= room.neededToWin && competitorOne['timer-state'] === -1) ?
                 <Grid item>
                     <Typography variant='h1'>Match Complete</Typography>
                     <Typography variant='h2'>{`${competitorOne.name} : ${competitorOne.wins}`} </Typography>
@@ -95,18 +99,10 @@ export function JudgeCompetitor({ competitor, setCompetitor, room, changeScrambl
             attempts: newAttempts,
             wins: newWinNumber
         })
-        changeScramble('', false)
+        changeScramble(room.currScramble, false)
     }
 
-    const handleReset = () => {
-        setCompetitor({
-            'timer-started': false,
-            'current-time': 0,
-            'timer-state': -1,
-            ready: false
-        })
-        changeScramble('', false)
-    }
+
     const setReady = async () => {
         if (!room.matchScramblePresent) {
             const gen = new Scrambow()
@@ -117,14 +113,14 @@ export function JudgeCompetitor({ competitor, setCompetitor, room, changeScrambl
     }
 
     return (
-        <Paper className={classes.paper}>
-            <Typography variant='h1'>{competitor.name}</Typography>
-            <Grid direction='row' justifyItems='center' alignContent='center' spacing={2}>
+        <Paper className={classes.paper} style={{ padding: '10px' }}>
+            <Typography variant='h3'>{competitor.name}: {competitor.state}</Typography>
+            <Grid spacing={2}>
                 <Grid item className={classes.info}>
-                    <Typography variant='h3'>{`State: ${competitor.state}`}</Typography>
                     <Typography variant='subtitle1'>{`Timer State: ${competitor['timer-state']}`}</Typography>
                 </Grid>
-                <Grid item>
+                <br />
+                <Grid item style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     {timerState === -1 && <Button variant='contained' onClick={setReady}>{`Ready Up`}</Button>}
                     {timerState === 1 &&
                         <Grid container direction='column'>
@@ -152,7 +148,6 @@ export function JudgeCompetitor({ competitor, setCompetitor, room, changeScrambl
                     }
                 </Grid>
             </Grid>
-            <Button onClick={handleReset} variant='contained'>RESET CURRENT ATTEMPT</Button>
         </Paper>
     )
 }

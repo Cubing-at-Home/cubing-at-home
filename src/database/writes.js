@@ -294,7 +294,7 @@ export const banCompetitor = async (firebase, personId) => {
 }
 
 export const createTimerRoom = async (firebase, player1, player2, event, round, competitionId) => {
-	let roomId = `${event}-${player1.wca.id}-${player2.wca.id}`
+	let roomId = `${competitionId}-${event}-${player1.wca.id}-${player2.wca.id}`
 
 	const docData = {
 		completed: false,
@@ -329,7 +329,6 @@ export const createTimerRoom = async (firebase, player1, player2, event, round, 
 		'time-started': 0,
 		'timer-started': false,
 		'timer-state': -1,
-
 	}
 	await firebase.firestore()
 		.collection('timer-rooms')
