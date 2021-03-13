@@ -44,6 +44,7 @@
 							"roundId": "string",
 							"lastUpdated": "date",
 							"videoURL": "string",
+							"hasPrivateVideo": "boolean",
 							"flagged": {
 								"isFlagged": "boolean | undefined",
 								"reason": "string | undefined"
