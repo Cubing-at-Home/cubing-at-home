@@ -26,6 +26,7 @@ export default function EventSubmitted({ userAttempt, competitionId, round }) {
 			videoURL: localVideoURL,
 			hasPrivateVideo: privateVideo
 		})
+		setSnackbar(null)
 		setSnackbar('Succesfully updated Video URL')
 	}
 
