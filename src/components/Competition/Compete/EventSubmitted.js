@@ -17,7 +17,7 @@ export default function EventSubmitted({ userAttempt, competitionId, round }) {
 	const theme = useTheme()
 	const [localVideoURL, setLocalVideoURL] = useState(userAttempt.videoURL || '')
 	const [snackbar, setSnackbar] = useState(null)
-	const [privateVideo, setPrivateVideo] = useState(null)
+	const [privateVideo, setPrivateVideo] = useState(false)
 	const firebase = useContext(FirebaseContext)
 
 	const handleUpdate = async () => {
@@ -72,12 +72,13 @@ export default function EventSubmitted({ userAttempt, competitionId, round }) {
 							<FormControlLabel
 								control = {
 									<Checkbox
+										defaultChecked
 										disabled={localVideoURL===''}
-										onChange={({ target: { checked } }) => setPrivateVideo(checked)}
+										onChange={({ target: { checked } }) => setPrivateVideo(!checked)}
 									/>
 								}
 								labelPlacement="bottom"
-								label="Hide video from results page"
+								label="Show Video on Results Page"
 							/>
 						</Grid>
 						<Grid item style={{ width: (localVideoURL==='' ? "30%" : "25%") }}>
