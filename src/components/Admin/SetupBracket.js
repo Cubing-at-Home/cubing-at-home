@@ -17,7 +17,7 @@ export default function SetupBracket({ history, competitionId }) {
 	const [matches, setMatches] = useState(null)
 	const [rooms, setRooms] = useState([])
 	const [error, setError] = useState(null)
-	const [event, setEvent] = useState('333')
+	const [event, setEvent] = useState('')
 
 	useEffect(() => {
 		if (rooms.length === 0) {
@@ -36,7 +36,7 @@ export default function SetupBracket({ history, competitionId }) {
 			}
 			fetchRooms()
 		}
-	},[])
+	}, [])
 
 	const handleConfirm = async (event) => {
 		let challongeId = challonge.match(/https:\/\/challonge.com\/([^/]*)/)
@@ -49,10 +49,10 @@ export default function SetupBracket({ history, competitionId }) {
 		let matches = await getTournament(challongeId[1])
 		setMatches(matches)
 	}
-	
+
 	const getWcaUser = async (wcaId) => {
 		let docs = await firebase.firestore().collection('Users')
-		.where('wca.wca_id', '==', wcaId).get()
+			.where('wca.wca_id', '==', wcaId).get()
 		let doc = null
 		docs.forEach(x => {
 			doc = x.data() // NOTE: this should only run once for the only result. Or zero times if there are no results in which case doc == null
@@ -93,16 +93,16 @@ export default function SetupBracket({ history, competitionId }) {
 				/>
 			</Grid>
 			<Grid item>
-				<InputLabel id='eventId'>Event ID</InputLabel>
-				<Select name='id' labelId='eventId' fullWidth onChange={(e) => setEvent(e.target.value)} >
+				<InputLabel id='eventId'>Puzzle</InputLabel>
+				<Select value={event} name='id' labelId='eventId' fullWidth onChange={(e) => setEvent(e.target.value)} >
 					{Object.keys(activityKey).map(key =>
 						<MenuItem key={key} value={key}>{activityKey[key]}</MenuItem>)
 					}
 				</Select>
 			</Grid>
-			<Grid item style={{display: 'block', margin: '0 auto'}}>
+			<Grid item style={{ display: 'block', margin: '0 auto' }}>
 				<Button
-					disabled={challonge === ''}
+					disabled={challonge === '' || event === ''}
 					variant='contained'
 					onClick={handleConfirm}
 				>
@@ -115,18 +115,18 @@ export default function SetupBracket({ history, competitionId }) {
 				)}
 			</Grid>
 			<>
-			{matches && matches.map(
-				(m, i) => Matchup(
-					m,
-					i,
-					rooms.reduce((acc, room) => {
-						if (acc) return acc
-						if (!room.wcaId) return acc
-						if (room.wcaId.includes(m?.player1?.wcaId) && room.wcaId.includes(m?.player2?.wcaId)) return room.id
-						else return null
-					}, null),
-					handleRoomCreation)
-			)}
+				{matches && matches.map(
+					(m, i) => Matchup(
+						m,
+						i,
+						rooms.reduce((acc, room) => {
+							if (acc) return acc
+							if (!room.wcaId) return acc
+							if (room.wcaId.includes(m?.player1?.wcaId) && room.wcaId.includes(m?.player2?.wcaId)) return room.id
+							else return null
+						}, null),
+						handleRoomCreation)
+				)}
 			</>
 		</Grid>
 	)
@@ -139,11 +139,11 @@ function Matchup(match, key, roomId, handleRoomCreation) {
 		return <div key={key}></div>
 	}
 
-	return <div style={{backgroundColor: ((completed && 'green') || (roomId && 'yellow'))}} key={match?.player1?.name + match?.player2?.name}>
-		<b>Round {`${match?.round}`}</b><br/>
-		{`${match?.player1?.name} (${match?.player1?.wcaId}) vs ${match?.player2?.name} (${match?.player2?.wcaId})`}<br/>
+	return <div style={{ backgroundColor: ((completed && 'green') || (roomId && 'yellow')) }} key={match?.player1?.name + match?.player2?.name}>
+		<b>Round {`${match?.round}`}</b><br />
+		{`${match?.player1?.name} (${match?.player1?.wcaId}) vs ${match?.player2?.name} (${match?.player2?.wcaId})`}<br />
 		<Button variant='contained' disabled={completed} onClick={() => handleRoomCreation(match.player1, match.player2, match.round)}>Create Room</Button>
 		{roomId && <Link target='_blank' href={`https://timer.cubingathome.com/room/${roomId}`}>Go to timer</Link>}
-		<hr/>
+		<hr />
 	</div>
 }

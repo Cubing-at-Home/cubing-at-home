@@ -13,6 +13,26 @@ import useFirebase from '../../hooks/useFirebase'
 import AttemptField from '../Competition/AttemptField/AttemptField'
 import DrawScramble from '../Competition/Compete/DrawScramble'
 
+export const puzzles = {
+    '222': '222',
+    '333': '333',
+    '444': '444',
+    '555': '555',
+    '666': '666',
+    '777': '777',
+    pyram: 'pyram',
+    '333oh': '333',
+    '333bf': '333',
+    '444bf': '444',
+    '555bf': '555',
+    skewb: 'skewb',
+    clock: 'clock',
+    '333ft': '333',
+    '333mbf': '333',
+    '333fm': '333',
+    sq1: 'sq1',
+    minx: 'minx',
+}
 
 
 const useStyles = makeStyles({
@@ -80,17 +100,23 @@ export default function JudgeRoom({ room, completeRoom }) {
 export function JudgeCompetitor({ competitor, setCompetitor, room, changeScramble }) {
     const classes = useStyles()
     const timerState = competitor['timer-state']
-    const [attemptTime, setAttemptTime] = React.useState(Math.floor(competitor['current-time'] / 10))
-    const [win, setWin] = React.useState()
+    const [attemptTime, setAttemptTime] = React.useState(0)
+    const [win, setWin] = React.useState(false)
+    // React.useEffect(() => {
+    //     setAttemptTime(Math.floor(competitor['current-time'] / 10))
+    //     if (competitor.attempts.length > 0) {
+    //         setWin(competitor.attempts[competitor.attempts.length - 1].win)
+    //     }
+    // }, [competitor])
+
     React.useEffect(() => {
-        setAttemptTime(Math.floor(competitor['current-time'] / 10))
-        if (competitor.attempts.length > 0) {
-            setWin(competitor.attempts[competitor.attempts.length - 1].win)
-        }
-    }, [competitor])
+        setCompetitor({
+            'current-time': attemptTime
+        })
+    }, [attemptTime])
     const firebase = useFirebase()
     const handleSubmitAttempt = () => {
-        let newAttempts = competitor.attempts.map((a, i) => i === competitor.attempts.length - 1 ? { scramble: room.currScramble, time: attemptTime, win: win } : a)
+        let newAttempts = [...(competitor.attempts || []), { scramble: room.currScramble, time: attemptTime, win: Boolean(win) }]
         let newWinNumber = win ? competitor.wins + 1 : competitor.wins
         setCompetitor({
             'timer-started': false,
@@ -100,13 +126,15 @@ export function JudgeCompetitor({ competitor, setCompetitor, room, changeScrambl
             wins: newWinNumber
         })
         changeScramble(room.currScramble, false)
+        setWin(false)
+        setAttemptTime(0)
     }
 
 
     const setReady = async () => {
         if (!room.matchScramblePresent) {
             const gen = new Scrambow()
-            const scramble = gen.setType(room.event).get()[0].scramble_string
+            const scramble = gen.setType(puzzles[room.event]).get()[0].scramble_string
             await changeScramble(scramble, true)
         }
         setCompetitor({ 'ready': true, 'timer-state': 0, state: 'ready' })
@@ -143,7 +171,7 @@ export function JudgeCompetitor({ competitor, setCompetitor, room, changeScrambl
                                 control={<Checkbox checked={win} onChange={(e => setWin(e.target.checked))} name="win" />}
                                 label="Win"
                             />
-                            <Button onClick={handleSubmitAttempt} variant='contained'>{`Confirm & Submit Attempt`}</Button>
+                            <Button disabled={attemptTime === 0} onClick={handleSubmitAttempt} variant='contained'>{`Confirm & Submit Attempt`}</Button>
                         </>
                     }
                 </Grid>
