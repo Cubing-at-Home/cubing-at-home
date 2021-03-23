@@ -21,6 +21,7 @@ interface Result {
 	isSubmitted?: boolean
 	lastUpdated: number
 	videoURL?: string
+	hasPrivateVideo?: boolean
 	flagged: {
 		isFlagged: boolean
 		reason?: string
