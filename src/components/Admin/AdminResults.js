@@ -1,21 +1,19 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { FirebaseContext } from '../../utils/firebase'
-import MUIDataTable from 'mui-datatables'
-import { formatAttemptResult, parseActivityCode } from '../../logic/attempts'
-import { activityKey } from '../../logic/consts'
-import AdminApproveFlaggedResult from './AdminApproveFlaggedResult'
-import moment from 'moment'
+import { Link } from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton'
-import Approve from '@material-ui/icons/ThumbUp'
-import Remove from '@material-ui/icons/RemoveCircleOutline'
 import Ban from '@material-ui/icons/Block'
 import Edit from '@material-ui/icons/Edit'
+import Remove from '@material-ui/icons/RemoveCircleOutline'
+import Approve from '@material-ui/icons/ThumbUp'
+import moment from 'moment'
+import MUIDataTable from 'mui-datatables'
+import React, { useContext, useEffect, useState } from 'react'
 import {
-	approveFlaggedResult,
-	removeResult,
-	banCompetitor,
+	approveFlaggedResult, banCompetitor, removeResult
 } from '../../database/writes'
-import { Link } from '@material-ui/core'
+import { formatAttemptResult, parseActivityCode } from '../../logic/attempts'
+import { activityKey } from '../../logic/consts'
+import { FirebaseContext } from '../../utils/firebase'
+import AdminApproveFlaggedResult from './AdminApproveFlaggedResult'
 import EditResult from './EditResult'
 
 export default function AdminResults({ competitionId }) {
@@ -41,6 +39,11 @@ export default function AdminResults({ competitionId }) {
 	}
 
 	const columns = [
+		{
+			name: 'flaggedId',
+			label: 'flaggedId',
+			options: { display: 'false', print: false, download: false },
+		},
 		{
 			name: 'personId',
 			label: 'ID',
@@ -138,7 +141,7 @@ export default function AdminResults({ competitionId }) {
 				customBodyRender: (value, tableMeta, rowIndex) => (
 					<IconButton
 						disabled={loading}
-						onClick={() => handleApprove(results[tableMeta.rowIndex])}
+						onClick={() => handleApprove(results[tableMeta.rowData[0]])}
 					>
 						<Approve />
 					</IconButton>
@@ -156,7 +159,7 @@ export default function AdminResults({ competitionId }) {
 				customBodyRender: (value, tableMeta, rowIndex) => (
 					<IconButton
 						disabled={loading}
-						onClick={() => setEdit(results[tableMeta.rowIndex])}
+						onClick={() => setEdit(results[tableMeta.rowData[0]])}
 					>
 						<Edit />
 					</IconButton>
@@ -174,7 +177,7 @@ export default function AdminResults({ competitionId }) {
 				customBodyRender: (value, tableMeta, rowIndex) => (
 					<IconButton
 						disabled={loading}
-						onClick={() => handleRemove(results[tableMeta.rowIndex])}
+						onClick={() => handleRemove(results[tableMeta.rowData[0]])}
 					>
 						<Remove />
 					</IconButton>
@@ -192,7 +195,7 @@ export default function AdminResults({ competitionId }) {
 				customBodyRender: (value, tableMeta, rowIndex) => (
 					<IconButton
 						disabled={loading}
-						onClick={() => handleBan(results[tableMeta.rowIndex])}
+						onClick={() => handleBan(results[tableMeta.rowData[0]])}
 					>
 						<Ban />
 					</IconButton>
@@ -201,7 +204,7 @@ export default function AdminResults({ competitionId }) {
 		},
 	]
 
-	const [results, setResults] = useState([])
+	const [results, setResults] = useState({})
 	useEffect(() => console.log(results), [results])
 	const subscribeToFlaggedResults = () => {
 		return firebase
@@ -211,10 +214,11 @@ export default function AdminResults({ competitionId }) {
 			.collection('Flagged_Results')
 			.orderBy('lastUpdated')
 			.onSnapshot((snapshot) => {
-				let newResults = []
+				let newResults = {}
 				snapshot.forEach((doc) => {
 					const data = doc.data()
-					newResults.push(data)
+					data.flaggedId = `${data.personId}-${data.round}`
+					newResults[`${data.personId}-${data.round}`] = data
 				})
 				setResults(newResults)
 			})
@@ -235,7 +239,7 @@ export default function AdminResults({ competitionId }) {
 			)}
 			<MUIDataTable
 				title='Flagged Competitors'
-				data={results}
+				data={Object.values(results)}
 				columns={columns}
 				options={{
 					customToolbarSelect: (selectedRows, displayData, setSelectedRows) => (
