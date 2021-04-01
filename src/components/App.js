@@ -14,6 +14,7 @@ import JudgeFinals from './Admin/JudgeFinals'
 import NewCompetition from './Admin/NewCompetition'
 import SetupBracket from './Admin/SetupBracket'
 import AuthenticatedRoute from './AuthenticatedRoute'
+import BackyardCubing from './BackyardCubing/BackyardCubing'
 import CompetitionHome from './Competition/CompetitionHome'
 import Register from './Competition/Register'
 import Contact from "./Contact"
@@ -21,6 +22,7 @@ import FaqPage from "./FaqPage"
 import Footer from './Footer/Footer'
 import Header from './Header/Header'
 import Home from './Home'
+
 // typography
 const typography = {
 	fontFamily: [
@@ -104,6 +106,7 @@ export default function App() {
 									component={Competition}
 								/> */}
 									<Route exact path="/faq" component={FaqPage} />
+									<Route exact path="/backyardcubing" component={BackyardCubing}/>
 									<Route exact path="/contact" component={Contact} />
 									<Route exact path='/:id/faq'>
 										<Redirect to="/faq" />
