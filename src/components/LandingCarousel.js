@@ -22,8 +22,8 @@ export default function LandingCarousel() {
 		},
 		{
 			title: 'C@H Season 2',
-			description: `Cubing at Home 2.2 is on March 27th`,
-			image: `${process.env.PUBLIC_URL}/images/cah22.png`,
+			description: `Cubing at Home 2.4 is on May 29th`,
+			image: `${process.env.PUBLIC_URL}/images/cahs2.png`,
 			buttonText: 'Register NOW!',
 			href: '/s2/register',
 		},
