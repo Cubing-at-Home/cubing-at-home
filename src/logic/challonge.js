@@ -63,8 +63,12 @@ const challongeApiFetch = (path) => {
   const CHALLONGE_ORIGIN = process.env.REACT_APP_CHALLONGE_API_ORIGIN
   const baseApiUrl = `${CHALLONGE_ORIGIN}`
 
-  return fetch(`${baseApiUrl}${path}?api_key=${CHALLONGE_API_KEY}`)
+  return fetch(`https://cors-anywhere.herokuapp.com/${baseApiUrl}${path}?api_key=${CHALLONGE_API_KEY}`, {
+    // mode: 'no-cors'
+    // 'Access-Control-Allow-Origin'
+  })
     .then(response => {
+      console.log(response)
       if (!response.ok) throw new Error(response.statusText)
       return response
     })
