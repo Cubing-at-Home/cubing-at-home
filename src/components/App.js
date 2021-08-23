@@ -14,6 +14,7 @@ import JudgeFinals from './Admin/JudgeFinals'
 import NewCompetition from './Admin/NewCompetition'
 import SetupBracket from './Admin/SetupBracket'
 import AuthenticatedRoute from './AuthenticatedRoute'
+import Claim from './Claim'
 import CompetitionHome from './Competition/CompetitionHome'
 import Register from './Competition/Register'
 import Contact from "./Contact"
@@ -93,6 +94,7 @@ export default function App() {
 										appProps={{ isAuthenticated }}
 									/>
 									
+									
 									{/* <Route
 									exact
 									path='/cubing-at-home-I/register'
@@ -105,6 +107,7 @@ export default function App() {
 								/> */}
 									<Route exact path="/faq" component={FaqPage} />
 									<Route exact path="/contact" component={Contact} />
+									<Route exact path="/claim" component={Claim} />
 									<Route exact path='/:id/faq'>
 										<Redirect to="/faq" />
 									</Route>
