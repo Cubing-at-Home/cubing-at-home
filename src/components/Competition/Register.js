@@ -125,7 +125,7 @@ export default function Register({ history, match }) {
 								<>
 									<Grid item>
 										<Typography variant='h4'>
-											{`You have successfully registered for ${competitionInfo.name} competition. Please check ${user.wca.email} for a confirmation of your registration`}
+											{`You have successfully registered for this competition.`}
 										</Typography>
 									</Grid>
 									<Grid item>

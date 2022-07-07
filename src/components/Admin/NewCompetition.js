@@ -235,7 +235,7 @@ export default function NewCompetition({ history }) {
 							<TableCell>ID</TableCell>
 							<TableCell>Start</TableCell>
 							<TableCell>End</TableCell>
-							<TableCell>Qualification (optional)</TableCell>
+							<TableCell>Day</TableCell>
 							<TableCell>Remove</TableCell>
 						</TableRow>
 					</TableHead>
