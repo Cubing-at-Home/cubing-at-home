@@ -73,7 +73,7 @@ export default function Compete({ competitionInfo }) {
 						firebase,
 						competitionInfo.id,
 						user.wca.id.toString(),
-						showAdmin
+						false	
 					)
 					if (!roundsInformation) setError('Unable to find qualified rounds')
 					else {
@@ -131,7 +131,7 @@ export default function Compete({ competitionInfo }) {
 						...allRounds.find((round) => round.id === selectedEvent),
 					}} // im doing this because an earlier version of the db had round.event, and im too lazy to change it everywhere
 					userAttempt={userAttempt}
-					showAdmin={showAdmin}
+					showAdmin={false}
 				/>
 			</Grid>
 		</Grid>
