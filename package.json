@@ -19,7 +19,7 @@
 		"history": "^4.10.1",
 		"jstimezonedetect": "^1.0.7",
 		"mdi-material-ui": "^6.13.2",
-		"moment": "2.24.0",
+		"moment": "2.29.4",
 		"moment-timezone": "0.5.28",
 		"mui-datatables": "^3.0.0",
 		"react": "^16.13.1",
@@ -33,7 +33,7 @@
 		"scrambow": "^1.6.0"
 	},
 	"resolutions": {
-		"moment": "2.24.0"
+		"moment": "2.29.4"
 	},
 	"scripts": {
 		"start": "react-scripts start",
