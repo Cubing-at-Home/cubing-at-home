@@ -103,7 +103,7 @@ export const registerCompetitor = async (
 	let competitions = [competitionId]
 	if (competitionId === 's2') {
 		season2 = true
-		competitions = ['cah2.1', 'cah2.2', 'cah2.3', 'cah2.4', 'cah2.5']
+		competitions = ['cah2.1', 'cah2.2', 'cah2.3', 'cah2.4', 'cah2.5','nac2022']
 	}
 	const db = firebase.firestore()
 	const batch = db.batch()

@@ -96,7 +96,7 @@ export default function Home({ history }) {
 								align='center'
 								variant='h6'
 							>{`Ongoing: ${happeningNow.name}`}</Typography>
-							<ReactTwitchEmbedVideo channel='cubingusa' />
+								<ReactTwitchEmbedVideo channel='thecubiclestream' />
 						</Grid>
 					) : (
 						<Grid item className={classes.grid}>
@@ -131,7 +131,7 @@ export default function Home({ history }) {
 								className={classes.list}
 								style={{ overflow: 'auto' }}
 								subheader={
-									<ListSubheader disableSticky={true}>Season 2</ListSubheader>
+									<ListSubheader disableSticky={true}>Upcoming/Ongoing Competitions</ListSubheader>
 								}
 							>
 								{competitions.filter((competition) =>

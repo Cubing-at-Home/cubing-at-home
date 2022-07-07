@@ -76,8 +76,8 @@ export default function Info({ history, match, competitionInfo }) {
 						<ul>
 							<li>
 								Open the live stream on{' '}
-								<Link href='https://twitch.tv/cubingusa'>
-									<u>twitch.tv/cubingusa</u>
+								<Link href='https://twitch.tv/thecubiclestream'>
+									<u>twitch.tv/thecubiclestream</u>
 								</Link>
 								{' and the '}
 								<Link href='https://discord.gg/r5AQD2r'>

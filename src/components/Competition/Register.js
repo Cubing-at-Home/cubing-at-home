@@ -9,7 +9,6 @@ import LinearProgress from '@material-ui/core/LinearProgress'
 import Link from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/styles'
-import moment from 'moment'
 import React, { useContext, useState } from 'react'
 import { cancelCompetitor, registerCompetitor } from '../../database/writes'
 import { signIn } from '../../logic/auth'
@@ -97,7 +96,7 @@ export default function Register({ history, match }) {
 							direction='column'
 						>
 							<Grid item>
-								<Typography variant='h6'>{competitionInfo.name}</Typography>
+								<Typography variant='h6'>Cubing at Home Registration</Typography>
 							</Grid>
 							<Grid item>
 								<Avatar
@@ -144,8 +143,8 @@ export default function Register({ history, match }) {
 								<Grid item>
 									<Typography align='center' variant='h4'>
 										{`Registration is closed. Follow `}
-										<Link href='https://instagram.com/cubingusa'>
-											{` CubingUSA `}
+										<Link href='https://instagram.com/cubingathome'>
+											{` Cubing At Home `}
 										</Link>
 										{`for notifications about upcoming Cubing At Home
 								Competitions!`}
@@ -162,25 +161,6 @@ export default function Register({ history, match }) {
 							) : (
 											<>
 												<h2>Important, Please Read</h2>
-												{competitionId === 's2' && (
-													<ul style={{ maxWidth: '50vw', fontSize: '16px' }}>
-														<li>
-															{`By registering, you are signing up for all 5 Season 2 competitions. 
-												You do not need to register for each event individually.
-												Please check your email(${user.wca.email}) for a confirmation once you register. If you do not see a confirmation, contact us from the icon below `}
-														</li>
-														<li>
-															Season 2 Events:
-										<ul>
-																{competitionInfo.competitions.map((competition) => (
-																	<li>{`${competition.name}: ${moment(
-																		competition.start
-																	).format('dddd MMMM Do')}`}</li>
-																))}
-															</ul>
-														</li>
-													</ul>
-												)}
 												<Grid item>
 													<FormControlLabel
 														style={{ maxWidth: '50vw' }}
@@ -214,7 +194,7 @@ export default function Register({ history, match }) {
 																		the entire round.
 												</li>
 																	<li>
-																		I allow CubingUSA and/or The Cubicle to edit and
+																		I allow Cubing at Home and/or The Cubicle to edit and
 																		repost any videos I submit and content I particiapte
 																		in for this event without any additional compensation
 												</li>

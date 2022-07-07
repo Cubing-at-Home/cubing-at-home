@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
+import Grid from '@material-ui/core/Grid'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import Link from '@material-ui/core/Link'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/styles'
 import React from 'react'
 import { isSignedIn } from '../logic/auth'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import { makeStyles } from '@material-ui/styles'
 import { getMe } from '../logic/wca-api'
-import Link from '@material-ui/core/Link'
 import { FirebaseContext } from '../utils/firebase'
 
 const useStyles = makeStyles((theme) => ({
@@ -209,8 +209,8 @@ export default function Register({ history }) {
 							<Grid item>
 								<Typography align='center' variant='h4'>
 									Registration is closed. Follow{' '}
-									<Link href='https://instagram.com/cubingusa'>
-										CubingUSA
+									<Link href='https://instagram.com/cubingathome'>
+										Cubing At Home
 									</Link>
 									for notifications about upcoming Cubing At
 									Home Competitions!

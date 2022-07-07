@@ -216,7 +216,7 @@ export default function NewCompetition({ history }) {
 				<TextField
 					defaultValue=""
 					name="qualification"
-					label="Qualification (optional)"
+					label="Day"
 					type="text"
 					onChange={handleEventChange}
 				></TextField>
