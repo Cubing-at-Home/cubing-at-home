@@ -20,7 +20,7 @@
 		"jstimezonedetect": "^1.0.7",
 		"mdi-material-ui": "^6.13.2",
 		"moment": "2.24.0",
-		"moment-timezone": "0.5.28",
+		"moment-timezone": "0.5.35",
 		"mui-datatables": "^3.0.0",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
